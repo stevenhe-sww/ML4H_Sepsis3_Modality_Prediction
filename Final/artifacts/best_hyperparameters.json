@@ -1,0 +1,34 @@
+{
+  "xgb": {
+    "learning_rate": 0.03574712922600244,
+    "max_depth": 8,
+    "n_estimators": 639,
+    "subsample": 0.8394633936788146,
+    "colsample_bytree": 0.6624074561769746,
+    "min_child_weight": 2,
+    "gamma": 0.02904180608409973,
+    "reg_alpha": 0.8661761457749352,
+    "reg_lambda": 0.6011150117432088,
+    "scale_pos_weight": 1.1722983257229833,
+    "random_state": 42,
+    "eval_metric": "logloss",
+    "use_label_encoder": false,
+    "verbosity": 0
+  },
+  "lgb": {
+    "learning_rate": 0.03574712922600244,
+    "max_depth": 8,
+    "n_estimators": 639,
+    "subsample": 0.8394633936788146,
+    "colsample_bytree": 0.6624074561769746,
+    "min_child_samples": 12,
+    "reg_alpha": 0.05808361216819946,
+    "reg_lambda": 0.8661761457749352,
+    "scale_pos_weight": 1.1722983257229833,
+    "random_state": 42,
+    "verbosity": -1,
+    "force_col_wise": true
+  },
+  "optimal_threshold": 0.12,
+  "calibration_method": "isotonic"
+}
