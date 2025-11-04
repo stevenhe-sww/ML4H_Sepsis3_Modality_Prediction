@@ -1,0 +1,16 @@
+{
+  "base_estimators": [
+    "lr",
+    "xgb",
+    "lgb",
+    "rf"
+  ],
+  "meta_learner": "LR_C0.1",
+  "cv_folds": 5,
+  "stack_method": "predict_proba",
+  "passthrough": false,
+  "calibration_method": "isotonic",
+  "calibration_cv": 5,
+  "optimal_threshold": 0.1165626361540314,
+  "threshold_strategy": "F2_maximization"
+}

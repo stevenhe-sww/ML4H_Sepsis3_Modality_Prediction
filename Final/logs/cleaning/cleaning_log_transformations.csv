@@ -1,0 +1,7 @@
+Variable,Transform,Skewness_Before,Skewness_After,Notes
+wbc_max,log1p,1.403,-0.304,Clipped to >=0 before log1p
+creatinine_max,log1p,2.516,1.303,Clipped to >=0 before log1p
+inr_max,log1p,6.007,2.618,Clipped to >=0 before log1p
+aniongap_max,log1p,1.627,0.347,Clipped to >=0 before log1p
+wbc_max,QuantileTransformer(normal),-0.304,0.011,Applied after log1p (if applicable)
+creatinine_max,QuantileTransformer(normal),1.304,-0.407,Applied after log1p (if applicable)

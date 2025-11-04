@@ -1,0 +1,342 @@
+2025-11-04 15:38:11,590 - INFO - ================================================================================
+2025-11-04 15:38:11,591 - INFO - Sepsis-3 Mortality Prediction Training Pipeline
+2025-11-04 15:38:11,591 - INFO - ================================================================================
+2025-11-04 15:38:11,591 - INFO - Random seed: 42
+2025-11-04 15:38:11,591 - INFO - Output directory: outputs_new
+[Main] Pipeline:   0%|          | 0/4 [00:00<?, ?stage/s][Main] Loading data:   0%|          | 0/4 [00:00<?, ?stage/s]2025-11-04 15:38:11,601 - INFO - Loading data from data/processed/sepsis3_cleaned.csv
+
+[Data] Loading:   0%|          | 0/3 [00:00<?, ?step/s][A[Data] Loading: 100%|██████████| 3/3 [00:00<00:00, 77.36step/s]
+2025-11-04 15:38:11,640 - INFO - Data loaded: 20391 samples, 27 features
+2025-11-04 15:38:11,640 - INFO - Target distribution: 4703 positive (23.06%)
+2025-11-04 15:38:11,640 - INFO - Splitting data (70/15/15 stratified)
+2025-11-04 15:38:11,647 - INFO - Train: 14272 (70.0%)
+2025-11-04 15:38:11,647 - INFO - Val: 3060 (15.0%)
+2025-11-04 15:38:11,647 - INFO - Test: 3059 (15.0%)
+2025-11-04 15:38:11,647 - INFO - Building preprocessing pipeline
+2025-11-04 15:38:11,667 - INFO - Pipeline fitted: 27 numeric features
+[Main] Training baseline models:  25%|██▌       | 1/4 [00:00<00:00, 15.12stage/s]2025-11-04 15:38:11,667 - INFO - ============================================================
+2025-11-04 15:38:11,667 - INFO - Stage A: Baseline Model Training
+2025-11-04 15:38:11,667 - INFO - ============================================================
+2025-11-04 15:38:11,667 - INFO - Preprocessing data for LR and Stacking models...
+2025-11-04 15:38:11,673 - INFO - Training Logistic Regression...
+2025-11-04 15:38:11,690 - INFO - [OK] LR - AUC: 0.7839
+2025-11-04 15:38:11,690 - INFO - Training Random Forest...
+2025-11-04 15:38:12,158 - INFO - [OK] RF - AUC: 0.7926
+2025-11-04 15:38:12,159 - INFO - Training XGBoost...
+
+[Model] XGBoost training:   0%|          | 0/1 [00:00<?, ?it/s][A
+[Model] XGBoost training: 100%|██████████| 1/1 [00:00<00:00,  1.38it/s][A
+                                                                       [A2025-11-04 15:38:12,898 - INFO - [OK] XGB - AUC: 0.7925
+2025-11-04 15:38:12,898 - INFO - Training LightGBM...
+
+[Model] LightGBM training:   0%|          | 0/1 [00:00<?, ?it/s][A
+[Model] LightGBM training: 100%|██████████| 1/1 [00:00<00:00,  3.84it/s][A
+                                                                        [A2025-11-04 15:38:13,164 - INFO - [OK] LGB - AUC: 0.7772
+2025-11-04 15:38:13,164 - INFO - Training Stacking Ensemble (LR, XGBoost, LightGBM)...
+
+[Model] Stacking training:   0%|          | 0/1 [00:00<?, ?it/s][A
+[Model] Stacking training: 100%|██████████| 1/1 [00:09<00:00,  9.11s/it][A
+                                                                        [A2025-11-04 15:38:22,318 - INFO - [OK] Stack - AUC: 0.7968
+2025-11-04 15:38:22,318 - INFO - [COMPLETE] Best baseline model: Stacking (AUC=0.7968)
+[Main] Training baseline models:  50%|█████     | 2/4 [00:10<00:10,  5.36s/stage]2025-11-04 15:38:22,319 - INFO - Computing SHAP values...
+2025-11-04 15:38:22,319 - INFO - Using 1000 samples for SHAP (for speed)
+2025-11-04 15:38:22,319 - WARNING - SHAP not supported for this model type
+2025-11-04 15:38:22,319 - INFO - Plotting ROC and PR curves...
+2025-11-04 15:38:22,717 - INFO - [OK] Saved: outputs_new/plots/roc_pr_curves.png
+2025-11-04 15:38:22,718 - INFO - Plotting calibration curve...
+2025-11-04 15:38:22,889 - INFO - [OK] Saved: outputs_new/plots/calibration_plot.png
+[Main] Running optimization:  50%|█████     | 2/4 [00:11<00:10,  5.36s/stage]    2025-11-04 15:38:22,889 - INFO - Starting Optuna optimization (80 trials, xgb)
+[I 2025-11-04 15:38:22,889] A new study created in memory with name: no-name-5a15f47d-7915-40cc-9114-9f1c4f44d1e3
+
+[Optuna] Trials (xgb):   0%|          | 0/80 [00:00<?, ?trial/s][A[I 2025-11-04 15:38:24,825] Trial 0 finished with value: 0.7914447351383096 and parameters: {'learning_rate': 0.03574712922600244, 'max_depth': 8, 'n_estimators': 639, 'subsample': 0.8394633936788146, 'colsample_bytree': 0.6624074561769746, 'min_child_weight': 2, 'gamma': 0.02904180608409973, 'reg_alpha': 0.8661761457749352, 'reg_lambda': 0.6011150117432088}. Best is trial 0 with value: 0.7914447351383096.
+
+[Optuna] Trials (xgb):   1%|▏         | 1/80 [00:01<02:32,  1.94s/trial][A
+[Optuna] Trials (xgb):   1%|▏         | 1/80 [00:01<02:32,  1.94s/trial, best_AUC=0.7914][A[I 2025-11-04 15:38:25,948] Trial 1 finished with value: 0.7874090511960836 and parameters: {'learning_rate': 0.11114989443094977, 'max_depth': 3, 'n_estimators': 782, 'subsample': 0.9329770563201687, 'colsample_bytree': 0.6849356442713105, 'min_child_weight': 2, 'gamma': 0.09170225492671691, 'reg_alpha': 0.3042422429595377, 'reg_lambda': 0.5247564316322378}. Best is trial 0 with value: 0.7914447351383096.
+
+[Optuna] Trials (xgb):   2%|▎         | 2/80 [00:03<01:53,  1.46s/trial, best_AUC=0.7914][A
+[Optuna] Trials (xgb):   2%|▎         | 2/80 [00:03<01:53,  1.46s/trial, best_AUC=0.7914][A[I 2025-11-04 15:38:26,842] Trial 2 finished with value: 0.7926626006965422 and parameters: {'learning_rate': 0.04345454109729477, 'max_depth': 4, 'n_estimators': 567, 'subsample': 0.6557975442608167, 'colsample_bytree': 0.7168578594140872, 'min_child_weight': 4, 'gamma': 0.22803499210851796, 'reg_alpha': 0.7851759613930136, 'reg_lambda': 0.19967378215835974}. Best is trial 2 with value: 0.7926626006965422.
+
+[Optuna] Trials (xgb):   4%|▍         | 3/80 [00:03<01:32,  1.20s/trial, best_AUC=0.7914][A
+[Optuna] Trials (xgb):   4%|▍         | 3/80 [00:03<01:32,  1.20s/trial, best_AUC=0.7927][A[I 2025-11-04 15:38:27,438] Trial 3 finished with value: 0.7930525102230909 and parameters: {'learning_rate': 0.05748924681991978, 'max_depth': 6, 'n_estimators': 227, 'subsample': 0.8430179407605753, 'colsample_bytree': 0.6682096494749166, 'min_child_weight': 1, 'gamma': 0.4744427686266666, 'reg_alpha': 0.9656320330745594, 'reg_lambda': 0.8083973481164611}. Best is trial 3 with value: 0.7930525102230909.
+
+[Optuna] Trials (xgb):   5%|▌         | 4/80 [00:04<01:13,  1.04trial/s, best_AUC=0.7927][A
+[Optuna] Trials (xgb):   5%|▌         | 4/80 [00:04<01:13,  1.04trial/s, best_AUC=0.7931][A[I 2025-11-04 15:38:28,222] Trial 4 finished with value: 0.7924640356598738 and parameters: {'learning_rate': 0.028180680291847244, 'max_depth': 3, 'n_estimators': 611, 'subsample': 0.7760609974958405, 'colsample_bytree': 0.6488152939379115, 'min_child_weight': 5, 'gamma': 0.017194260557609198, 'reg_alpha': 0.9093204020787821, 'reg_lambda': 0.2587799816000169}. Best is trial 3 with value: 0.7930525102230909.
+
+[Optuna] Trials (xgb):   6%|▋         | 5/80 [00:05<01:07,  1.11trial/s, best_AUC=0.7931][A
+[Optuna] Trials (xgb):   6%|▋         | 5/80 [00:05<01:07,  1.11trial/s, best_AUC=0.7931][A[I 2025-11-04 15:38:28,925] Trial 5 finished with value: 0.7888146509708025 and parameters: {'learning_rate': 0.09519754482692679, 'max_depth': 4, 'n_estimators': 512, 'subsample': 0.8186841117373118, 'colsample_bytree': 0.6739417822102108, 'min_child_weight': 10, 'gamma': 0.3875664116805573, 'reg_alpha': 0.9394989415641891, 'reg_lambda': 0.8948273504276488}. Best is trial 3 with value: 0.7930525102230909.
+
+[Optuna] Trials (xgb):   8%|▊         | 6/80 [00:06<01:01,  1.20trial/s, best_AUC=0.7931][A
+[Optuna] Trials (xgb):   8%|▊         | 6/80 [00:06<01:01,  1.20trial/s, best_AUC=0.7931][A[I 2025-11-04 15:38:29,480] Trial 6 finished with value: 0.7870961608352729 and parameters: {'learning_rate': 0.0764136186923332, 'max_depth': 8, 'n_estimators': 253, 'subsample': 0.678393144967658, 'colsample_bytree': 0.6180909155642152, 'min_child_weight': 4, 'gamma': 0.194338644844741, 'reg_alpha': 0.2713490317738959, 'reg_lambda': 0.8287375091519293}. Best is trial 3 with value: 0.7930525102230909.
+
+[Optuna] Trials (xgb):   9%|▉         | 7/80 [00:06<00:54,  1.35trial/s, best_AUC=0.7931][A
+[Optuna] Trials (xgb):   9%|▉         | 7/80 [00:06<00:54,  1.35trial/s, best_AUC=0.7931][A[I 2025-11-04 15:38:30,132] Trial 7 finished with value: 0.7930747735756871 and parameters: {'learning_rate': 0.03364867144187955, 'max_depth': 4, 'n_estimators': 526, 'subsample': 0.6563696899899051, 'colsample_bytree': 0.9208787923016158, 'min_child_weight': 1, 'gamma': 0.49344346830025865, 'reg_alpha': 0.7722447692966574, 'reg_lambda': 0.1987156815341724}. Best is trial 7 with value: 0.7930747735756871.
+
+[Optuna] Trials (xgb):  10%|█         | 8/80 [00:07<00:51,  1.40trial/s, best_AUC=0.7931][A
+[Optuna] Trials (xgb):  10%|█         | 8/80 [00:07<00:51,  1.40trial/s, best_AUC=0.7931][A[I 2025-11-04 15:38:31,477] Trial 8 finished with value: 0.7951771561154422 and parameters: {'learning_rate': 0.010189592979395137, 'max_depth': 7, 'n_estimators': 624, 'subsample': 0.8916028672163949, 'colsample_bytree': 0.9085081386743783, 'min_child_weight': 1, 'gamma': 0.1792328642721363, 'reg_alpha': 0.11586905952512971, 'reg_lambda': 0.8631034258755935}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  11%|█▏        | 9/80 [00:08<01:04,  1.10trial/s, best_AUC=0.7931][A
+[Optuna] Trials (xgb):  11%|█▏        | 9/80 [00:08<01:04,  1.10trial/s, best_AUC=0.7952][A[I 2025-11-04 15:38:31,934] Trial 9 finished with value: 0.7937288347722278 and parameters: {'learning_rate': 0.08330803890301997, 'max_depth': 4, 'n_estimators': 238, 'subsample': 0.7243929286862648, 'colsample_bytree': 0.7300733288106988, 'min_child_weight': 8, 'gamma': 0.31877873567760656, 'reg_alpha': 0.8872127425763265, 'reg_lambda': 0.4722149251619493}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  12%|█▎        | 10/80 [00:09<00:53,  1.30trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  12%|█▎        | 10/80 [00:09<00:53,  1.30trial/s, best_AUC=0.7952][A[I 2025-11-04 15:38:32,891] Trial 10 finished with value: 0.7932937968282545 and parameters: {'learning_rate': 0.010724311014441377, 'max_depth': 6, 'n_estimators': 384, 'subsample': 0.9746595013029591, 'colsample_bytree': 0.9916893928795039, 'min_child_weight': 7, 'gamma': 0.12896347630074606, 'reg_alpha': 0.011114384822711307, 'reg_lambda': 0.9693130727540948}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  14%|█▍        | 11/80 [00:10<00:57,  1.21trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  14%|█▍        | 11/80 [00:10<00:57,  1.21trial/s, best_AUC=0.7952][A[I 2025-11-04 15:38:33,709] Trial 11 finished with value: 0.758714598260811 and parameters: {'learning_rate': 0.2877395975571487, 'max_depth': 7, 'n_estimators': 344, 'subsample': 0.7455021658963161, 'colsample_bytree': 0.816625051152752, 'min_child_weight': 8, 'gamma': 0.3177541966531531, 'reg_alpha': 0.5732909776512292, 'reg_lambda': 0.6442422397549056}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  15%|█▌        | 12/80 [00:10<00:56,  1.21trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  15%|█▌        | 12/80 [00:10<00:56,  1.21trial/s, best_AUC=0.7952][A[I 2025-11-04 15:38:35,233] Trial 12 finished with value: 0.793624738556035 and parameters: {'learning_rate': 0.010267888891105255, 'max_depth': 5, 'n_estimators': 724, 'subsample': 0.9015045323708958, 'colsample_bytree': 0.7965336532390828, 'min_child_weight': 8, 'gamma': 0.3138214726279749, 'reg_alpha': 0.03358588493447223, 'reg_lambda': 0.3850420607518613}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  16%|█▋        | 13/80 [00:12<01:09,  1.04s/trial, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  16%|█▋        | 13/80 [00:12<01:09,  1.04s/trial, best_AUC=0.7952][A[I 2025-11-04 15:38:36,121] Trial 13 finished with value: 0.7728127158642633 and parameters: {'learning_rate': 0.1786079654987403, 'max_depth': 7, 'n_estimators': 381, 'subsample': 0.7201202977755248, 'colsample_bytree': 0.8282012523637581, 'min_child_weight': 10, 'gamma': 0.2936058395739345, 'reg_alpha': 0.5337825577007181, 'reg_lambda': 0.39675040328401573}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  18%|█▊        | 14/80 [00:13<01:05,  1.01trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  18%|█▊        | 14/80 [00:13<01:05,  1.01trial/s, best_AUC=0.7952][A[I 2025-11-04 15:38:37,043] Trial 14 finished with value: 0.7957740546499118 and parameters: {'learning_rate': 0.019275224252385224, 'max_depth': 5, 'n_estimators': 451, 'subsample': 0.6024911829936358, 'colsample_bytree': 0.8852443551755848, 'min_child_weight': 7, 'gamma': 0.1661855258167715, 'reg_alpha': 0.3168369940018355, 'reg_lambda': 0.7049270826015105}. Best is trial 14 with value: 0.7957740546499118.
+
+[Optuna] Trials (xgb):  19%|█▉        | 15/80 [00:14<01:03,  1.03trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  19%|█▉        | 15/80 [00:14<01:03,  1.03trial/s, best_AUC=0.7958][A[I 2025-11-04 15:38:38,203] Trial 15 finished with value: 0.7984197833354595 and parameters: {'learning_rate': 0.019061654125556902, 'max_depth': 7, 'n_estimators': 452, 'subsample': 0.6043956756975085, 'colsample_bytree': 0.8918815434312392, 'min_child_weight': 6, 'gamma': 0.1542371012281191, 'reg_alpha': 0.26849171039838693, 'reg_lambda': 0.72254825086798}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  20%|██        | 16/80 [00:15<01:05,  1.03s/trial, best_AUC=0.7958][A
+[Optuna] Trials (xgb):  20%|██        | 16/80 [00:15<01:05,  1.03s/trial, best_AUC=0.7984][A[I 2025-11-04 15:38:38,860] Trial 16 finished with value: 0.7962608398458654 and parameters: {'learning_rate': 0.019197996087020698, 'max_depth': 5, 'n_estimators': 449, 'subsample': 0.6018742527836715, 'colsample_bytree': 0.8885879965461793, 'min_child_weight': 6, 'gamma': 0.12181080855990466, 'reg_alpha': 0.3459425872135605, 'reg_lambda': 0.013179214380923565}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  21%|██▏       | 17/80 [00:15<00:57,  1.09trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  21%|██▏       | 17/80 [00:15<00:57,  1.09trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:39,578] Trial 17 finished with value: 0.7968451024234561 and parameters: {'learning_rate': 0.018386329553990437, 'max_depth': 6, 'n_estimators': 440, 'subsample': 0.6205053298595609, 'colsample_bytree': 0.9659758427245431, 'min_child_weight': 6, 'gamma': 0.08202776798861497, 'reg_alpha': 0.2168726670563941, 'reg_lambda': 0.03187050352598852}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  22%|██▎       | 18/80 [00:16<00:53,  1.17trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  22%|██▎       | 18/80 [00:16<00:53,  1.17trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:40,102] Trial 18 finished with value: 0.7973391081661978 and parameters: {'learning_rate': 0.018685577955138533, 'max_depth': 6, 'n_estimators': 310, 'subsample': 0.6327634276422727, 'colsample_bytree': 0.9758180598136521, 'min_child_weight': 5, 'gamma': 0.07176636073737476, 'reg_alpha': 0.17746572003521813, 'reg_lambda': 0.025001342186070374}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  24%|██▍       | 19/80 [00:17<00:46,  1.32trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  24%|██▍       | 19/80 [00:17<00:46,  1.32trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:40,794] Trial 19 finished with value: 0.7961705830110162 and parameters: {'learning_rate': 0.015907803482252136, 'max_depth': 7, 'n_estimators': 321, 'subsample': 0.6873064153189612, 'colsample_bytree': 0.9512146015319368, 'min_child_weight': 4, 'gamma': 0.05778767211267502, 'reg_alpha': 0.41815408228207424, 'reg_lambda': 0.7518562393792552}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  25%|██▌       | 20/80 [00:17<00:44,  1.36trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  25%|██▌       | 20/80 [00:17<00:44,  1.36trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:41,427] Trial 20 finished with value: 0.7953399192742869 and parameters: {'learning_rate': 0.026369303287392967, 'max_depth': 8, 'n_estimators': 288, 'subsample': 0.6343190184155889, 'colsample_bytree': 0.8581340404697587, 'min_child_weight': 5, 'gamma': 0.24935290451713343, 'reg_alpha': 0.17593833381669582, 'reg_lambda': 0.11708235317519228}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  26%|██▋       | 21/80 [00:18<00:41,  1.42trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  26%|██▋       | 21/80 [00:18<00:41,  1.42trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:42,092] Trial 21 finished with value: 0.7978800474630608 and parameters: {'learning_rate': 0.016245489215902707, 'max_depth': 6, 'n_estimators': 409, 'subsample': 0.627593385022918, 'colsample_bytree': 0.9967134896247019, 'min_child_weight': 6, 'gamma': 0.08791417847455428, 'reg_alpha': 0.1839436232473309, 'reg_lambda': 0.0058257250696131906}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  28%|██▊       | 22/80 [00:19<00:40,  1.44trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  28%|██▊       | 22/80 [00:19<00:40,  1.44trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:42,870] Trial 22 finished with value: 0.7968565349558704 and parameters: {'learning_rate': 0.014605999177913147, 'max_depth': 6, 'n_estimators': 405, 'subsample': 0.6976395143990667, 'colsample_bytree': 0.9966426924957517, 'min_child_weight': 7, 'gamma': 0.13247749575336942, 'reg_alpha': 0.12822613393149274, 'reg_lambda': 0.1321682771570255}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  29%|██▉       | 23/80 [00:19<00:40,  1.39trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  29%|██▉       | 23/80 [00:19<00:40,  1.39trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:43,605] Trial 23 finished with value: 0.7980701885284767 and parameters: {'learning_rate': 0.026054825073958635, 'max_depth': 7, 'n_estimators': 326, 'subsample': 0.6442290039615762, 'colsample_bytree': 0.9466338697710561, 'min_child_weight': 3, 'gamma': 0.002100631678427875, 'reg_alpha': 0.40530855945220223, 'reg_lambda': 0.3092325909536679}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  30%|███       | 24/80 [00:20<00:40,  1.38trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  30%|███       | 24/80 [00:20<00:40,  1.38trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:44,618] Trial 24 finished with value: 0.7974143221952388 and parameters: {'learning_rate': 0.024696458224444356, 'max_depth': 7, 'n_estimators': 475, 'subsample': 0.6643769445422405, 'colsample_bytree': 0.9339776954058361, 'min_child_weight': 3, 'gamma': 0.005023624904823993, 'reg_alpha': 0.42116126219616723, 'reg_lambda': 0.30363509814732365}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  31%|███▏      | 25/80 [00:21<00:44,  1.23trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  31%|███▏      | 25/80 [00:21<00:44,  1.23trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:45,325] Trial 25 finished with value: 0.7948588503445404 and parameters: {'learning_rate': 0.013354865974256116, 'max_depth': 7, 'n_estimators': 359, 'subsample': 0.6382786121285517, 'colsample_bytree': 0.7760975920640389, 'min_child_weight': 3, 'gamma': 0.04369342861352743, 'reg_alpha': 0.6220067905433636, 'reg_lambda': 0.5397851396512741}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  32%|███▎      | 26/80 [00:22<00:42,  1.28trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  32%|███▎      | 26/80 [00:22<00:42,  1.28trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:46,188] Trial 26 finished with value: 0.7865353650347428 and parameters: {'learning_rate': 0.05644395899272826, 'max_depth': 8, 'n_estimators': 411, 'subsample': 0.7650449264388409, 'colsample_bytree': 0.8660698517703787, 'min_child_weight': 6, 'gamma': 0.10001108278118317, 'reg_alpha': 0.4329290625024344, 'reg_lambda': 0.37899587254935363}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  34%|███▍      | 27/80 [00:23<00:42,  1.24trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  34%|███▍      | 27/80 [00:23<00:42,  1.24trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:47,262] Trial 27 finished with value: 0.79758520846922 and parameters: {'learning_rate': 0.02417352548319667, 'max_depth': 7, 'n_estimators': 571, 'subsample': 0.7068065827898746, 'colsample_bytree': 0.9461401806764479, 'min_child_weight': 9, 'gamma': 0.15569461370371984, 'reg_alpha': 0.25233432417257845, 'reg_lambda': 0.2946315124069322}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  35%|███▌      | 28/80 [00:24<00:46,  1.13trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  35%|███▌      | 28/80 [00:24<00:46,  1.13trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:47,741] Trial 28 finished with value: 0.792711941099593 and parameters: {'learning_rate': 0.04231764492607918, 'max_depth': 6, 'n_estimators': 281, 'subsample': 0.6034349739914998, 'colsample_bytree': 0.910823595563793, 'min_child_weight': 3, 'gamma': 0.2098807628036467, 'reg_alpha': 0.362094319422821, 'reg_lambda': 0.45431281404560514}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  36%|███▋      | 29/80 [00:24<00:38,  1.31trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  36%|███▋      | 29/80 [00:24<00:38,  1.31trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:49,321] Trial 29 finished with value: 0.7928864376469682 and parameters: {'learning_rate': 0.03537436382375385, 'max_depth': 8, 'n_estimators': 689, 'subsample': 0.6677192381180477, 'colsample_bytree': 0.9671465795973915, 'min_child_weight': 2, 'gamma': 0.04233436972730035, 'reg_alpha': 0.6353676176898904, 'reg_lambda': 0.600241164751386}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  38%|███▊      | 30/80 [00:26<00:50,  1.01s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  38%|███▊      | 30/80 [00:26<00:50,  1.01s/trial, best_AUC=0.7984][A[I 2025-11-04 15:38:50,006] Trial 30 finished with value: 0.7939526717226539 and parameters: {'learning_rate': 0.01309572949530824, 'max_depth': 5, 'n_estimators': 490, 'subsample': 0.7340508610504258, 'colsample_bytree': 0.8441877033040334, 'min_child_weight': 6, 'gamma': 0.003429532201182958, 'reg_alpha': 0.47764234575724174, 'reg_lambda': 0.6080230324840805}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  39%|███▉      | 31/80 [00:27<00:44,  1.10trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  39%|███▉      | 31/80 [00:27<00:44,  1.10trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:51,021] Trial 31 finished with value: 0.7953721108787166 and parameters: {'learning_rate': 0.023941741102837966, 'max_depth': 7, 'n_estimators': 561, 'subsample': 0.6999862492333339, 'colsample_bytree': 0.9525187935610235, 'min_child_weight': 9, 'gamma': 0.15522914842343358, 'reg_alpha': 0.25107536118869966, 'reg_lambda': 0.2982451893646033}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  40%|████      | 32/80 [00:28<00:45,  1.06trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  40%|████      | 32/80 [00:28<00:45,  1.06trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:52,051] Trial 32 finished with value: 0.797482616533608 and parameters: {'learning_rate': 0.02209319755069578, 'max_depth': 7, 'n_estimators': 566, 'subsample': 0.6431958865057453, 'colsample_bytree': 0.9290660397829036, 'min_child_weight': 9, 'gamma': 0.10437455675160819, 'reg_alpha': 0.09459758851616912, 'reg_lambda': 0.1140449919767813}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  41%|████▏     | 33/80 [00:29<00:45,  1.03trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  41%|████▏     | 33/80 [00:29<00:45,  1.03trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:53,128] Trial 33 finished with value: 0.7975436903251892 and parameters: {'learning_rate': 0.030238210098533634, 'max_depth': 8, 'n_estimators': 533, 'subsample': 0.6953313065825434, 'colsample_bytree': 0.8890323333254644, 'min_child_weight': 9, 'gamma': 0.14629560812681258, 'reg_alpha': 0.22342211757542846, 'reg_lambda': 0.1912141456897253}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  42%|████▎     | 34/80 [00:30<00:46,  1.00s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  42%|████▎     | 34/80 [00:30<00:46,  1.00s/trial, best_AUC=0.7984][A[I 2025-11-04 15:38:53,824] Trial 34 finished with value: 0.7966110363650806 and parameters: {'learning_rate': 0.01630711300957133, 'max_depth': 6, 'n_estimators': 414, 'subsample': 0.6132254114890957, 'colsample_bytree': 0.9455220255477973, 'min_child_weight': 4, 'gamma': 0.2288366289033174, 'reg_alpha': 0.3767839313286487, 'reg_lambda': 0.2801847003356746}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  44%|████▍     | 35/80 [00:30<00:40,  1.10trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  44%|████▍     | 35/80 [00:30<00:40,  1.10trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:55,068] Trial 35 finished with value: 0.794676531538145 and parameters: {'learning_rate': 0.03983461934154561, 'max_depth': 7, 'n_estimators': 665, 'subsample': 0.6568177046469157, 'colsample_bytree': 0.9959186007930837, 'min_child_weight': 7, 'gamma': 0.07218325451054751, 'reg_alpha': 0.2874652297130174, 'reg_lambda': 0.5527591451238074}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  45%|████▌     | 36/80 [00:32<00:44,  1.01s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  45%|████▌     | 36/80 [00:32<00:44,  1.01s/trial, best_AUC=0.7984][A[I 2025-11-04 15:38:56,352] Trial 36 finished with value: 0.7900571867305606 and parameters: {'learning_rate': 0.04629871608075381, 'max_depth': 6, 'n_estimators': 788, 'subsample': 0.781222370490783, 'colsample_bytree': 0.9708912579681831, 'min_child_weight': 5, 'gamma': 0.03175241712532176, 'reg_alpha': 0.1712385291068328, 'reg_lambda': 0.35873169395974824}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  46%|████▋     | 37/80 [00:33<00:46,  1.09s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  46%|████▋     | 37/80 [00:33<00:46,  1.09s/trial, best_AUC=0.7984][A[I 2025-11-04 15:38:57,724] Trial 37 finished with value: 0.7924513997029949 and parameters: {'learning_rate': 0.022135356719514138, 'max_depth': 8, 'n_estimators': 605, 'subsample': 0.8127492272052792, 'colsample_bytree': 0.9137799286914773, 'min_child_weight': 2, 'gamma': 0.10517890745379277, 'reg_alpha': 0.06477953297481906, 'reg_lambda': 0.4463437357545763}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  48%|████▊     | 38/80 [00:34<00:49,  1.18s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  48%|████▊     | 38/80 [00:34<00:49,  1.18s/trial, best_AUC=0.7984][A[I 2025-11-04 15:38:58,619] Trial 38 finished with value: 0.794546561695962 and parameters: {'learning_rate': 0.029462753963366325, 'max_depth': 7, 'n_estimators': 489, 'subsample': 0.626100223798854, 'colsample_bytree': 0.9438259774916399, 'min_child_weight': 10, 'gamma': 0.1889030155996375, 'reg_alpha': 0.30286048072825866, 'reg_lambda': 0.219435828795144}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  49%|████▉     | 39/80 [00:35<00:44,  1.09s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  49%|████▉     | 39/80 [00:35<00:44,  1.09s/trial, best_AUC=0.7984][A[I 2025-11-04 15:38:58,983] Trial 39 finished with value: 0.7934237666704375 and parameters: {'learning_rate': 0.012799170746243541, 'max_depth': 6, 'n_estimators': 203, 'subsample': 0.6725305657379433, 'colsample_bytree': 0.750691128587673, 'min_child_weight': 8, 'gamma': 0.27120172321465075, 'reg_alpha': 0.4783300279063274, 'reg_lambda': 0.6997154359563418}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  50%|█████     | 40/80 [00:36<00:34,  1.14trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  50%|█████     | 40/80 [00:36<00:34,  1.14trial/s, best_AUC=0.7984][A[I 2025-11-04 15:38:59,778] Trial 40 finished with value: 0.7868211783450988 and parameters: {'learning_rate': 0.06341953600389602, 'max_depth': 8, 'n_estimators': 352, 'subsample': 0.8436473264896196, 'colsample_bytree': 0.8720680228481928, 'min_child_weight': 5, 'gamma': 0.21243591623562608, 'reg_alpha': 0.23890604698142906, 'reg_lambda': 0.06855326004386768}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  51%|█████▏    | 41/80 [00:36<00:33,  1.18trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  51%|█████▏    | 41/80 [00:36<00:33,  1.18trial/s, best_AUC=0.7984][A[I 2025-11-04 15:39:00,872] Trial 41 finished with value: 0.7944887973216586 and parameters: {'learning_rate': 0.031635865786644415, 'max_depth': 8, 'n_estimators': 534, 'subsample': 0.6488259942060273, 'colsample_bytree': 0.8873342947639031, 'min_child_weight': 9, 'gamma': 0.15610830688097516, 'reg_alpha': 0.22639589598833282, 'reg_lambda': 0.18332536346590478}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  52%|█████▎    | 42/80 [00:37<00:35,  1.08trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  52%|█████▎    | 42/80 [00:37<00:35,  1.08trial/s, best_AUC=0.7984][A[I 2025-11-04 15:39:01,990] Trial 42 finished with value: 0.7955435988649301 and parameters: {'learning_rate': 0.02932271578736097, 'max_depth': 8, 'n_estimators': 536, 'subsample': 0.7059779013484132, 'colsample_bytree': 0.9021751706586556, 'min_child_weight': 9, 'gamma': 0.14172069497189707, 'reg_alpha': 0.1758617563823118, 'reg_lambda': 0.3262034085980308}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  54%|█████▍    | 43/80 [00:39<00:36,  1.02trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  54%|█████▍    | 43/80 [00:39<00:36,  1.02trial/s, best_AUC=0.7984][A[I 2025-11-04 15:39:03,056] Trial 43 finished with value: 0.7904549185161295 and parameters: {'learning_rate': 0.04829684878080903, 'max_depth': 7, 'n_estimators': 584, 'subsample': 0.7551661661588185, 'colsample_bytree': 0.9860005644139314, 'min_child_weight': 8, 'gamma': 0.3631968007084434, 'reg_alpha': 0.33175378639333153, 'reg_lambda': 0.23653029918983776}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  55%|█████▌    | 44/80 [00:40<00:36,  1.01s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  55%|█████▌    | 44/80 [00:40<00:36,  1.01s/trial, best_AUC=0.7984][A[I 2025-11-04 15:39:03,579] Trial 44 finished with value: 0.7906252030778784 and parameters: {'learning_rate': 0.02087623235494058, 'max_depth': 3, 'n_estimators': 513, 'subsample': 0.6832985734092999, 'colsample_bytree': 0.9278214320121118, 'min_child_weight': 7, 'gamma': 0.4301194397249983, 'reg_alpha': 0.1298594965687849, 'reg_lambda': 0.15294398515170038}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  56%|█████▋    | 45/80 [00:40<00:30,  1.16trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  56%|█████▋    | 45/80 [00:40<00:30,  1.16trial/s, best_AUC=0.7984][A[I 2025-11-04 15:39:04,472] Trial 45 finished with value: 0.7969534106252752 and parameters: {'learning_rate': 0.03581973564886725, 'max_depth': 7, 'n_estimators': 462, 'subsample': 0.7171159088163978, 'colsample_bytree': 0.9591594553272256, 'min_child_weight': 10, 'gamma': 0.1765590965081136, 'reg_alpha': 0.2734112015624453, 'reg_lambda': 0.06368861473809398}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  57%|█████▊    | 46/80 [00:41<00:29,  1.15trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  57%|█████▊    | 46/80 [00:41<00:29,  1.15trial/s, best_AUC=0.7984][A[I 2025-11-04 15:39:05,989] Trial 46 finished with value: 0.7915145337572596 and parameters: {'learning_rate': 0.016097743432240696, 'max_depth': 8, 'n_estimators': 644, 'subsample': 0.6197269014957534, 'colsample_bytree': 0.8477251158392826, 'min_child_weight': 1, 'gamma': 0.11672413938305962, 'reg_alpha': 0.2123390351044839, 'reg_lambda': 0.2607159232625852}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  59%|█████▉    | 47/80 [00:43<00:35,  1.06s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  59%|█████▉    | 47/80 [00:43<00:35,  1.06s/trial, best_AUC=0.7984][A[I 2025-11-04 15:39:06,787] Trial 47 finished with value: 0.7939996052767756 and parameters: {'learning_rate': 0.02643254667537375, 'max_depth': 7, 'n_estimators': 429, 'subsample': 0.9988351488554444, 'colsample_bytree': 0.8953708091487396, 'min_child_weight': 9, 'gamma': 0.0567352703113472, 'reg_alpha': 0.37070903361804447, 'reg_lambda': 0.18185255464882255}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  60%|██████    | 48/80 [00:43<00:31,  1.02trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  60%|██████    | 48/80 [00:43<00:31,  1.02trial/s, best_AUC=0.7984][A[I 2025-11-04 15:39:07,973] Trial 48 finished with value: 0.7710921197359205 and parameters: {'learning_rate': 0.11747861731447737, 'max_depth': 8, 'n_estimators': 593, 'subsample': 0.6544955935047589, 'colsample_bytree': 0.7045564763011521, 'min_child_weight': 8, 'gamma': 0.1463795719315802, 'reg_alpha': 0.0766484942517516, 'reg_lambda': 0.4298527168467253}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  61%|██████▏   | 49/80 [00:45<00:32,  1.05s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  61%|██████▏   | 49/80 [00:45<00:32,  1.05s/trial, best_AUC=0.7984][A[I 2025-11-04 15:39:08,518] Trial 49 finished with value: 0.796076715902773 and parameters: {'learning_rate': 0.017598154166060666, 'max_depth': 5, 'n_estimators': 381, 'subsample': 0.7378916205891393, 'colsample_bytree': 0.8208820206786354, 'min_child_weight': 6, 'gamma': 0.09372811174657339, 'reg_alpha': 0.5270185915510921, 'reg_lambda': 0.9124664050967747}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  62%|██████▎   | 50/80 [00:45<00:26,  1.12trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  62%|██████▎   | 50/80 [00:45<00:26,  1.12trial/s, best_AUC=0.7984][A[I 2025-11-04 15:39:09,697] Trial 50 finished with value: 0.7963956233859069 and parameters: {'learning_rate': 0.012012495913363164, 'max_depth': 6, 'n_estimators': 749, 'subsample': 0.6856646895093788, 'colsample_bytree': 0.6321235447500404, 'min_child_weight': 7, 'gamma': 0.2017246045634891, 'reg_alpha': 0.827428676921127, 'reg_lambda': 0.3316825684307149}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  64%|██████▍   | 51/80 [00:46<00:28,  1.02trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  64%|██████▍   | 51/80 [00:46<00:28,  1.02trial/s, best_AUC=0.7984][A[I 2025-11-04 15:39:10,714] Trial 51 finished with value: 0.7982663467162158 and parameters: {'learning_rate': 0.02192863398676354, 'max_depth': 7, 'n_estimators': 559, 'subsample': 0.6437361547843788, 'colsample_bytree': 0.9295876966342489, 'min_child_weight': 9, 'gamma': 0.1721845699942323, 'reg_alpha': 0.09054261941090344, 'reg_lambda': 0.0874442447385278}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  65%|██████▌   | 52/80 [00:47<00:27,  1.01trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  65%|██████▌   | 52/80 [00:47<00:27,  1.01trial/s, best_AUC=0.7984][A[I 2025-11-04 15:39:11,705] Trial 52 finished with value: 0.7992615787484867 and parameters: {'learning_rate': 0.020883694539390096, 'max_depth': 7, 'n_estimators': 548, 'subsample': 0.6450845876109179, 'colsample_bytree': 0.9349996954339862, 'min_child_weight': 10, 'gamma': 0.17303357610618902, 'reg_alpha': 0.13785058912055068, 'reg_lambda': 0.09539388281586446}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  66%|██████▋   | 53/80 [00:48<00:26,  1.01trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  66%|██████▋   | 53/80 [00:48<00:26,  1.01trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:12,870] Trial 53 finished with value: 0.7973415150151271 and parameters: {'learning_rate': 0.02095034632533429, 'max_depth': 7, 'n_estimators': 620, 'subsample': 0.6228388371336836, 'colsample_bytree': 0.9802314928879393, 'min_child_weight': 10, 'gamma': 0.23894540954725033, 'reg_alpha': 0.010248151491549298, 'reg_lambda': 0.06815664526965715}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  68%|██████▊   | 54/80 [00:49<00:27,  1.04s/trial, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  68%|██████▊   | 54/80 [00:49<00:27,  1.04s/trial, best_AUC=0.7993][A[I 2025-11-04 15:39:13,914] Trial 54 finished with value: 0.7982185105937456 and parameters: {'learning_rate': 0.014832927622981032, 'max_depth': 7, 'n_estimators': 559, 'subsample': 0.6416584796316277, 'colsample_bytree': 0.9239464335983694, 'min_child_weight': 10, 'gamma': 0.2743781343191761, 'reg_alpha': 0.14409695901005998, 'reg_lambda': 0.09773179517097713}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  69%|██████▉   | 55/80 [00:51<00:26,  1.04s/trial, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  69%|██████▉   | 55/80 [00:51<00:26,  1.04s/trial, best_AUC=0.7993][A[I 2025-11-04 15:39:14,868] Trial 55 finished with value: 0.7971712304533781 and parameters: {'learning_rate': 0.011642048447963375, 'max_depth': 7, 'n_estimators': 502, 'subsample': 0.6414280257009195, 'colsample_bytree': 0.921855933076687, 'min_child_weight': 10, 'gamma': 0.2708939765707799, 'reg_alpha': 0.12069625244678645, 'reg_lambda': 0.0024259948702785306}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  70%|███████   | 56/80 [00:51<00:24,  1.02s/trial, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  70%|███████   | 56/80 [00:51<00:24,  1.02s/trial, best_AUC=0.7993][A[I 2025-11-04 15:39:15,793] Trial 56 finished with value: 0.797562945116624 and parameters: {'learning_rate': 0.014637910618051662, 'max_depth': 6, 'n_estimators': 548, 'subsample': 0.6086792905077952, 'colsample_bytree': 0.9375430293161217, 'min_child_weight': 10, 'gamma': 0.2656709848557977, 'reg_alpha': 0.14717944501316255, 'reg_lambda': 0.08212340891274057}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  71%|███████▏  | 57/80 [00:52<00:22,  1.01trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  71%|███████▏  | 57/80 [00:52<00:22,  1.01trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:16,675] Trial 57 finished with value: 0.7972554701659041 and parameters: {'learning_rate': 0.014388197747103716, 'max_depth': 7, 'n_estimators': 475, 'subsample': 0.6600354412845963, 'colsample_bytree': 0.8761590382334339, 'min_child_weight': 10, 'gamma': 0.34349245035767595, 'reg_alpha': 0.059635536410167264, 'reg_lambda': 0.10026917758073758}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  72%|███████▎  | 58/80 [00:53<00:21,  1.05trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  72%|███████▎  | 58/80 [00:53<00:21,  1.05trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:17,256] Trial 58 finished with value: 0.7964780579617359 and parameters: {'learning_rate': 0.016898622320106985, 'max_depth': 6, 'n_estimators': 322, 'subsample': 0.6376633687972895, 'colsample_bytree': 0.9795651364042942, 'min_child_weight': 4, 'gamma': 0.2920843624942935, 'reg_alpha': 0.03209302454383241, 'reg_lambda': 0.14469879456736104}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  74%|███████▍  | 59/80 [00:54<00:17,  1.18trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  74%|███████▍  | 59/80 [00:54<00:17,  1.18trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:18,309] Trial 59 finished with value: 0.7971549842231052 and parameters: {'learning_rate': 0.011109962833672967, 'max_depth': 7, 'n_estimators': 515, 'subsample': 0.8700203267567392, 'colsample_bytree': 0.904647468763024, 'min_child_weight': 3, 'gamma': 0.17099075650726464, 'reg_alpha': 0.14939806233276354, 'reg_lambda': 0.050886097748145814}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  75%|███████▌  | 60/80 [00:55<00:18,  1.10trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  75%|███████▌  | 60/80 [00:55<00:18,  1.10trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:18,841] Trial 60 finished with value: 0.7982356593923668 and parameters: {'learning_rate': 0.019435733534202727, 'max_depth': 7, 'n_estimators': 264, 'subsample': 0.6008149956538621, 'colsample_bytree': 0.9999772507301709, 'min_child_weight': 5, 'gamma': 0.026251407865572035, 'reg_alpha': 0.19902546581272418, 'reg_lambda': 0.49983498750933936}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  76%|███████▋  | 61/80 [00:55<00:15,  1.26trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  76%|███████▋  | 61/80 [00:55<00:15,  1.26trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:19,391] Trial 61 finished with value: 0.7990205929994393 and parameters: {'learning_rate': 0.019372206175943665, 'max_depth': 7, 'n_estimators': 265, 'subsample': 0.6153139725535456, 'colsample_bytree': 0.9579358855786526, 'min_child_weight': 5, 'gamma': 0.014199100372024777, 'reg_alpha': 0.19781763186363235, 'reg_lambda': 0.5077966879306339}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  78%|███████▊  | 62/80 [00:56<00:12,  1.39trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  78%|███████▊  | 62/80 [00:56<00:12,  1.39trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:19,925] Trial 62 finished with value: 0.7974835191019565 and parameters: {'learning_rate': 0.018725978152421538, 'max_depth': 7, 'n_estimators': 265, 'subsample': 0.6033740943881747, 'colsample_bytree': 0.9667496822413998, 'min_child_weight': 4, 'gamma': 0.02461187702987764, 'reg_alpha': 0.0968151154155299, 'reg_lambda': 0.7700907435603129}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  79%|███████▉  | 63/80 [00:57<00:11,  1.50trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  79%|███████▉  | 63/80 [00:57<00:11,  1.50trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:20,407] Trial 63 finished with value: 0.7965815524656963 and parameters: {'learning_rate': 0.019696304393302812, 'max_depth': 7, 'n_estimators': 234, 'subsample': 0.6180409044125454, 'colsample_bytree': 0.9592620289112299, 'min_child_weight': 5, 'gamma': 0.01490294500180479, 'reg_alpha': 0.2008323844720015, 'reg_lambda': 0.6542985421657468}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  80%|████████  | 64/80 [00:57<00:09,  1.64trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  80%|████████  | 64/80 [00:57<00:09,  1.64trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:20,829] Trial 64 finished with value: 0.7946506579121548 and parameters: {'learning_rate': 0.02645041781673837, 'max_depth': 7, 'n_estimators': 208, 'subsample': 0.6302062283941486, 'colsample_bytree': 0.9257451129337474, 'min_child_weight': 5, 'gamma': 0.05501734631235784, 'reg_alpha': 0.7299524991648061, 'reg_lambda': 0.5118541599986014}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  81%|████████▏ | 65/80 [00:57<00:08,  1.81trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  81%|████████▏ | 65/80 [00:57<00:08,  1.81trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:21,351] Trial 65 finished with value: 0.7957590118441036 and parameters: {'learning_rate': 0.014061139498390359, 'max_depth': 7, 'n_estimators': 256, 'subsample': 0.6716669559064473, 'colsample_bytree': 0.9188145058226497, 'min_child_weight': 4, 'gamma': 0.019143690279214812, 'reg_alpha': 0.14967830406495328, 'reg_lambda': 0.9935628686602364}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  82%|████████▎ | 66/80 [00:58<00:07,  1.84trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  82%|████████▎ | 66/80 [00:58<00:07,  1.84trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:21,972] Trial 66 finished with value: 0.7945718336097198 and parameters: {'learning_rate': 0.023357765293112193, 'max_depth': 7, 'n_estimators': 295, 'subsample': 0.9331117606123754, 'colsample_bytree': 0.9395568824115403, 'min_child_weight': 2, 'gamma': 0.039614436568910574, 'reg_alpha': 0.04009137187376849, 'reg_lambda': 0.5754990722736046}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  84%|████████▍ | 67/80 [00:59<00:07,  1.76trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  84%|████████▍ | 67/80 [00:59<00:07,  1.76trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:22,592] Trial 67 finished with value: 0.797205528050621 and parameters: {'learning_rate': 0.01952895867183729, 'max_depth': 7, 'n_estimators': 307, 'subsample': 0.6454041203050832, 'colsample_bytree': 0.9535113597564968, 'min_child_weight': 3, 'gamma': 0.07732602339930081, 'reg_alpha': 0.10421427823780702, 'reg_lambda': 0.489488547359091}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  85%|████████▌ | 68/80 [00:59<00:06,  1.72trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  85%|████████▌ | 68/80 [00:59<00:06,  1.72trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:22,966] Trial 68 finished with value: 0.7724318320211995 and parameters: {'learning_rate': 0.26056434512398735, 'max_depth': 4, 'n_estimators': 276, 'subsample': 0.6079775145626748, 'colsample_bytree': 0.9852627380593162, 'min_child_weight': 10, 'gamma': 0.3026010095102492, 'reg_alpha': 0.3172590302604271, 'reg_lambda': 0.6614232667154867}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  86%|████████▋ | 69/80 [01:00<00:05,  1.92trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  86%|████████▋ | 69/80 [01:00<00:05,  1.92trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:23,426] Trial 69 finished with value: 0.7954713933970506 and parameters: {'learning_rate': 0.015632085073648223, 'max_depth': 7, 'n_estimators': 220, 'subsample': 0.6528572400558814, 'colsample_bytree': 0.7931728291489236, 'min_child_weight': 6, 'gamma': 0.0010252481420213871, 'reg_alpha': 0.26795000321182705, 'reg_lambda': 0.836534075932766}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  88%|████████▊ | 70/80 [01:00<00:05,  1.99trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  88%|████████▊ | 70/80 [01:00<00:05,  1.99trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:24,057] Trial 70 finished with value: 0.7960388080321363 and parameters: {'learning_rate': 0.026668538174179992, 'max_depth': 6, 'n_estimators': 336, 'subsample': 0.6003235132924962, 'colsample_bytree': 0.9989555171978608, 'min_child_weight': 3, 'gamma': 0.21854479738933127, 'reg_alpha': 0.19793642861258295, 'reg_lambda': 0.41280502471469954}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  89%|████████▉ | 71/80 [01:01<00:04,  1.85trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  89%|████████▉ | 71/80 [01:01<00:04,  1.85trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:24,892] Trial 71 finished with value: 0.798316288831499 and parameters: {'learning_rate': 0.017324972233880687, 'max_depth': 7, 'n_estimators': 432, 'subsample': 0.6286153999507592, 'colsample_bytree': 0.9741123642814973, 'min_child_weight': 6, 'gamma': 0.060883358327041386, 'reg_alpha': 0.1803830645540772, 'reg_lambda': 0.04045828603021157}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  90%|█████████ | 72/80 [01:02<00:05,  1.59trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  90%|█████████ | 72/80 [01:02<00:05,  1.59trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:25,408] Trial 72 finished with value: 0.7973703972022788 and parameters: {'learning_rate': 0.02207098256683206, 'max_depth': 7, 'n_estimators': 249, 'subsample': 0.6333344664942012, 'colsample_bytree': 0.9737813285431859, 'min_child_weight': 5, 'gamma': 0.02411103729943758, 'reg_alpha': 0.15901744556244052, 'reg_lambda': 0.04094558680773674}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  91%|█████████▏| 73/80 [01:02<00:04,  1.68trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  91%|█████████▏| 73/80 [01:02<00:04,  1.68trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:26,177] Trial 73 finished with value: 0.7954015947781006 and parameters: {'learning_rate': 0.010007001082888793, 'max_depth': 7, 'n_estimators': 378, 'subsample': 0.616006267164148, 'colsample_bytree': 0.960128060748477, 'min_child_weight': 6, 'gamma': 0.05694893482504382, 'reg_alpha': 0.3970389773992852, 'reg_lambda': 0.0947491905362273}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  92%|█████████▎| 74/80 [01:03<00:03,  1.54trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  92%|█████████▎| 74/80 [01:03<00:03,  1.54trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:27,014] Trial 74 finished with value: 0.7978710217795759 and parameters: {'learning_rate': 0.017489407789450923, 'max_depth': 7, 'n_estimators': 438, 'subsample': 0.6676638652233317, 'colsample_bytree': 0.9355764695589923, 'min_child_weight': 7, 'gamma': 0.04211501357654862, 'reg_alpha': 0.07487755237252267, 'reg_lambda': 0.156759178116618}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  94%|█████████▍| 75/80 [01:04<00:03,  1.42trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  94%|█████████▍| 75/80 [01:04<00:03,  1.42trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:28,225] Trial 75 finished with value: 0.7957620204052652 and parameters: {'learning_rate': 0.020373607563939283, 'max_depth': 8, 'n_estimators': 548, 'subsample': 0.6255590882476133, 'colsample_bytree': 0.9104389951666411, 'min_child_weight': 5, 'gamma': 0.06648384429724022, 'reg_alpha': 0.2451983745898444, 'reg_lambda': 0.12674430615000543}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  95%|█████████▌| 76/80 [01:05<00:03,  1.17trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  95%|█████████▌| 76/80 [01:05<00:03,  1.17trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:29,338] Trial 76 finished with value: 0.7969762756901038 and parameters: {'learning_rate': 0.03315367194543889, 'max_depth': 7, 'n_estimators': 590, 'subsample': 0.6442815381822162, 'colsample_bytree': 0.9484552500621378, 'min_child_weight': 4, 'gamma': 0.18686008493343514, 'reg_alpha': 0.19585513125289222, 'reg_lambda': 0.724721648944063}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  96%|█████████▋| 77/80 [01:06<00:02,  1.07trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  96%|█████████▋| 77/80 [01:06<00:02,  1.07trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:30,387] Trial 77 finished with value: 0.7979823385425567 and parameters: {'learning_rate': 0.012577198669903093, 'max_depth': 8, 'n_estimators': 461, 'subsample': 0.6138526267291045, 'colsample_bytree': 0.9899580561751291, 'min_child_weight': 6, 'gamma': 0.0092895737640033, 'reg_alpha': 0.12489875294269731, 'reg_lambda': 0.2188407199579655}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  98%|█████████▊| 78/80 [01:07<00:01,  1.03trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  98%|█████████▊| 78/80 [01:07<00:01,  1.03trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:31,422] Trial 78 finished with value: 0.795462969425798 and parameters: {'learning_rate': 0.024133528653766233, 'max_depth': 7, 'n_estimators': 555, 'subsample': 0.677453630107425, 'colsample_bytree': 0.9709110325254218, 'min_child_weight': 9, 'gamma': 0.03311796061371324, 'reg_alpha': 0.30364817291687085, 'reg_lambda': 0.9114283379455319}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb):  99%|█████████▉| 79/80 [01:08<00:00,  1.01trial/s, best_AUC=0.7993][A
+[Optuna] Trials (xgb):  99%|█████████▉| 79/80 [01:08<00:00,  1.01trial/s, best_AUC=0.7993][A[I 2025-11-04 15:39:32,600] Trial 79 finished with value: 0.7957060611676587 and parameters: {'learning_rate': 0.017891051117922534, 'max_depth': 7, 'n_estimators': 639, 'subsample': 0.6609774113334531, 'colsample_bytree': 0.8953333718619345, 'min_child_weight': 10, 'gamma': 0.11658461102670296, 'reg_alpha': 0.4467538096590812, 'reg_lambda': 0.6103101395461455}. Best is trial 52 with value: 0.7992615787484867.
+
+[Optuna] Trials (xgb): 100%|██████████| 80/80 [01:09<00:00,  1.05s/trial, best_AUC=0.7993][A
+[Optuna] Trials (xgb): 100%|██████████| 80/80 [01:09<00:00,  1.05s/trial, best_AUC=0.7993][A[Optuna] Trials (xgb): 100%|██████████| 80/80 [01:09<00:00,  1.15trial/s, best_AUC=0.7993]
+2025-11-04 15:39:32,601 - INFO - [OK] Optuna complete - Best AUC: 0.7993
+2025-11-04 15:39:37,884 - INFO - Optimized model AUC: 0.8020
+2025-11-04 15:39:37,920 - INFO - Optimizing classification thresholds...
+
+[Threshold] F2 optimization:   0%|          | 0/1108 [00:00<?, ?it/s][A
+[Threshold] F2 optimization:  12%|█▏        | 136/1108 [00:00<00:00, 1355.31it/s][A
+[Threshold] F2 optimization:  25%|██▍       | 273/1108 [00:00<00:00, 1360.56it/s][A
+[Threshold] F2 optimization:  37%|███▋      | 412/1108 [00:00<00:00, 1373.67it/s][A
+[Threshold] F2 optimization:  51%|█████     | 560/1108 [00:00<00:00, 1414.13it/s][A
+[Threshold] F2 optimization:  64%|██████▍   | 707/1108 [00:00<00:00, 1433.35it/s][A
+[Threshold] F2 optimization:  77%|███████▋  | 856/1108 [00:00<00:00, 1450.59it/s][A
+[Threshold] F2 optimization:  91%|█████████ | 1003/1108 [00:00<00:00, 1455.05it/s][A
+                                                                                  [A
+[Threshold] Cost optimization:   0%|          | 0/1108 [00:00<?, ?it/s][A
+[Threshold] Cost optimization:  34%|███▍      | 377/1108 [00:00<00:00, 3763.35it/s][A
+[Threshold] Cost optimization:  69%|██████▉   | 762/1108 [00:00<00:00, 3811.30it/s][A
+                                                                                   [A2025-11-04 15:39:38,992 - INFO - [OK] Thresholds optimized - Youden: 0.2939, F2: 0.1185, Cost: 0.1500
+2025-11-04 15:39:38,992 - INFO - Computing bootstrap confidence intervals (n=1000)
+
+[Bootstrap] AUC CI:   0%|          | 0/1000 [00:00<?, ?iter/s][A
+[Bootstrap] AUC CI:   8%|▊         | 76/1000 [00:00<00:01, 757.48iter/s][A
+[Bootstrap] AUC CI:  15%|█▌        | 154/1000 [00:00<00:01, 770.60iter/s][A
+[Bootstrap] AUC CI:  24%|██▍       | 238/1000 [00:00<00:00, 800.54iter/s][A
+[Bootstrap] AUC CI:  32%|███▏      | 324/1000 [00:00<00:00, 821.19iter/s][A
+[Bootstrap] AUC CI:  41%|████      | 410/1000 [00:00<00:00, 834.85iter/s][A
+[Bootstrap] AUC CI:  50%|████▉     | 496/1000 [00:00<00:00, 842.80iter/s][A
+[Bootstrap] AUC CI:  58%|█████▊    | 581/1000 [00:00<00:00, 841.91iter/s][A
+[Bootstrap] AUC CI:  67%|██████▋   | 666/1000 [00:00<00:00, 842.62iter/s][A
+[Bootstrap] AUC CI:  75%|███████▌  | 751/1000 [00:00<00:00, 842.95iter/s][A
+[Bootstrap] AUC CI:  84%|████████▎ | 836/1000 [00:01<00:00, 844.38iter/s][A
+[Bootstrap] AUC CI:  92%|█████████▏| 921/1000 [00:01<00:00, 838.23iter/s][A[Bootstrap] AUC CI: 100%|██████████| 1000/1000 [00:01<00:00, 833.58iter/s]
+2025-11-04 15:39:40,193 - INFO - [OK] Bootstrap complete
+2025-11-04 15:39:40,193 - INFO - Performing subgroup analysis...
+2025-11-04 15:39:40,203 - INFO - [OK] Subgroup analysis complete (7 groups)
+2025-11-04 15:39:40,203 - INFO - Plotting Decision Curve Analysis...
+2025-11-04 15:39:40,376 - INFO - [OK] Saved: outputs_new/plots/dca_plot.png
+[Main] Running optimization:  75%|███████▌  | 3/4 [01:28<00:35, 35.65s/stage][Main] Exporting results:  75%|███████▌  | 3/4 [01:28<00:35, 35.65s/stage]   2025-11-04 15:39:40,376 - INFO - ============================================================
+2025-11-04 15:39:40,376 - INFO - Exporting Results and Artifacts
+2025-11-04 15:39:40,376 - INFO - ============================================================
+2025-11-04 15:39:40,377 - INFO - [OK] Saved: model_performance_summary.csv
+2025-11-04 15:39:40,377 - INFO - [OK] Saved: threshold_optimization_report.csv
+2025-11-04 15:39:40,378 - INFO - [OK] Saved: bootstrap_confidence_intervals.csv
+2025-11-04 15:39:40,378 - INFO - [OK] Saved: subgroup_performance_table.csv
+2025-11-04 15:39:40,378 - INFO - [OK] Saved: optuna_best_params.json
+2025-11-04 15:39:40,396 - INFO - [OK] Saved: best_sepsis_model.pkl
+2025-11-04 15:39:40,396 - INFO - [COMPLETE] All exports complete
+[Main] Exporting results: 100%|██████████| 4/4 [01:28<00:00, 22.20s/stage]
+2025-11-04 15:39:40,396 - INFO - ================================================================================
+2025-11-04 15:39:40,396 - INFO - [COMPLETE] Pipeline finished in 88.81 seconds
+2025-11-04 15:39:40,397 - INFO - Results saved to: outputs_new
+2025-11-04 15:39:40,397 - INFO - ================================================================================

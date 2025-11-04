@@ -1,0 +1,66 @@
+2025-11-03 17:32:46,682 - INFO - ================================================================================
+2025-11-03 17:32:46,682 - INFO - Sepsis-3 Mortality Prediction Training Pipeline
+2025-11-03 17:32:46,682 - INFO - ================================================================================
+2025-11-03 17:32:46,682 - INFO - Random seed: 42
+2025-11-03 17:32:46,682 - INFO - Output directory: outputs_fixed
+2025-11-03 17:32:46,692 - INFO - Loading data from data/processed/sepsis3_cleaned.csv
+2025-11-03 17:32:46,732 - INFO - Data loaded: 20391 samples, 27 features
+2025-11-03 17:32:46,732 - INFO - Target distribution: 4703 positive (23.06%)
+2025-11-03 17:32:46,732 - INFO - Splitting data (70/15/15 stratified)
+2025-11-03 17:32:46,739 - INFO - Train: 14272 (70.0%)
+2025-11-03 17:32:46,739 - INFO - Val: 3060 (15.0%)
+2025-11-03 17:32:46,739 - INFO - Test: 3059 (15.0%)
+2025-11-03 17:32:46,740 - INFO - Building preprocessing pipeline
+2025-11-03 17:32:46,760 - INFO - Pipeline fitted: 27 numeric features
+2025-11-03 17:32:46,760 - INFO - ============================================================
+2025-11-03 17:32:46,760 - INFO - Stage A: Baseline Model Training
+2025-11-03 17:32:46,760 - INFO - ============================================================
+2025-11-03 17:32:46,760 - INFO - Preprocessing data for LR and Stacking models...
+2025-11-03 17:32:46,767 - INFO - Training Logistic Regression...
+2025-11-03 17:32:46,785 - INFO - [OK] LR - AUC: 0.7828
+2025-11-03 17:32:46,786 - INFO - Training Random Forest...
+2025-11-03 17:32:47,253 - INFO - [OK] RF - AUC: 0.7909
+2025-11-03 17:32:47,253 - INFO - Training XGBoost...
+2025-11-03 17:32:48,030 - INFO - [OK] XGB - AUC: 0.7890
+2025-11-03 17:32:48,030 - INFO - Training LightGBM...
+2025-11-03 17:32:48,283 - INFO - [OK] LGB - AUC: 0.7755
+2025-11-03 17:32:48,283 - INFO - Training Stacking Ensemble (LR, XGBoost, LightGBM)...
+2025-11-03 17:32:48,283 - WARNING - [WARNING] Stacking failed: local variable 'SimpleImputer' referenced before assignment
+2025-11-03 17:32:48,285 - WARNING - Stacking error details: Traceback (most recent call last):
+  File "/Users/zixuanhe/Desktop/ML4H/Final/scripts/main_training_pipeline.py", line 327, in train_baseline_models
+    SimpleImputer(strategy='median'),
+UnboundLocalError: local variable 'SimpleImputer' referenced before assignment
+
+2025-11-03 17:32:48,285 - INFO - [COMPLETE] Best baseline model: Random_Forest (AUC=0.7909)
+2025-11-03 17:32:48,285 - INFO - Computing SHAP values...
+2025-11-03 17:32:48,285 - INFO - Using 1000 samples for SHAP (for speed)
+2025-11-03 17:32:55,692 - WARNING - [WARNING] SHAP computation failed: Per-column arrays must each be 1-dimensional
+2025-11-03 17:32:55,692 - INFO - Plotting ROC and PR curves...
+2025-11-03 17:32:56,052 - INFO - [OK] Saved: outputs_fixed/plots/roc_pr_curves.png
+2025-11-03 17:32:56,052 - INFO - Plotting calibration curve...
+2025-11-03 17:32:56,170 - INFO - [OK] Saved: outputs_fixed/plots/calibration_plot.png
+2025-11-03 17:32:56,170 - INFO - Starting Optuna optimization (10 trials, xgb)
+2025-11-03 17:33:04,163 - INFO - [OK] Optuna complete - Best AUC: 0.7952
+2025-11-03 17:33:05,715 - INFO - Optimized model AUC: 0.8022
+2025-11-03 17:33:05,732 - INFO - Optimizing classification thresholds...
+2025-11-03 17:33:06,748 - INFO - [OK] Thresholds optimized - Youden: 0.2502, F2: 0.1327, Cost: 0.1374
+2025-11-03 17:33:06,748 - INFO - Computing bootstrap confidence intervals (n=1000)
+2025-11-03 17:33:07,924 - INFO - [OK] Bootstrap complete
+2025-11-03 17:33:07,924 - INFO - Performing subgroup analysis...
+2025-11-03 17:33:07,933 - INFO - [OK] Subgroup analysis complete (7 groups)
+2025-11-03 17:33:07,933 - INFO - Plotting Decision Curve Analysis...
+2025-11-03 17:33:08,127 - INFO - [OK] Saved: outputs_fixed/plots/dca_plot.png
+2025-11-03 17:33:08,127 - INFO - ============================================================
+2025-11-03 17:33:08,128 - INFO - Exporting Results and Artifacts
+2025-11-03 17:33:08,128 - INFO - ============================================================
+2025-11-03 17:33:08,128 - INFO - [OK] Saved: model_performance_summary.csv
+2025-11-03 17:33:08,129 - INFO - [OK] Saved: threshold_optimization_report.csv
+2025-11-03 17:33:08,129 - INFO - [OK] Saved: bootstrap_confidence_intervals.csv
+2025-11-03 17:33:08,129 - INFO - [OK] Saved: subgroup_performance_table.csv
+2025-11-03 17:33:08,129 - INFO - [OK] Saved: optuna_best_params.json
+2025-11-03 17:33:08,137 - INFO - [OK] Saved: best_sepsis_model.pkl
+2025-11-03 17:33:08,137 - INFO - [COMPLETE] All exports complete
+2025-11-03 17:33:08,137 - INFO - ================================================================================
+2025-11-03 17:33:08,137 - INFO - [COMPLETE] Pipeline finished in 21.46 seconds
+2025-11-03 17:33:08,137 - INFO - Results saved to: outputs_fixed
+2025-11-03 17:33:08,137 - INFO - ================================================================================

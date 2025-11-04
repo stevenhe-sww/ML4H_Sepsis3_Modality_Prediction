@@ -1,0 +1,353 @@
+2025-11-04 15:44:42,670 - INFO - ================================================================================
+2025-11-04 15:44:42,671 - INFO - Sepsis-3 Mortality Prediction Training Pipeline
+2025-11-04 15:44:42,671 - INFO - ================================================================================
+2025-11-04 15:44:42,671 - INFO - Random seed: 42
+2025-11-04 15:44:42,671 - INFO - Output directory: outputs_with_stacking_opt
+[Main] Pipeline:   0%|          | 0/4 [00:00<?, ?stage/s][Main] Loading data:   0%|          | 0/4 [00:00<?, ?stage/s]2025-11-04 15:44:42,680 - INFO - Loading data from data/processed/sepsis3_cleaned.csv
+
+[Data] Loading:   0%|          | 0/3 [00:00<?, ?step/s][A[Data] Loading: 100%|██████████| 3/3 [00:00<00:00, 76.22step/s]
+2025-11-04 15:44:42,719 - INFO - Data loaded: 20391 samples, 27 features
+2025-11-04 15:44:42,720 - INFO - Target distribution: 4703 positive (23.06%)
+2025-11-04 15:44:42,720 - INFO - Splitting data (70/15/15 stratified)
+2025-11-04 15:44:42,728 - INFO - Train: 14272 (70.0%)
+2025-11-04 15:44:42,728 - INFO - Val: 3060 (15.0%)
+2025-11-04 15:44:42,728 - INFO - Test: 3059 (15.0%)
+2025-11-04 15:44:42,728 - INFO - Building preprocessing pipeline
+2025-11-04 15:44:42,748 - INFO - Pipeline fitted: 27 numeric features
+[Main] Training baseline models:  25%|██▌       | 1/4 [00:00<00:00, 14.73stage/s]2025-11-04 15:44:42,748 - INFO - ============================================================
+2025-11-04 15:44:42,748 - INFO - Stage A: Baseline Model Training
+2025-11-04 15:44:42,748 - INFO - ============================================================
+2025-11-04 15:44:42,748 - INFO - Preprocessing data for LR and Stacking models...
+2025-11-04 15:44:42,754 - INFO - Training Logistic Regression...
+2025-11-04 15:44:42,770 - INFO - [OK] LR - AUC: 0.7839
+2025-11-04 15:44:42,770 - INFO - Training Random Forest...
+2025-11-04 15:44:43,238 - INFO - [OK] RF - AUC: 0.7926
+2025-11-04 15:44:43,238 - INFO - Training XGBoost...
+
+[Model] XGBoost training:   0%|          | 0/1 [00:00<?, ?it/s][A
+[Model] XGBoost training: 100%|██████████| 1/1 [00:00<00:00,  1.39it/s][A
+                                                                       [A2025-11-04 15:44:43,972 - INFO - [OK] XGB - AUC: 0.7925
+2025-11-04 15:44:43,972 - INFO - Training LightGBM...
+
+[Model] LightGBM training:   0%|          | 0/1 [00:00<?, ?it/s][A
+[Model] LightGBM training: 100%|██████████| 1/1 [00:00<00:00,  3.87it/s][A
+                                                                        [A2025-11-04 15:44:44,236 - INFO - [OK] LGB - AUC: 0.7772
+2025-11-04 15:44:44,236 - INFO - Training Stacking Ensemble (LR, XGBoost, LightGBM)...
+
+[Model] Stacking training:   0%|          | 0/1 [00:00<?, ?it/s][A
+[Model] Stacking training: 100%|██████████| 1/1 [00:08<00:00,  8.91s/it][A
+                                                                        [A2025-11-04 15:44:53,169 - INFO - [OK] Stack - AUC: 0.7968
+2025-11-04 15:44:53,169 - INFO - [COMPLETE] Best baseline model: Stacking (AUC=0.7968)
+[Main] Training baseline models:  50%|█████     | 2/4 [00:10<00:10,  5.24s/stage]2025-11-04 15:44:53,169 - INFO - Computing SHAP values...
+2025-11-04 15:44:53,169 - INFO - Using 1000 samples for SHAP (for speed)
+2025-11-04 15:44:53,169 - WARNING - SHAP not supported for this model type
+2025-11-04 15:44:53,169 - INFO - Plotting ROC and PR curves...
+2025-11-04 15:44:53,536 - INFO - [OK] Saved: outputs_with_stacking_opt/plots/roc_pr_curves.png
+2025-11-04 15:44:53,536 - INFO - Plotting calibration curve...
+2025-11-04 15:44:53,708 - INFO - [OK] Saved: outputs_with_stacking_opt/plots/calibration_plot.png
+[Main] Running optimization:  50%|█████     | 2/4 [00:11<00:10,  5.24s/stage]    2025-11-04 15:44:53,709 - INFO - Best baseline model: Stacking (AUC=0.7968)
+2025-11-04 15:44:53,709 - INFO - Adding Stacking to optimization queue (best or near-best baseline)
+2025-11-04 15:44:53,709 - INFO - Optimizing stacking...
+2025-11-04 15:44:53,709 - INFO - Starting Optuna optimization (40 trials, stacking)
+[I 2025-11-04 15:44:53,709] A new study created in memory with name: no-name-c1ef435b-a179-46da-a7bd-128615a035fc
+
+[Optuna] Trials (stacking):   0%|          | 0/40 [00:00<?, ?trial/s][A[I 2025-11-04 15:45:05,072] Trial 0 finished with value: 0.791386970764006 and parameters: {'xgb_lr': 0.03574712922600244, 'xgb_depth': 8, 'xgb_n_est': 420, 'xgb_subsample': 0.8394633936788146, 'xgb_colsample': 0.6624074561769746, 'lgb_lr': 0.01699897838270077, 'lgb_depth': 3, 'lgb_n_est': 460, 'lgb_subsample': 0.8404460046972835, 'lgb_colsample': 0.8832290311184182, 'lr_C': 0.13911053916202465, 'meta_C': 1.942828719107789, 'stacking_cv': 5}. Best is trial 0 with value: 0.791386970764006.
+
+[Optuna] Trials (stacking):   2%|▎         | 1/40 [00:11<07:23, 11.36s/trial][A
+[Optuna] Trials (stacking):   2%|▎         | 1/40 [00:11<07:23, 11.36s/trial, best_AUC=0.7914][A[I 2025-11-04 15:45:10,858] Trial 1 finished with value: 0.7934297837927606 and parameters: {'xgb_lr': 0.020589728197687916, 'xgb_depth': 4, 'xgb_n_est': 255, 'xgb_subsample': 0.721696897183815, 'xgb_colsample': 0.8099025726528951, 'lgb_lr': 0.04345454109729477, 'lgb_depth': 4, 'lgb_n_est': 384, 'lgb_subsample': 0.6557975442608167, 'lgb_colsample': 0.7168578594140872, 'lr_C': 0.7960875022580142, 'meta_C': 0.9665329700123683, 'stacking_cv': 5}. Best is trial 1 with value: 0.7934297837927606.
+
+[Optuna] Trials (stacking):   5%|▌         | 2/40 [00:17<05:07,  8.08s/trial, best_AUC=0.7914][A
+[Optuna] Trials (stacking):   5%|▌         | 2/40 [00:17<05:07,  8.08s/trial, best_AUC=0.7934][A[I 2025-11-04 15:45:17,631] Trial 2 finished with value: 0.7935573467860142 and parameters: {'xgb_lr': 0.019721610970574007, 'xgb_depth': 6, 'xgb_n_est': 378, 'xgb_subsample': 0.6185801650879991, 'xgb_colsample': 0.8430179407605753, 'lgb_lr': 0.0178601378893971, 'lgb_depth': 3, 'lgb_n_est': 485, 'lgb_subsample': 0.9862528132298237, 'lgb_colsample': 0.9233589392465844, 'lr_C': 0.6787661614294043, 'meta_C': 0.28557701661212936, 'stacking_cv': 5}. Best is trial 2 with value: 0.7935573467860142.
+
+[Optuna] Trials (stacking):   8%|▊         | 3/40 [00:23<04:36,  7.48s/trial, best_AUC=0.7934][A
+[Optuna] Trials (stacking):   8%|▊         | 3/40 [00:23<04:36,  7.48s/trial, best_AUC=0.7936][A[I 2025-11-04 15:45:26,423] Trial 3 finished with value: 0.7932245999215367 and parameters: {'xgb_lr': 0.044684675025045834, 'xgb_depth': 3, 'xgb_n_est': 349, 'xgb_subsample': 0.6137554084460873, 'xgb_colsample': 0.9637281608315128, 'lgb_lr': 0.024112898115291975, 'lgb_depth': 6, 'lgb_n_est': 293, 'lgb_subsample': 0.8080272084711243, 'lgb_colsample': 0.8186841117373118, 'lr_C': 0.45122346549850134, 'meta_C': 1.9422107927526613, 'stacking_cv': 5}. Best is trial 2 with value: 0.7935573467860142.
+
+[Optuna] Trials (stacking):  10%|█         | 4/40 [00:32<04:48,  8.00s/trial, best_AUC=0.7936][A
+[Optuna] Trials (stacking):  10%|█         | 4/40 [00:32<04:48,  8.00s/trial, best_AUC=0.7936][A[I 2025-11-04 15:45:30,606] Trial 4 finished with value: 0.7905764643870598 and parameters: {'xgb_lr': 0.2442046084491143, 'xgb_depth': 8, 'xgb_n_est': 379, 'xgb_subsample': 0.9687496940092467, 'xgb_colsample': 0.6353970008207678, 'lgb_lr': 0.01947558230629543, 'lgb_depth': 3, 'lgb_n_est': 297, 'lgb_subsample': 0.7554709158757927, 'lgb_colsample': 0.7085396127095583, 'lr_C': 1.6746012673886657, 'meta_C': 0.7778313207178196, 'stacking_cv': 3}. Best is trial 2 with value: 0.7935573467860142.
+
+[Optuna] Trials (stacking):  12%|█▎        | 5/40 [00:36<03:51,  6.62s/trial, best_AUC=0.7936][A
+[Optuna] Trials (stacking):  12%|█▎        | 5/40 [00:36<03:51,  6.62s/trial, best_AUC=0.7936][A[I 2025-11-04 15:45:33,410] Trial 5 finished with value: 0.7926481596029662 and parameters: {'xgb_lr': 0.06333268775321839, 'xgb_depth': 3, 'xgb_n_est': 441, 'xgb_subsample': 0.6298202574719083, 'xgb_colsample': 0.9947547746402069, 'lgb_lr': 0.13826083091896751, 'lgb_depth': 4, 'lgb_n_est': 201, 'lgb_subsample': 0.9261845713819337, 'lgb_colsample': 0.8827429375390469, 'lr_C': 1.4851136192778758, 'meta_C': 1.5654136587032967, 'stacking_cv': 3}. Best is trial 2 with value: 0.7935573467860142.
+
+[Optuna] Trials (stacking):  15%|█▌        | 6/40 [00:39<03:01,  5.33s/trial, best_AUC=0.7936][A
+[Optuna] Trials (stacking):  15%|█▌        | 6/40 [00:39<03:01,  5.33s/trial, best_AUC=0.7936][A[I 2025-11-04 15:45:37,200] Trial 6 finished with value: 0.7904916229623016 and parameters: {'xgb_lr': 0.0338452204120114, 'xgb_depth': 3, 'xgb_n_est': 459, 'xgb_subsample': 0.8493192507310232, 'xgb_colsample': 0.7323592099410596, 'lgb_lr': 0.012413189635294229, 'lgb_depth': 4, 'lgb_n_est': 297, 'lgb_subsample': 0.8918424713352257, 'lgb_colsample': 0.8550229885420852, 'lr_C': 1.7857042108950203, 'meta_C': 0.9972083578077037, 'stacking_cv': 3}. Best is trial 2 with value: 0.7935573467860142.
+
+[Optuna] Trials (stacking):  18%|█▊        | 7/40 [00:43<02:39,  4.82s/trial, best_AUC=0.7936][A
+[Optuna] Trials (stacking):  18%|█▊        | 7/40 [00:43<02:39,  4.82s/trial, best_AUC=0.7936][A[I 2025-11-04 15:45:43,266] Trial 7 finished with value: 0.7941572538816456 and parameters: {'xgb_lr': 0.1131225105716033, 'xgb_depth': 7, 'xgb_n_est': 368, 'xgb_subsample': 0.9083868719818244, 'xgb_colsample': 0.7975182385457563, 'lgb_lr': 0.05917520523090666, 'lgb_depth': 5, 'lgb_n_est': 207, 'lgb_subsample': 0.6431565707973218, 'lgb_colsample': 0.6125716742746937, 'lr_C': 1.3091797814011827, 'meta_C': 0.6972763640450207, 'stacking_cv': 4}. Best is trial 7 with value: 0.7941572538816456.
+
+[Optuna] Trials (stacking):  20%|██        | 8/40 [00:49<02:47,  5.22s/trial, best_AUC=0.7936][A
+[Optuna] Trials (stacking):  20%|██        | 8/40 [00:49<02:47,  5.22s/trial, best_AUC=0.7942][A[I 2025-11-04 15:45:48,243] Trial 8 finished with value: 0.7904561219405942 and parameters: {'xgb_lr': 0.21907142272152821, 'xgb_depth': 4, 'xgb_n_est': 323, 'xgb_subsample': 0.9022204554172195, 'xgb_colsample': 0.6915192661966489, 'lgb_lr': 0.012992976740520353, 'lgb_depth': 4, 'lgb_n_est': 248, 'lgb_subsample': 0.9718790609370292, 'lgb_colsample': 0.9232481518257668, 'lr_C': 1.3034671373698046, 'meta_C': 1.7557751213566635, 'stacking_cv': 5}. Best is trial 7 with value: 0.7941572538816456.
+
+[Optuna] Trials (stacking):  22%|██▎       | 9/40 [00:54<02:39,  5.14s/trial, best_AUC=0.7942][A
+[Optuna] Trials (stacking):  22%|██▎       | 9/40 [00:54<02:39,  5.14s/trial, best_AUC=0.7942][A[I 2025-11-04 15:45:53,578] Trial 9 finished with value: 0.7939791470608764 and parameters: {'xgb_lr': 0.018861950443028862, 'xgb_depth': 8, 'xgb_n_est': 362, 'xgb_subsample': 0.922976062065625, 'xgb_colsample': 0.9584365199693973, 'lgb_lr': 0.02949372944095386, 'lgb_depth': 3, 'lgb_n_est': 268, 'lgb_subsample': 0.7708431154505025, 'lgb_colsample': 0.9272059063689972, 'lr_C': 1.7353881081870524, 'meta_C': 0.11320904800926235, 'stacking_cv': 4}. Best is trial 7 with value: 0.7941572538816456.
+
+[Optuna] Trials (stacking):  25%|██▌       | 10/40 [00:59<02:36,  5.20s/trial, best_AUC=0.7942][A
+[Optuna] Trials (stacking):  25%|██▌       | 10/40 [00:59<02:36,  5.20s/trial, best_AUC=0.7942][A[I 2025-11-04 15:46:03,128] Trial 10 finished with value: 0.7899488785287414 and parameters: {'xgb_lr': 0.10796911736614814, 'xgb_depth': 6, 'xgb_n_est': 202, 'xgb_subsample': 0.746697621215042, 'xgb_colsample': 0.886067844878718, 'lgb_lr': 0.1046113058507758, 'lgb_depth': 8, 'lgb_n_est': 380, 'lgb_subsample': 0.6138778243691246, 'lgb_colsample': 0.6049244678259751, 'lr_C': 1.1107341962090884, 'meta_C': 0.624055950242035, 'stacking_cv': 4}. Best is trial 7 with value: 0.7941572538816456.
+
+[Optuna] Trials (stacking):  28%|██▊       | 11/40 [01:09<03:09,  6.53s/trial, best_AUC=0.7942][A
+[Optuna] Trials (stacking):  28%|██▊       | 11/40 [01:09<03:09,  6.53s/trial, best_AUC=0.7942][A[I 2025-11-04 15:46:09,768] Trial 11 finished with value: 0.7942463072920303 and parameters: {'xgb_lr': 0.012093904523226917, 'xgb_depth': 7, 'xgb_n_est': 295, 'xgb_subsample': 0.9960776743965981, 'xgb_colsample': 0.9070503990803166, 'lgb_lr': 0.04985594288741681, 'lgb_depth': 6, 'lgb_n_est': 213, 'lgb_subsample': 0.712853179426558, 'lgb_colsample': 0.9976527309170673, 'lr_C': 1.8766442379444535, 'meta_C': 0.13405239482052897, 'stacking_cv': 4}. Best is trial 11 with value: 0.7942463072920303.
+
+[Optuna] Trials (stacking):  30%|███       | 12/40 [01:16<03:03,  6.57s/trial, best_AUC=0.7942][A
+[Optuna] Trials (stacking):  30%|███       | 12/40 [01:16<03:03,  6.57s/trial, best_AUC=0.7942][A[I 2025-11-04 15:46:16,204] Trial 12 finished with value: 0.7944605168467391 and parameters: {'xgb_lr': 0.010200698141932819, 'xgb_depth': 7, 'xgb_n_est': 295, 'xgb_subsample': 0.9959173942151496, 'xgb_colsample': 0.8923645209213664, 'lgb_lr': 0.07948382940683782, 'lgb_depth': 6, 'lgb_n_est': 206, 'lgb_subsample': 0.6890555931627607, 'lgb_colsample': 0.9992101432737459, 'lr_C': 1.9657533056908143, 'meta_C': 0.5059116025809437, 'stacking_cv': 4}. Best is trial 12 with value: 0.7944605168467391.
+
+[Optuna] Trials (stacking):  32%|███▎      | 13/40 [01:22<02:56,  6.53s/trial, best_AUC=0.7942][A
+[Optuna] Trials (stacking):  32%|███▎      | 13/40 [01:22<02:56,  6.53s/trial, best_AUC=0.7945][A[I 2025-11-04 15:46:23,698] Trial 13 finished with value: 0.7930266365971008 and parameters: {'xgb_lr': 0.010056939762156639, 'xgb_depth': 7, 'xgb_n_est': 287, 'xgb_subsample': 0.9870186621290717, 'xgb_colsample': 0.9010825180234404, 'lgb_lr': 0.07910533193363374, 'lgb_depth': 7, 'lgb_n_est': 243, 'lgb_subsample': 0.7087928489323525, 'lgb_colsample': 0.9792393240846256, 'lr_C': 1.9474885470156555, 'meta_C': 0.38891566837126534, 'stacking_cv': 4}. Best is trial 12 with value: 0.7944605168467391.
+
+[Optuna] Trials (stacking):  35%|███▌      | 14/40 [01:29<02:57,  6.82s/trial, best_AUC=0.7945][A
+[Optuna] Trials (stacking):  35%|███▌      | 14/40 [01:29<02:57,  6.82s/trial, best_AUC=0.7945][A[I 2025-11-04 15:46:32,690] Trial 14 finished with value: 0.7915566536135226 and parameters: {'xgb_lr': 0.010181901058882826, 'xgb_depth': 7, 'xgb_n_est': 265, 'xgb_subsample': 0.9857919033876164, 'xgb_colsample': 0.9089810626910788, 'lgb_lr': 0.27993465548464247, 'lgb_depth': 6, 'lgb_n_est': 355, 'lgb_subsample': 0.7007104693570162, 'lgb_colsample': 0.9948650615908241, 'lr_C': 1.5658804868708327, 'meta_C': 1.3725647548078954, 'stacking_cv': 4}. Best is trial 12 with value: 0.7944605168467391.
+
+[Optuna] Trials (stacking):  38%|███▊      | 15/40 [01:38<03:06,  7.47s/trial, best_AUC=0.7945][A
+[Optuna] Trials (stacking):  38%|███▊      | 15/40 [01:38<03:06,  7.47s/trial, best_AUC=0.7945][A[I 2025-11-04 15:46:39,247] Trial 15 finished with value: 0.7935832204120044 and parameters: {'xgb_lr': 0.013962215887048565, 'xgb_depth': 5, 'xgb_n_est': 304, 'xgb_subsample': 0.9326523282325606, 'xgb_colsample': 0.8509679306459871, 'lgb_lr': 0.16065714926397517, 'lgb_depth': 7, 'lgb_n_est': 236, 'lgb_subsample': 0.7056281465849481, 'lgb_colsample': 0.9938740191670966, 'lr_C': 1.9500738889133684, 'meta_C': 0.4444524276441758, 'stacking_cv': 4}. Best is trial 12 with value: 0.7944605168467391.
+
+[Optuna] Trials (stacking):  40%|████      | 16/40 [01:45<02:52,  7.20s/trial, best_AUC=0.7945][A
+[Optuna] Trials (stacking):  40%|████      | 16/40 [01:45<02:52,  7.20s/trial, best_AUC=0.7945][A[I 2025-11-04 15:46:46,023] Trial 16 finished with value: 0.7946921760561856 and parameters: {'xgb_lr': 0.02640104576131901, 'xgb_depth': 6, 'xgb_n_est': 222, 'xgb_subsample': 0.8641010997388161, 'xgb_colsample': 0.771611160540024, 'lgb_lr': 0.04146773427910698, 'lgb_depth': 7, 'lgb_n_est': 332, 'lgb_subsample': 0.7436235134638974, 'lgb_colsample': 0.7875449167456193, 'lr_C': 1.9985797263033696, 'meta_C': 0.18237848225438102, 'stacking_cv': 3}. Best is trial 16 with value: 0.7946921760561856.
+
+[Optuna] Trials (stacking):  42%|████▎     | 17/40 [01:52<02:42,  7.07s/trial, best_AUC=0.7945][A
+[Optuna] Trials (stacking):  42%|████▎     | 17/40 [01:52<02:42,  7.07s/trial, best_AUC=0.7947][A[I 2025-11-04 15:46:54,357] Trial 17 finished with value: 0.7936397813618432 and parameters: {'xgb_lr': 0.026200495598494904, 'xgb_depth': 5, 'xgb_n_est': 200, 'xgb_subsample': 0.7616675016944651, 'xgb_colsample': 0.758373463697813, 'lgb_lr': 0.034655241022701073, 'lgb_depth': 8, 'lgb_n_est': 415, 'lgb_subsample': 0.8310034429427375, 'lgb_colsample': 0.7530958465052664, 'lr_C': 0.9935308088483621, 'meta_C': 0.4936050077036221, 'stacking_cv': 3}. Best is trial 16 with value: 0.7946921760561856.
+
+[Optuna] Trials (stacking):  45%|████▌     | 18/40 [02:00<02:43,  7.45s/trial, best_AUC=0.7947][A
+[Optuna] Trials (stacking):  45%|████▌     | 18/40 [02:00<02:43,  7.45s/trial, best_AUC=0.7947][A[I 2025-11-04 15:47:00,991] Trial 18 finished with value: 0.7954346889508785 and parameters: {'xgb_lr': 0.06089839395295456, 'xgb_depth': 6, 'xgb_n_est': 233, 'xgb_subsample': 0.8251323334561256, 'xgb_colsample': 0.7564261169346195, 'lgb_lr': 0.08057075002552898, 'lgb_depth': 7, 'lgb_n_est': 328, 'lgb_subsample': 0.75850114592622, 'lgb_colsample': 0.7812126721163795, 'lr_C': 1.4241707753268968, 'meta_C': 1.2804517669986866, 'stacking_cv': 3}. Best is trial 18 with value: 0.7954346889508785.
+
+[Optuna] Trials (stacking):  48%|████▊     | 19/40 [02:07<02:31,  7.21s/trial, best_AUC=0.7947][A
+[Optuna] Trials (stacking):  48%|████▊     | 19/40 [02:07<02:31,  7.21s/trial, best_AUC=0.7954][A[I 2025-11-04 15:47:07,700] Trial 19 finished with value: 0.7926656092577037 and parameters: {'xgb_lr': 0.0694735499935331, 'xgb_depth': 6, 'xgb_n_est': 228, 'xgb_subsample': 0.8223068632602296, 'xgb_colsample': 0.7319217821711548, 'lgb_lr': 0.23336177315563866, 'lgb_depth': 7, 'lgb_n_est': 332, 'lgb_subsample': 0.7538659239661544, 'lgb_colsample': 0.7791463429675545, 'lr_C': 1.3856131721991964, 'meta_C': 1.2755268791505092, 'stacking_cv': 3}. Best is trial 18 with value: 0.7954346889508785.
+
+[Optuna] Trials (stacking):  50%|█████     | 20/40 [02:13<02:21,  7.06s/trial, best_AUC=0.7954][A
+[Optuna] Trials (stacking):  50%|█████     | 20/40 [02:13<02:21,  7.06s/trial, best_AUC=0.7954][A[I 2025-11-04 15:47:14,570] Trial 20 finished with value: 0.7940182583559777 and parameters: {'xgb_lr': 0.07983506500336846, 'xgb_depth': 5, 'xgb_n_est': 242, 'xgb_subsample': 0.6755664290783399, 'xgb_colsample': 0.7669028052396648, 'lgb_lr': 0.07032783004669899, 'lgb_depth': 8, 'lgb_n_est': 338, 'lgb_subsample': 0.8716844621710428, 'lgb_colsample': 0.6679424018853073, 'lr_C': 1.0358561361883425, 'meta_C': 1.1709005844305995, 'stacking_cv': 3}. Best is trial 18 with value: 0.7954346889508785.
+
+[Optuna] Trials (stacking):  52%|█████▎    | 21/40 [02:20<02:13,  7.00s/trial, best_AUC=0.7954][A
+[Optuna] Trials (stacking):  52%|█████▎    | 21/40 [02:20<02:13,  7.00s/trial, best_AUC=0.7954][A[I 2025-11-04 15:47:23,072] Trial 21 finished with value: 0.7932871779936987 and parameters: {'xgb_lr': 0.04748170989038734, 'xgb_depth': 6, 'xgb_n_est': 227, 'xgb_subsample': 0.8630826230398995, 'xgb_colsample': 0.7038808202648614, 'lgb_lr': 0.09606022139060086, 'lgb_depth': 7, 'lgb_n_est': 423, 'lgb_subsample': 0.6643337278714169, 'lgb_colsample': 0.8129091310315736, 'lr_C': 1.9907935102018115, 'meta_C': 0.855810795929818, 'stacking_cv': 3}. Best is trial 18 with value: 0.7954346889508785.
+
+[Optuna] Trials (stacking):  55%|█████▌    | 22/40 [02:29<02:14,  7.45s/trial, best_AUC=0.7954][A
+[Optuna] Trials (stacking):  55%|█████▌    | 22/40 [02:29<02:14,  7.45s/trial, best_AUC=0.7954][A[I 2025-11-04 15:47:29,074] Trial 22 finished with value: 0.7946885657827915 and parameters: {'xgb_lr': 0.015887385640000938, 'xgb_depth': 7, 'xgb_n_est': 273, 'xgb_subsample': 0.7919185854998425, 'xgb_colsample': 0.8257337999930167, 'lgb_lr': 0.04457358084942992, 'lgb_depth': 5, 'lgb_n_est': 321, 'lgb_subsample': 0.7759537605244194, 'lgb_colsample': 0.7583428912797873, 'lr_C': 1.6320978898493448, 'meta_C': 1.4310007232711321, 'stacking_cv': 3}. Best is trial 18 with value: 0.7954346889508785.
+
+[Optuna] Trials (stacking):  57%|█████▊    | 23/40 [02:35<01:59,  7.02s/trial, best_AUC=0.7954][A
+[Optuna] Trials (stacking):  57%|█████▊    | 23/40 [02:35<01:59,  7.02s/trial, best_AUC=0.7954][A[I 2025-11-04 15:47:34,690] Trial 23 finished with value: 0.7957957162902756 and parameters: {'xgb_lr': 0.03040469262612474, 'xgb_depth': 6, 'xgb_n_est': 270, 'xgb_subsample': 0.7904566594359752, 'xgb_colsample': 0.8109754637015643, 'lgb_lr': 0.04137944748132637, 'lgb_depth': 5, 'lgb_n_est': 324, 'lgb_subsample': 0.7835642880834002, 'lgb_colsample': 0.7589116945668426, 'lr_C': 1.6055964729751768, 'meta_C': 1.4653327227612571, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  60%|██████    | 24/40 [02:40<01:45,  6.60s/trial, best_AUC=0.7954][A
+[Optuna] Trials (stacking):  60%|██████    | 24/40 [02:40<01:45,  6.60s/trial, best_AUC=0.7958][A[I 2025-11-04 15:47:40,565] Trial 24 finished with value: 0.7949918287478851 and parameters: {'xgb_lr': 0.029239801340276397, 'xgb_depth': 6, 'xgb_n_est': 227, 'xgb_subsample': 0.7934321918890359, 'xgb_colsample': 0.7728862059102909, 'lgb_lr': 0.03395325419478034, 'lgb_depth': 5, 'lgb_n_est': 367, 'lgb_subsample': 0.742907404415818, 'lgb_colsample': 0.8386048315308232, 'lr_C': 1.518238662048699, 'meta_C': 1.57164375206871, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  62%|██████▎   | 25/40 [02:46<01:35,  6.38s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  62%|██████▎   | 25/40 [02:46<01:35,  6.38s/trial, best_AUC=0.7958][A[I 2025-11-04 15:47:46,705] Trial 25 finished with value: 0.7954557488790102 and parameters: {'xgb_lr': 0.03359712143187043, 'xgb_depth': 5, 'xgb_n_est': 332, 'xgb_subsample': 0.7847529598987023, 'xgb_colsample': 0.7901693275612587, 'lgb_lr': 0.031396051003795354, 'lgb_depth': 5, 'lgb_n_est': 368, 'lgb_subsample': 0.8009130891587162, 'lgb_colsample': 0.8437366788964018, 'lr_C': 1.1824508025576523, 'meta_C': 1.6492620622378116, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  65%|██████▌   | 26/40 [02:52<01:28,  6.31s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  65%|██████▌   | 26/40 [02:52<01:28,  6.31s/trial, best_AUC=0.7958][A[I 2025-11-04 15:47:53,195] Trial 26 finished with value: 0.7942902322849903 and parameters: {'xgb_lr': 0.09635626746043119, 'xgb_depth': 4, 'xgb_n_est': 319, 'xgb_subsample': 0.7047475449386599, 'xgb_colsample': 0.7286156507255409, 'lgb_lr': 0.02485062514347053, 'lgb_depth': 5, 'lgb_n_est': 415, 'lgb_subsample': 0.8019289423138191, 'lgb_colsample': 0.7332580020299448, 'lr_C': 1.1522820296585248, 'meta_C': 1.6525693835380455, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  68%|██████▊   | 27/40 [02:59<01:22,  6.36s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  68%|██████▊   | 27/40 [02:59<01:22,  6.36s/trial, best_AUC=0.7958][A[I 2025-11-04 15:47:58,970] Trial 27 finished with value: 0.7940357080107152 and parameters: {'xgb_lr': 0.17179636882291918, 'xgb_depth': 5, 'xgb_n_est': 404, 'xgb_subsample': 0.77262292569107, 'xgb_colsample': 0.8549151966672985, 'lgb_lr': 0.05899120217951825, 'lgb_depth': 5, 'lgb_n_est': 313, 'lgb_subsample': 0.8417348793485387, 'lgb_colsample': 0.6553589313598337, 'lr_C': 0.8664759279866322, 'meta_C': 1.1873350921521313, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  70%|███████   | 28/40 [03:05<01:14,  6.19s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  70%|███████   | 28/40 [03:05<01:14,  6.19s/trial, best_AUC=0.7958][A[I 2025-11-04 15:48:07,576] Trial 28 finished with value: 0.7936108991746915 and parameters: {'xgb_lr': 0.03823346933480986, 'xgb_depth': 5, 'xgb_n_est': 494, 'xgb_subsample': 0.8082712544900823, 'xgb_colsample': 0.6076661413773985, 'lgb_lr': 0.12076901394284276, 'lgb_depth': 6, 'lgb_n_est': 393, 'lgb_subsample': 0.8851090725809668, 'lgb_colsample': 0.6788220082361431, 'lr_C': 1.226644243861731, 'meta_C': 1.742339644921813, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  72%|███████▎  | 29/40 [03:13<01:16,  6.91s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  72%|███████▎  | 29/40 [03:13<01:16,  6.91s/trial, best_AUC=0.7958][A[I 2025-11-04 15:48:11,280] Trial 29 finished with value: 0.7929875253019993 and parameters: {'xgb_lr': 0.0509465851526082, 'xgb_depth': 4, 'xgb_n_est': 336, 'xgb_subsample': 0.8352398819933614, 'xgb_colsample': 0.6626200159600996, 'lgb_lr': 0.02540109540559354, 'lgb_depth': 4, 'lgb_n_est': 276, 'lgb_subsample': 0.841377564687799, 'lgb_colsample': 0.8635616268671762, 'lr_C': 1.394047023306737, 'meta_C': 1.9743016645656306, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  75%|███████▌  | 30/40 [03:17<00:59,  5.95s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  75%|███████▌  | 30/40 [03:17<00:59,  5.95s/trial, best_AUC=0.7958][A[I 2025-11-04 15:48:17,942] Trial 30 finished with value: 0.7950002527191377 and parameters: {'xgb_lr': 0.036474614134024884, 'xgb_depth': 5, 'xgb_n_est': 276, 'xgb_subsample': 0.7364407887848534, 'xgb_colsample': 0.8049257817681429, 'lgb_lr': 0.163741872333713, 'lgb_depth': 5, 'lgb_n_est': 454, 'lgb_subsample': 0.7830873988366343, 'lgb_colsample': 0.7666078678578295, 'lr_C': 0.4690212426338779, 'meta_C': 1.4969152187605683, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  78%|███████▊  | 31/40 [03:24<00:55,  6.16s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  78%|███████▊  | 31/40 [03:24<00:55,  6.16s/trial, best_AUC=0.7958][A[I 2025-11-04 15:48:24,410] Trial 31 finished with value: 0.7953660937563931 and parameters: {'xgb_lr': 0.03723477940730782, 'xgb_depth': 5, 'xgb_n_est': 253, 'xgb_subsample': 0.739296093369858, 'xgb_colsample': 0.7968619293866706, 'lgb_lr': 0.20103880183928816, 'lgb_depth': 5, 'lgb_n_est': 450, 'lgb_subsample': 0.7935026292824867, 'lgb_colsample': 0.7689487084719276, 'lr_C': 0.24659344401577668, 'meta_C': 1.4323995223502917, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  80%|████████  | 32/40 [03:30<00:50,  6.25s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  80%|████████  | 32/40 [03:30<00:50,  6.25s/trial, best_AUC=0.7958][A[I 2025-11-04 15:48:31,417] Trial 32 finished with value: 0.795032143467451 and parameters: {'xgb_lr': 0.057846942770401734, 'xgb_depth': 5, 'xgb_n_est': 251, 'xgb_subsample': 0.6954725695655679, 'xgb_colsample': 0.7956859032570227, 'lgb_lr': 0.22151473773549993, 'lgb_depth': 5, 'lgb_n_est': 492, 'lgb_subsample': 0.8172991002119047, 'lgb_colsample': 0.8075084570102629, 'lr_C': 0.2968299622785727, 'meta_C': 1.3304549215954187, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  82%|████████▎ | 33/40 [03:37<00:45,  6.48s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  82%|████████▎ | 33/40 [03:37<00:45,  6.48s/trial, best_AUC=0.7958][A[I 2025-11-04 15:48:40,234] Trial 33 finished with value: 0.7938184898948448 and parameters: {'xgb_lr': 0.02558384069221633, 'xgb_depth': 6, 'xgb_n_est': 252, 'xgb_subsample': 0.7769457867522037, 'xgb_colsample': 0.8396839952691834, 'lgb_lr': 0.03444334455660748, 'lgb_depth': 6, 'lgb_n_est': 466, 'lgb_subsample': 0.8650272747365476, 'lgb_colsample': 0.7306102016738472, 'lr_C': 0.12584335375718786, 'meta_C': 1.0793397533571967, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  85%|████████▌ | 34/40 [03:46<00:43,  7.18s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  85%|████████▌ | 34/40 [03:46<00:43,  7.18s/trial, best_AUC=0.7958][A[I 2025-11-04 15:48:44,487] Trial 34 finished with value: 0.7943498017959907 and parameters: {'xgb_lr': 0.041883472876523574, 'xgb_depth': 4, 'xgb_n_est': 313, 'xgb_subsample': 0.6666326369671716, 'xgb_colsample': 0.7506095384906836, 'lgb_lr': 0.02005652961491734, 'lgb_depth': 4, 'lgb_n_est': 355, 'lgb_subsample': 0.7871714631374699, 'lgb_colsample': 0.7911942926146399, 'lr_C': 0.6849222832527848, 'meta_C': 1.7881120589999209, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  88%|████████▊ | 35/40 [03:50<00:31,  6.30s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  88%|████████▊ | 35/40 [03:50<00:31,  6.30s/trial, best_AUC=0.7958][A[I 2025-11-04 15:48:51,380] Trial 35 finished with value: 0.7951579013240075 and parameters: {'xgb_lr': 0.032159756494460644, 'xgb_depth': 6, 'xgb_n_est': 265, 'xgb_subsample': 0.7193911504863272, 'xgb_colsample': 0.8135687267359254, 'lgb_lr': 0.06680295883646649, 'lgb_depth': 5, 'lgb_n_est': 445, 'lgb_subsample': 0.7395441238964329, 'lgb_colsample': 0.7100788600949358, 'lr_C': 0.9539251908080519, 'meta_C': 1.2428645382054322, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  90%|█████████ | 36/40 [03:57<00:25,  6.48s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  90%|█████████ | 36/40 [03:57<00:25,  6.48s/trial, best_AUC=0.7958][A[I 2025-11-04 15:48:59,131] Trial 36 finished with value: 0.7949364712225108 and parameters: {'xgb_lr': 0.020863515431044248, 'xgb_depth': 5, 'xgb_n_est': 398, 'xgb_subsample': 0.8757940018969895, 'xgb_colsample': 0.8679141606719566, 'lgb_lr': 0.1867247440884119, 'lgb_depth': 4, 'lgb_n_est': 394, 'lgb_subsample': 0.8033660903174802, 'lgb_colsample': 0.8386655792699411, 'lr_C': 1.4358369147503915, 'meta_C': 1.5155132461912293, 'stacking_cv': 5}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  92%|█████████▎| 37/40 [04:05<00:20,  6.86s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  92%|█████████▎| 37/40 [04:05<00:20,  6.86s/trial, best_AUC=0.7958][A[I 2025-11-04 15:49:07,382] Trial 37 finished with value: 0.7941662795651305 and parameters: {'xgb_lr': 0.07883888641482993, 'xgb_depth': 6, 'xgb_n_est': 349, 'xgb_subsample': 0.8086441968725422, 'xgb_colsample': 0.7832239716345143, 'lgb_lr': 0.04319301874065729, 'lgb_depth': 6, 'lgb_n_est': 372, 'lgb_subsample': 0.917458777314346, 'lgb_colsample': 0.8990359578150965, 'lr_C': 0.5478171598459927, 'meta_C': 1.8377818957195142, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  95%|█████████▌| 38/40 [04:13<00:14,  7.28s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  95%|█████████▌| 38/40 [04:13<00:14,  7.28s/trial, best_AUC=0.7958][A[I 2025-11-04 15:49:11,279] Trial 38 finished with value: 0.7926981017182495 and parameters: {'xgb_lr': 0.021093159546475657, 'xgb_depth': 5, 'xgb_n_est': 213, 'xgb_subsample': 0.7520378500496087, 'xgb_colsample': 0.8322453614637018, 'lgb_lr': 0.016451752892727312, 'lgb_depth': 4, 'lgb_n_est': 310, 'lgb_subsample': 0.822203015363345, 'lgb_colsample': 0.8289901619244562, 'lr_C': 0.8521964106734425, 'meta_C': 1.6395088661056083, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking):  98%|█████████▊| 39/40 [04:17<00:06,  6.26s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking):  98%|█████████▊| 39/40 [04:17<00:06,  6.26s/trial, best_AUC=0.7958][A[I 2025-11-04 15:49:17,322] Trial 39 finished with value: 0.7944340415085166 and parameters: {'xgb_lr': 0.05265153246074126, 'xgb_depth': 4, 'xgb_n_est': 242, 'xgb_subsample': 0.8271699154071873, 'xgb_colsample': 0.7051437435784617, 'lgb_lr': 0.09754787793851516, 'lgb_depth': 5, 'lgb_n_est': 432, 'lgb_subsample': 0.7305576820662343, 'lgb_colsample': 0.7480861180062799, 'lr_C': 1.2176529805201635, 'meta_C': 1.1017980912008274, 'stacking_cv': 3}. Best is trial 23 with value: 0.7957957162902756.
+
+[Optuna] Trials (stacking): 100%|██████████| 40/40 [04:23<00:00,  6.20s/trial, best_AUC=0.7958][A
+[Optuna] Trials (stacking): 100%|██████████| 40/40 [04:23<00:00,  6.20s/trial, best_AUC=0.7958][A[Optuna] Trials (stacking): 100%|██████████| 40/40 [04:23<00:00,  6.59s/trial, best_AUC=0.7958]
+2025-11-04 15:49:17,323 - INFO - [OK] Optuna complete - Best AUC: 0.7958
+2025-11-04 15:49:50,813 - INFO - Optimized Stacking_Optimized AUC: 0.7999
+2025-11-04 15:49:50,813 - INFO - Optimizing xgb...
+2025-11-04 15:49:50,813 - INFO - Starting Optuna optimization (40 trials, xgb)
+[I 2025-11-04 15:49:50,814] A new study created in memory with name: no-name-ff423226-3177-416e-9826-1c703fa90012
+
+[Optuna] Trials (xgb):   0%|          | 0/40 [00:00<?, ?trial/s][A[I 2025-11-04 15:49:52,529] Trial 0 finished with value: 0.7914447351383096 and parameters: {'learning_rate': 0.03574712922600244, 'max_depth': 8, 'n_estimators': 639, 'subsample': 0.8394633936788146, 'colsample_bytree': 0.6624074561769746, 'min_child_weight': 2, 'gamma': 0.02904180608409973, 'reg_alpha': 0.8661761457749352, 'reg_lambda': 0.6011150117432088}. Best is trial 0 with value: 0.7914447351383096.
+
+[Optuna] Trials (xgb):   2%|▎         | 1/40 [00:01<01:06,  1.71s/trial][A
+[Optuna] Trials (xgb):   2%|▎         | 1/40 [00:01<01:06,  1.71s/trial, best_AUC=0.7914][A[I 2025-11-04 15:49:53,479] Trial 1 finished with value: 0.7874090511960836 and parameters: {'learning_rate': 0.11114989443094977, 'max_depth': 3, 'n_estimators': 782, 'subsample': 0.9329770563201687, 'colsample_bytree': 0.6849356442713105, 'min_child_weight': 2, 'gamma': 0.09170225492671691, 'reg_alpha': 0.3042422429595377, 'reg_lambda': 0.5247564316322378}. Best is trial 0 with value: 0.7914447351383096.
+
+[Optuna] Trials (xgb):   5%|▌         | 2/40 [00:02<00:48,  1.27s/trial, best_AUC=0.7914][A
+[Optuna] Trials (xgb):   5%|▌         | 2/40 [00:02<00:48,  1.27s/trial, best_AUC=0.7914][A[I 2025-11-04 15:49:54,317] Trial 2 finished with value: 0.7926626006965422 and parameters: {'learning_rate': 0.04345454109729477, 'max_depth': 4, 'n_estimators': 567, 'subsample': 0.6557975442608167, 'colsample_bytree': 0.7168578594140872, 'min_child_weight': 4, 'gamma': 0.22803499210851796, 'reg_alpha': 0.7851759613930136, 'reg_lambda': 0.19967378215835974}. Best is trial 2 with value: 0.7926626006965422.
+
+[Optuna] Trials (xgb):   8%|▊         | 3/40 [00:03<00:39,  1.07s/trial, best_AUC=0.7914][A
+[Optuna] Trials (xgb):   8%|▊         | 3/40 [00:03<00:39,  1.07s/trial, best_AUC=0.7927][A[I 2025-11-04 15:49:54,792] Trial 3 finished with value: 0.7930525102230909 and parameters: {'learning_rate': 0.05748924681991978, 'max_depth': 6, 'n_estimators': 227, 'subsample': 0.8430179407605753, 'colsample_bytree': 0.6682096494749166, 'min_child_weight': 1, 'gamma': 0.4744427686266666, 'reg_alpha': 0.9656320330745594, 'reg_lambda': 0.8083973481164611}. Best is trial 3 with value: 0.7930525102230909.
+
+[Optuna] Trials (xgb):  10%|█         | 4/40 [00:03<00:30,  1.20trial/s, best_AUC=0.7927][A
+[Optuna] Trials (xgb):  10%|█         | 4/40 [00:03<00:30,  1.20trial/s, best_AUC=0.7931][A[I 2025-11-04 15:49:55,544] Trial 4 finished with value: 0.7924640356598738 and parameters: {'learning_rate': 0.028180680291847244, 'max_depth': 3, 'n_estimators': 611, 'subsample': 0.7760609974958405, 'colsample_bytree': 0.6488152939379115, 'min_child_weight': 5, 'gamma': 0.017194260557609198, 'reg_alpha': 0.9093204020787821, 'reg_lambda': 0.2587799816000169}. Best is trial 3 with value: 0.7930525102230909.
+
+[Optuna] Trials (xgb):  12%|█▎        | 5/40 [00:04<00:28,  1.24trial/s, best_AUC=0.7931][A
+[Optuna] Trials (xgb):  12%|█▎        | 5/40 [00:04<00:28,  1.24trial/s, best_AUC=0.7931][A[I 2025-11-04 15:49:56,307] Trial 5 finished with value: 0.7888146509708025 and parameters: {'learning_rate': 0.09519754482692679, 'max_depth': 4, 'n_estimators': 512, 'subsample': 0.8186841117373118, 'colsample_bytree': 0.6739417822102108, 'min_child_weight': 10, 'gamma': 0.3875664116805573, 'reg_alpha': 0.9394989415641891, 'reg_lambda': 0.8948273504276488}. Best is trial 3 with value: 0.7930525102230909.
+
+[Optuna] Trials (xgb):  15%|█▌        | 6/40 [00:05<00:26,  1.26trial/s, best_AUC=0.7931][A
+[Optuna] Trials (xgb):  15%|█▌        | 6/40 [00:05<00:26,  1.26trial/s, best_AUC=0.7931][A[I 2025-11-04 15:49:57,003] Trial 6 finished with value: 0.7870961608352729 and parameters: {'learning_rate': 0.0764136186923332, 'max_depth': 8, 'n_estimators': 253, 'subsample': 0.678393144967658, 'colsample_bytree': 0.6180909155642152, 'min_child_weight': 4, 'gamma': 0.194338644844741, 'reg_alpha': 0.2713490317738959, 'reg_lambda': 0.8287375091519293}. Best is trial 3 with value: 0.7930525102230909.
+
+[Optuna] Trials (xgb):  18%|█▊        | 7/40 [00:06<00:25,  1.32trial/s, best_AUC=0.7931][A
+[Optuna] Trials (xgb):  18%|█▊        | 7/40 [00:06<00:25,  1.32trial/s, best_AUC=0.7931][A[I 2025-11-04 15:49:57,817] Trial 7 finished with value: 0.7930747735756871 and parameters: {'learning_rate': 0.03364867144187955, 'max_depth': 4, 'n_estimators': 526, 'subsample': 0.6563696899899051, 'colsample_bytree': 0.9208787923016158, 'min_child_weight': 1, 'gamma': 0.49344346830025865, 'reg_alpha': 0.7722447692966574, 'reg_lambda': 0.1987156815341724}. Best is trial 7 with value: 0.7930747735756871.
+
+[Optuna] Trials (xgb):  20%|██        | 8/40 [00:07<00:24,  1.29trial/s, best_AUC=0.7931][A
+[Optuna] Trials (xgb):  20%|██        | 8/40 [00:07<00:24,  1.29trial/s, best_AUC=0.7931][A[I 2025-11-04 15:49:59,479] Trial 8 finished with value: 0.7951771561154422 and parameters: {'learning_rate': 0.010189592979395137, 'max_depth': 7, 'n_estimators': 624, 'subsample': 0.8916028672163949, 'colsample_bytree': 0.9085081386743783, 'min_child_weight': 1, 'gamma': 0.1792328642721363, 'reg_alpha': 0.11586905952512971, 'reg_lambda': 0.8631034258755935}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  22%|██▎       | 9/40 [00:08<00:32,  1.05s/trial, best_AUC=0.7931][A
+[Optuna] Trials (xgb):  22%|██▎       | 9/40 [00:08<00:32,  1.05s/trial, best_AUC=0.7952][A[I 2025-11-04 15:49:59,855] Trial 9 finished with value: 0.7937288347722278 and parameters: {'learning_rate': 0.08330803890301997, 'max_depth': 4, 'n_estimators': 238, 'subsample': 0.7243929286862648, 'colsample_bytree': 0.7300733288106988, 'min_child_weight': 8, 'gamma': 0.31877873567760656, 'reg_alpha': 0.8872127425763265, 'reg_lambda': 0.4722149251619493}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  25%|██▌       | 10/40 [00:09<00:25,  1.18trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  25%|██▌       | 10/40 [00:09<00:25,  1.18trial/s, best_AUC=0.7952][A[I 2025-11-04 15:50:00,700] Trial 10 finished with value: 0.7932937968282545 and parameters: {'learning_rate': 0.010724311014441377, 'max_depth': 6, 'n_estimators': 384, 'subsample': 0.9746595013029591, 'colsample_bytree': 0.9916893928795039, 'min_child_weight': 7, 'gamma': 0.12896347630074606, 'reg_alpha': 0.011114384822711307, 'reg_lambda': 0.9693130727540948}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  28%|██▊       | 11/40 [00:09<00:24,  1.18trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  28%|██▊       | 11/40 [00:09<00:24,  1.18trial/s, best_AUC=0.7952][A[I 2025-11-04 15:50:01,471] Trial 11 finished with value: 0.758714598260811 and parameters: {'learning_rate': 0.2877395975571487, 'max_depth': 7, 'n_estimators': 344, 'subsample': 0.7455021658963161, 'colsample_bytree': 0.816625051152752, 'min_child_weight': 8, 'gamma': 0.3177541966531531, 'reg_alpha': 0.5732909776512292, 'reg_lambda': 0.6442422397549056}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  30%|███       | 12/40 [00:10<00:23,  1.22trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  30%|███       | 12/40 [00:10<00:23,  1.22trial/s, best_AUC=0.7952][A[I 2025-11-04 15:50:02,787] Trial 12 finished with value: 0.793624738556035 and parameters: {'learning_rate': 0.010267888891105255, 'max_depth': 5, 'n_estimators': 724, 'subsample': 0.9015045323708958, 'colsample_bytree': 0.7965336532390828, 'min_child_weight': 8, 'gamma': 0.3138214726279749, 'reg_alpha': 0.03358588493447223, 'reg_lambda': 0.3850420607518613}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  32%|███▎      | 13/40 [00:11<00:26,  1.03trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  32%|███▎      | 13/40 [00:11<00:26,  1.03trial/s, best_AUC=0.7952][A[I 2025-11-04 15:50:03,648] Trial 13 finished with value: 0.7728127158642633 and parameters: {'learning_rate': 0.1786079654987403, 'max_depth': 7, 'n_estimators': 381, 'subsample': 0.7201202977755248, 'colsample_bytree': 0.8282012523637581, 'min_child_weight': 10, 'gamma': 0.2936058395739345, 'reg_alpha': 0.5337825577007181, 'reg_lambda': 0.39675040328401573}. Best is trial 8 with value: 0.7951771561154422.
+
+[Optuna] Trials (xgb):  35%|███▌      | 14/40 [00:12<00:24,  1.07trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  35%|███▌      | 14/40 [00:12<00:24,  1.07trial/s, best_AUC=0.7952][A[I 2025-11-04 15:50:04,447] Trial 14 finished with value: 0.7957740546499118 and parameters: {'learning_rate': 0.019275224252385224, 'max_depth': 5, 'n_estimators': 451, 'subsample': 0.6024911829936358, 'colsample_bytree': 0.8852443551755848, 'min_child_weight': 7, 'gamma': 0.1661855258167715, 'reg_alpha': 0.3168369940018355, 'reg_lambda': 0.7049270826015105}. Best is trial 14 with value: 0.7957740546499118.
+
+[Optuna] Trials (xgb):  38%|███▊      | 15/40 [00:13<00:22,  1.12trial/s, best_AUC=0.7952][A
+[Optuna] Trials (xgb):  38%|███▊      | 15/40 [00:13<00:22,  1.12trial/s, best_AUC=0.7958][A[I 2025-11-04 15:50:05,519] Trial 15 finished with value: 0.7984197833354595 and parameters: {'learning_rate': 0.019061654125556902, 'max_depth': 7, 'n_estimators': 452, 'subsample': 0.6043956756975085, 'colsample_bytree': 0.8918815434312392, 'min_child_weight': 6, 'gamma': 0.1542371012281191, 'reg_alpha': 0.26849171039838693, 'reg_lambda': 0.72254825086798}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  40%|████      | 16/40 [00:14<00:22,  1.05trial/s, best_AUC=0.7958][A
+[Optuna] Trials (xgb):  40%|████      | 16/40 [00:14<00:22,  1.05trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:06,312] Trial 16 finished with value: 0.7962608398458654 and parameters: {'learning_rate': 0.019197996087020698, 'max_depth': 5, 'n_estimators': 449, 'subsample': 0.6018742527836715, 'colsample_bytree': 0.8885879965461793, 'min_child_weight': 6, 'gamma': 0.12181080855990466, 'reg_alpha': 0.3459425872135605, 'reg_lambda': 0.013179214380923565}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  42%|████▎     | 17/40 [00:15<00:20,  1.11trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  42%|████▎     | 17/40 [00:15<00:20,  1.11trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:07,221] Trial 17 finished with value: 0.7968451024234561 and parameters: {'learning_rate': 0.018386329553990437, 'max_depth': 6, 'n_estimators': 440, 'subsample': 0.6205053298595609, 'colsample_bytree': 0.9659758427245431, 'min_child_weight': 6, 'gamma': 0.08202776798861497, 'reg_alpha': 0.2168726670563941, 'reg_lambda': 0.03187050352598852}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  45%|████▌     | 18/40 [00:16<00:19,  1.11trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  45%|████▌     | 18/40 [00:16<00:19,  1.11trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:07,904] Trial 18 finished with value: 0.7973391081661978 and parameters: {'learning_rate': 0.018685577955138533, 'max_depth': 6, 'n_estimators': 310, 'subsample': 0.6327634276422727, 'colsample_bytree': 0.9758180598136521, 'min_child_weight': 5, 'gamma': 0.07176636073737476, 'reg_alpha': 0.17746572003521813, 'reg_lambda': 0.025001342186070374}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  48%|████▊     | 19/40 [00:17<00:17,  1.19trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  48%|████▊     | 19/40 [00:17<00:17,  1.19trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:08,719] Trial 19 finished with value: 0.7961705830110162 and parameters: {'learning_rate': 0.015907803482252136, 'max_depth': 7, 'n_estimators': 321, 'subsample': 0.6873064153189612, 'colsample_bytree': 0.9512146015319368, 'min_child_weight': 4, 'gamma': 0.05778767211267502, 'reg_alpha': 0.41815408228207424, 'reg_lambda': 0.7518562393792552}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  50%|█████     | 20/40 [00:17<00:16,  1.20trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  50%|█████     | 20/40 [00:17<00:16,  1.20trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:09,521] Trial 20 finished with value: 0.7953399192742869 and parameters: {'learning_rate': 0.026369303287392967, 'max_depth': 8, 'n_estimators': 288, 'subsample': 0.6343190184155889, 'colsample_bytree': 0.8581340404697587, 'min_child_weight': 5, 'gamma': 0.24935290451713343, 'reg_alpha': 0.17593833381669582, 'reg_lambda': 0.11708235317519228}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  52%|█████▎    | 21/40 [00:18<00:15,  1.22trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  52%|█████▎    | 21/40 [00:18<00:15,  1.22trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:10,378] Trial 21 finished with value: 0.7978800474630608 and parameters: {'learning_rate': 0.016245489215902707, 'max_depth': 6, 'n_estimators': 409, 'subsample': 0.627593385022918, 'colsample_bytree': 0.9967134896247019, 'min_child_weight': 6, 'gamma': 0.08791417847455428, 'reg_alpha': 0.1839436232473309, 'reg_lambda': 0.0058257250696131906}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  55%|█████▌    | 22/40 [00:19<00:14,  1.20trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  55%|█████▌    | 22/40 [00:19<00:14,  1.20trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:11,232] Trial 22 finished with value: 0.7968565349558704 and parameters: {'learning_rate': 0.014605999177913147, 'max_depth': 6, 'n_estimators': 405, 'subsample': 0.6976395143990667, 'colsample_bytree': 0.9966426924957517, 'min_child_weight': 7, 'gamma': 0.13247749575336942, 'reg_alpha': 0.12822613393149274, 'reg_lambda': 0.1321682771570255}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  57%|█████▊    | 23/40 [00:20<00:14,  1.19trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  57%|█████▊    | 23/40 [00:20<00:14,  1.19trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:12,043] Trial 23 finished with value: 0.7980701885284767 and parameters: {'learning_rate': 0.026054825073958635, 'max_depth': 7, 'n_estimators': 326, 'subsample': 0.6442290039615762, 'colsample_bytree': 0.9466338697710561, 'min_child_weight': 3, 'gamma': 0.002100631678427875, 'reg_alpha': 0.40530855945220223, 'reg_lambda': 0.3092325909536679}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  60%|██████    | 24/40 [00:21<00:13,  1.20trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  60%|██████    | 24/40 [00:21<00:13,  1.20trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:13,205] Trial 24 finished with value: 0.7974143221952388 and parameters: {'learning_rate': 0.024696458224444356, 'max_depth': 7, 'n_estimators': 475, 'subsample': 0.6643769445422405, 'colsample_bytree': 0.9339776954058361, 'min_child_weight': 3, 'gamma': 0.005023624904823993, 'reg_alpha': 0.42116126219616723, 'reg_lambda': 0.30363509814732365}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  62%|██████▎   | 25/40 [00:22<00:13,  1.08trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  62%|██████▎   | 25/40 [00:22<00:13,  1.08trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:14,100] Trial 25 finished with value: 0.7948588503445404 and parameters: {'learning_rate': 0.013354865974256116, 'max_depth': 7, 'n_estimators': 359, 'subsample': 0.6382786121285517, 'colsample_bytree': 0.7760975920640389, 'min_child_weight': 3, 'gamma': 0.04369342861352743, 'reg_alpha': 0.6220067905433636, 'reg_lambda': 0.5397851396512741}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  65%|██████▌   | 26/40 [00:23<00:12,  1.09trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  65%|██████▌   | 26/40 [00:23<00:12,  1.09trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:15,263] Trial 26 finished with value: 0.7865353650347428 and parameters: {'learning_rate': 0.05644395899272826, 'max_depth': 8, 'n_estimators': 411, 'subsample': 0.7650449264388409, 'colsample_bytree': 0.8660698517703787, 'min_child_weight': 6, 'gamma': 0.10001108278118317, 'reg_alpha': 0.4329290625024344, 'reg_lambda': 0.37899587254935363}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  68%|██████▊   | 27/40 [00:24<00:12,  1.01trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  68%|██████▊   | 27/40 [00:24<00:12,  1.01trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:16,581] Trial 27 finished with value: 0.79758520846922 and parameters: {'learning_rate': 0.02417352548319667, 'max_depth': 7, 'n_estimators': 571, 'subsample': 0.7068065827898746, 'colsample_bytree': 0.9461401806764479, 'min_child_weight': 9, 'gamma': 0.15569461370371984, 'reg_alpha': 0.25233432417257845, 'reg_lambda': 0.2946315124069322}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  70%|███████   | 28/40 [00:25<00:13,  1.09s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  70%|███████   | 28/40 [00:25<00:13,  1.09s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:17,185] Trial 28 finished with value: 0.792711941099593 and parameters: {'learning_rate': 0.04231764492607918, 'max_depth': 6, 'n_estimators': 281, 'subsample': 0.6034349739914998, 'colsample_bytree': 0.910823595563793, 'min_child_weight': 3, 'gamma': 0.2098807628036467, 'reg_alpha': 0.362094319422821, 'reg_lambda': 0.45431281404560514}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  72%|███████▎  | 29/40 [00:26<00:10,  1.06trial/s, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  72%|███████▎  | 29/40 [00:26<00:10,  1.06trial/s, best_AUC=0.7984][A[I 2025-11-04 15:50:19,199] Trial 29 finished with value: 0.7928864376469682 and parameters: {'learning_rate': 0.03537436382375385, 'max_depth': 8, 'n_estimators': 689, 'subsample': 0.6677192381180477, 'colsample_bytree': 0.9671465795973915, 'min_child_weight': 2, 'gamma': 0.04233436972730035, 'reg_alpha': 0.6353676176898904, 'reg_lambda': 0.600241164751386}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  75%|███████▌  | 30/40 [00:28<00:12,  1.27s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  75%|███████▌  | 30/40 [00:28<00:12,  1.27s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:20,091] Trial 30 finished with value: 0.7939526717226539 and parameters: {'learning_rate': 0.01309572949530824, 'max_depth': 5, 'n_estimators': 490, 'subsample': 0.7340508610504258, 'colsample_bytree': 0.8441877033040334, 'min_child_weight': 6, 'gamma': 0.003429532201182958, 'reg_alpha': 0.47764234575724174, 'reg_lambda': 0.6080230324840805}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  78%|███████▊  | 31/40 [00:29<00:10,  1.15s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  78%|███████▊  | 31/40 [00:29<00:10,  1.15s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:21,370] Trial 31 finished with value: 0.7953721108787166 and parameters: {'learning_rate': 0.023941741102837966, 'max_depth': 7, 'n_estimators': 561, 'subsample': 0.6999862492333339, 'colsample_bytree': 0.9525187935610235, 'min_child_weight': 9, 'gamma': 0.15522914842343358, 'reg_alpha': 0.25107536118869966, 'reg_lambda': 0.2982451893646033}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  80%|████████  | 32/40 [00:30<00:09,  1.19s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  80%|████████  | 32/40 [00:30<00:09,  1.19s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:22,667] Trial 32 finished with value: 0.797482616533608 and parameters: {'learning_rate': 0.02209319755069578, 'max_depth': 7, 'n_estimators': 566, 'subsample': 0.6431958865057453, 'colsample_bytree': 0.9290660397829036, 'min_child_weight': 9, 'gamma': 0.10437455675160819, 'reg_alpha': 0.09459758851616912, 'reg_lambda': 0.1140449919767813}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  82%|████████▎ | 33/40 [00:31<00:08,  1.22s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  82%|████████▎ | 33/40 [00:31<00:08,  1.22s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:24,028] Trial 33 finished with value: 0.7975436903251892 and parameters: {'learning_rate': 0.030238210098533634, 'max_depth': 8, 'n_estimators': 533, 'subsample': 0.6953313065825434, 'colsample_bytree': 0.8890323333254644, 'min_child_weight': 9, 'gamma': 0.14629560812681258, 'reg_alpha': 0.22342211757542846, 'reg_lambda': 0.1912141456897253}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  85%|████████▌ | 34/40 [00:33<00:07,  1.26s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  85%|████████▌ | 34/40 [00:33<00:07,  1.26s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:24,901] Trial 34 finished with value: 0.7966110363650806 and parameters: {'learning_rate': 0.01630711300957133, 'max_depth': 6, 'n_estimators': 414, 'subsample': 0.6132254114890957, 'colsample_bytree': 0.9455220255477973, 'min_child_weight': 4, 'gamma': 0.2288366289033174, 'reg_alpha': 0.3767839313286487, 'reg_lambda': 0.2801847003356746}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  88%|████████▊ | 35/40 [00:34<00:05,  1.15s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  88%|████████▊ | 35/40 [00:34<00:05,  1.15s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:26,427] Trial 35 finished with value: 0.794676531538145 and parameters: {'learning_rate': 0.03983461934154561, 'max_depth': 7, 'n_estimators': 665, 'subsample': 0.6568177046469157, 'colsample_bytree': 0.9959186007930837, 'min_child_weight': 7, 'gamma': 0.07218325451054751, 'reg_alpha': 0.2874652297130174, 'reg_lambda': 0.5527591451238074}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  90%|█████████ | 36/40 [00:35<00:05,  1.26s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  90%|█████████ | 36/40 [00:35<00:05,  1.26s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:28,086] Trial 36 finished with value: 0.7900571867305606 and parameters: {'learning_rate': 0.04629871608075381, 'max_depth': 6, 'n_estimators': 788, 'subsample': 0.781222370490783, 'colsample_bytree': 0.9708912579681831, 'min_child_weight': 5, 'gamma': 0.03175241712532176, 'reg_alpha': 0.1712385291068328, 'reg_lambda': 0.35873169395974824}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  92%|█████████▎| 37/40 [00:37<00:04,  1.38s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  92%|█████████▎| 37/40 [00:37<00:04,  1.38s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:29,812] Trial 37 finished with value: 0.7924513997029949 and parameters: {'learning_rate': 0.022135356719514138, 'max_depth': 8, 'n_estimators': 605, 'subsample': 0.8127492272052792, 'colsample_bytree': 0.9137799286914773, 'min_child_weight': 2, 'gamma': 0.10517890745379277, 'reg_alpha': 0.06477953297481906, 'reg_lambda': 0.4463437357545763}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  95%|█████████▌| 38/40 [00:38<00:02,  1.48s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  95%|█████████▌| 38/40 [00:38<00:02,  1.48s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:30,927] Trial 38 finished with value: 0.794546561695962 and parameters: {'learning_rate': 0.029462753963366325, 'max_depth': 7, 'n_estimators': 489, 'subsample': 0.626100223798854, 'colsample_bytree': 0.9438259774916399, 'min_child_weight': 10, 'gamma': 0.1889030155996375, 'reg_alpha': 0.30286048072825866, 'reg_lambda': 0.219435828795144}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb):  98%|█████████▊| 39/40 [00:40<00:01,  1.37s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb):  98%|█████████▊| 39/40 [00:40<00:01,  1.37s/trial, best_AUC=0.7984][A[I 2025-11-04 15:50:31,371] Trial 39 finished with value: 0.7934237666704375 and parameters: {'learning_rate': 0.012799170746243541, 'max_depth': 6, 'n_estimators': 203, 'subsample': 0.6725305657379433, 'colsample_bytree': 0.750691128587673, 'min_child_weight': 8, 'gamma': 0.27120172321465075, 'reg_alpha': 0.4783300279063274, 'reg_lambda': 0.6997154359563418}. Best is trial 15 with value: 0.7984197833354595.
+
+[Optuna] Trials (xgb): 100%|██████████| 40/40 [00:40<00:00,  1.09s/trial, best_AUC=0.7984][A
+[Optuna] Trials (xgb): 100%|██████████| 40/40 [00:40<00:00,  1.09s/trial, best_AUC=0.7984][A[Optuna] Trials (xgb): 100%|██████████| 40/40 [00:40<00:00,  1.01s/trial, best_AUC=0.7984]
+2025-11-04 15:50:31,371 - INFO - [OK] Optuna complete - Best AUC: 0.7984
+2025-11-04 15:50:36,714 - INFO - Optimized XGBoost_Optimized AUC: 0.8033
+2025-11-04 15:50:36,783 - INFO - Optimizing classification thresholds...
+
+[Threshold] F2 optimization:   0%|          | 0/987 [00:00<?, ?it/s][A
+[Threshold] F2 optimization:  11%|█         | 110/987 [00:00<00:00, 1094.32it/s][A
+[Threshold] F2 optimization:  23%|██▎       | 226/987 [00:00<00:00, 1131.01it/s][A
+[Threshold] F2 optimization:  35%|███▌      | 350/987 [00:00<00:00, 1177.77it/s][A
+[Threshold] F2 optimization:  48%|████▊     | 478/987 [00:00<00:00, 1216.72it/s][A
+[Threshold] F2 optimization:  62%|██████▏   | 608/987 [00:00<00:00, 1243.62it/s][A
+[Threshold] F2 optimization:  75%|███████▌  | 744/987 [00:00<00:00, 1279.94it/s][A
+[Threshold] F2 optimization:  89%|████████▉ | 877/987 [00:00<00:00, 1294.28it/s][A
+                                                                                [A
+[Threshold] Cost optimization:   0%|          | 0/987 [00:00<?, ?it/s][A
+[Threshold] Cost optimization:  34%|███▍      | 334/987 [00:00<00:00, 3335.66it/s][A
+[Threshold] Cost optimization:  68%|██████▊   | 668/987 [00:00<00:00, 3331.59it/s][A
+                                                                                  [A2025-11-04 15:50:37,868 - INFO - [OK] Thresholds optimized - Youden: 0.1849, F2: 0.1065, Cost: 0.1735
+2025-11-04 15:50:37,868 - INFO - Computing bootstrap confidence intervals (n=1000)
+
+[Bootstrap] AUC CI:   0%|          | 0/1000 [00:00<?, ?iter/s][A
+[Bootstrap] AUC CI:   8%|▊         | 78/1000 [00:00<00:01, 779.89iter/s][A
+[Bootstrap] AUC CI:  16%|█▌        | 156/1000 [00:00<00:01, 768.23iter/s][A
+[Bootstrap] AUC CI:  23%|██▎       | 233/1000 [00:00<00:01, 766.77iter/s][A
+[Bootstrap] AUC CI:  31%|███       | 310/1000 [00:00<00:00, 767.85iter/s][A
+[Bootstrap] AUC CI:  39%|███▊      | 387/1000 [00:00<00:00, 768.22iter/s][A
+[Bootstrap] AUC CI:  47%|████▋     | 469/1000 [00:00<00:00, 783.13iter/s][A
+[Bootstrap] AUC CI:  55%|█████▍    | 549/1000 [00:00<00:00, 787.32iter/s][A
+[Bootstrap] AUC CI:  63%|██████▎   | 631/1000 [00:00<00:00, 797.41iter/s][A
+[Bootstrap] AUC CI:  71%|███████▏  | 714/1000 [00:00<00:00, 805.26iter/s][A
+[Bootstrap] AUC CI:  80%|███████▉  | 797/1000 [00:01<00:00, 810.31iter/s][A
+[Bootstrap] AUC CI:  88%|████████▊ | 880/1000 [00:01<00:00, 816.12iter/s][A
+[Bootstrap] AUC CI:  96%|█████████▋| 965/1000 [00:01<00:00, 824.24iter/s][A[Bootstrap] AUC CI: 100%|██████████| 1000/1000 [00:01<00:00, 799.99iter/s]
+2025-11-04 15:50:39,120 - INFO - [OK] Bootstrap complete
+2025-11-04 15:50:39,120 - INFO - Performing subgroup analysis...
+2025-11-04 15:50:39,129 - INFO - [OK] Subgroup analysis complete (7 groups)
+2025-11-04 15:50:39,129 - INFO - Plotting Decision Curve Analysis...
+2025-11-04 15:50:39,296 - INFO - [OK] Saved: outputs_with_stacking_opt/plots/dca_plot.png
+[Main] Running optimization:  75%|███████▌  | 3/4 [05:56<02:27, 147.28s/stage][Main] Exporting results:  75%|███████▌  | 3/4 [05:56<02:27, 147.28s/stage]   2025-11-04 15:50:39,296 - INFO - ============================================================
+2025-11-04 15:50:39,296 - INFO - Exporting Results and Artifacts
+2025-11-04 15:50:39,296 - INFO - ============================================================
+2025-11-04 15:50:39,297 - INFO - [OK] Saved: model_performance_summary.csv
+2025-11-04 15:50:39,297 - INFO - [OK] Saved: threshold_optimization_report.csv
+2025-11-04 15:50:39,297 - INFO - [OK] Saved: bootstrap_confidence_intervals.csv
+2025-11-04 15:50:39,298 - INFO - [OK] Saved: subgroup_performance_table.csv
+2025-11-04 15:50:39,298 - INFO - [OK] Saved: optuna_best_params.json
+2025-11-04 15:50:39,329 - INFO - [OK] Saved: best_sepsis_model.pkl
+2025-11-04 15:50:39,329 - INFO - [COMPLETE] All exports complete
+[Main] Exporting results: 100%|██████████| 4/4 [05:56<00:00, 89.16s/stage] 
+2025-11-04 15:50:39,329 - INFO - ================================================================================
+2025-11-04 15:50:39,329 - INFO - [COMPLETE] Pipeline finished in 356.66 seconds
+2025-11-04 15:50:39,329 - INFO - Results saved to: outputs_with_stacking_opt
+2025-11-04 15:50:39,329 - INFO - ================================================================================

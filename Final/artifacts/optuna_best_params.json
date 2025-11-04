@@ -1,0 +1,12 @@
+{
+  "learning_rate": 0.020492826646055423,
+  "max_depth": 4,
+  "n_estimators": 645,
+  "subsample": 0.8433133977413599,
+  "colsample_bytree": 0.8832946146437962,
+  "min_child_weight": 3,
+  "gamma": 0.22663676821427722,
+  "reg_alpha": 0.5073519287147645,
+  "reg_lambda": 0.5526148696889573,
+  "model_type": "xgb"
+}

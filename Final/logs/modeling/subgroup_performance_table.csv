@@ -1,0 +1,6 @@
+Subgroup,N,Events,AUC,AUPRC,Recall
+Age <65,3059,706,0.7917,0.5350,0.2238
+Infection: other,1669,289,0.7897,0.4558,0.1557
+Infection: blood,969,314,0.7646,0.6138,0.3121
+Infection: respiratory,90,24,0.7456,0.4977,0.1250
+Infection: urine,331,79,0.8075,0.4957,0.1519

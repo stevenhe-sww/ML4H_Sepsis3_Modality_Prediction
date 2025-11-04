@@ -1,0 +1,20 @@
+﻿Variable,Skewness,Kurtosis,Normality_Test,Highly_Skewed,Recommendation
+age,-0.588,0.017,N/A (n>5000),No,No transformation
+mbp_mean,0.834,1.810,N/A (n>5000),No,No transformation
+sbp_mean,0.765,0.979,N/A (n>5000),No,No transformation
+heart_rate_mean,0.392,0.092,N/A (n>5000),No,No transformation
+wbc_max,10.143,218.542,N/A (n>5000),Yes,Log-transform
+lactate_max_24h,2.974,12.507,N/A (n>5000),Yes,QuantileTransform
+sodium_min,-0.718,5.161,N/A (n>5000),No,No transformation
+sodium_max,0.489,4.470,N/A (n>5000),No,No transformation
+platelets_min,1.625,5.578,N/A (n>5000),Yes,Log-transform
+platelets_max,1.838,8.026,N/A (n>5000),Yes,Log-transform
+creatinine_max,6.996,174.442,N/A (n>5000),Yes,Log-transform
+urine_output_24h,1.785,7.546,N/A (n>5000),Yes,QuantileTransform
+pressor_used_24h,0.817,-1.333,N/A (n>5000),No,No transformation
+rrt_present,3.052,7.314,N/A (n>5000),Yes,QuantileTransform
+albumin_min,0.057,-0.171,N/A (n>5000),No,No transformation
+charlson_comorbidity_index,0.400,-0.032,N/A (n>5000),No,No transformation
+sofa_total,0.916,0.540,N/A (n>5000),No,No transformation
+inr_max,6.084,56.496,N/A (n>5000),Yes,Log-transform
+aniongap_max,1.627,5.295,N/A (n>5000),Yes,Log-transform

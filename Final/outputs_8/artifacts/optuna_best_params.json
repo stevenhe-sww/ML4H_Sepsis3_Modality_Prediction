@@ -1,0 +1,16 @@
+{
+  "learning_rate": 0.013732566039180457,
+  "max_depth": 8,
+  "n_estimators": 621,
+  "subsample": 0.6395796264395115,
+  "colsample_bytree": 0.928518480698723,
+  "min_child_weight": 7,
+  "gamma": 0.4582135507568869,
+  "reg_alpha": 0.16338197072952965,
+  "reg_lambda": 0.5292866205757034,
+  "scale_pos_weight": 3.336675782436949,
+  "random_state": 42,
+  "eval_metric": "logloss",
+  "use_label_encoder": false,
+  "verbosity": 0
+}

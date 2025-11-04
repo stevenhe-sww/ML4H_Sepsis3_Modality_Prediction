@@ -1,0 +1,15 @@
+Variable,Missing_Before,Missing_Percent,Method
+albumin_min,10768,52.81,Median Imputation + Missing Indicator (no transformation)
+lactate_max_24h,5818,28.53,Median Imputation + Missing Indicator + log1p transform
+mbp_mean,27,0.13,Median Imputation
+sbp_mean,32,0.16,Median Imputation
+heart_rate_mean,27,0.13,Median Imputation
+wbc_max,35,0.17,Median Imputation
+sodium_min,41,0.20,Median Imputation
+sodium_max,41,0.20,Median Imputation
+platelets_min,36,0.18,Median Imputation
+platelets_max,36,0.18,Median Imputation
+creatinine_max,24,0.12,Median Imputation
+urine_output_24h,810,3.97,Median Imputation
+inr_max,1118,5.48,Median Imputation
+aniongap_max,65,0.32,Median Imputation

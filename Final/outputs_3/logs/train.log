@@ -1,0 +1,62 @@
+2025-11-03 17:24:55,369 - INFO - ================================================================================
+2025-11-03 17:24:55,369 - INFO - Sepsis-3 Mortality Prediction Training Pipeline
+2025-11-03 17:24:55,369 - INFO - ================================================================================
+2025-11-03 17:24:55,369 - INFO - Random seed: 42
+2025-11-03 17:24:55,369 - INFO - Output directory: outputs_complete
+2025-11-03 17:24:55,405 - INFO - Loading data from data/processed/sepsis3_cleaned.csv
+2025-11-03 17:24:55,452 - INFO - Data loaded: 20391 samples, 27 features
+2025-11-03 17:24:55,453 - INFO - Target distribution: 4703 positive (23.06%)
+2025-11-03 17:24:55,453 - INFO - Splitting data (70/15/15 stratified)
+2025-11-03 17:24:55,460 - INFO - Train: 14272 (70.0%)
+2025-11-03 17:24:55,460 - INFO - Val: 3060 (15.0%)
+2025-11-03 17:24:55,460 - INFO - Test: 3059 (15.0%)
+2025-11-03 17:24:55,460 - INFO - Building preprocessing pipeline
+2025-11-03 17:24:55,480 - INFO - Pipeline fitted: 27 numeric features
+2025-11-03 17:24:55,480 - INFO - ============================================================
+2025-11-03 17:24:55,481 - INFO - Stage A: Baseline Model Training
+2025-11-03 17:24:55,481 - INFO - ============================================================
+2025-11-03 17:24:55,481 - INFO - Training Logistic Regression...
+2025-11-03 17:24:55,482 - WARNING - [WARNING] Logistic Regression failed: Input X contains NaN.
+LogisticRegression does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+2025-11-03 17:24:55,482 - INFO - Training Random Forest...
+2025-11-03 17:24:55,958 - INFO - [OK] RF - AUC: 0.7909
+2025-11-03 17:24:55,958 - INFO - Training XGBoost...
+2025-11-03 17:24:56,727 - INFO - [OK] XGB - AUC: 0.7890
+2025-11-03 17:24:56,727 - INFO - Training LightGBM...
+2025-11-03 17:24:56,994 - INFO - [OK] LGB - AUC: 0.7755
+2025-11-03 17:24:56,994 - INFO - Training Stacking Ensemble...
+2025-11-03 17:24:56,996 - WARNING - [WARNING] Stacking failed: Input X contains NaN.
+LogisticRegression does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+2025-11-03 17:24:56,996 - INFO - [COMPLETE] Best baseline model: Random_Forest (AUC=0.7909)
+2025-11-03 17:24:56,996 - INFO - Computing SHAP values...
+2025-11-03 17:24:56,996 - INFO - Using 1000 samples for SHAP (for speed)
+2025-11-03 17:25:04,978 - WARNING - [WARNING] SHAP computation failed: Per-column arrays must each be 1-dimensional
+2025-11-03 17:25:04,979 - INFO - Plotting ROC and PR curves...
+2025-11-03 17:25:05,407 - INFO - [OK] Saved: outputs_complete/plots/roc_pr_curves.png
+2025-11-03 17:25:05,407 - INFO - Plotting calibration curve...
+2025-11-03 17:25:05,540 - INFO - [OK] Saved: outputs_complete/plots/calibration_plot.png
+2025-11-03 17:25:05,540 - INFO - Starting Optuna optimization (30 trials, xgb)
+2025-11-03 17:25:45,709 - INFO - [OK] Optuna complete - Best AUC: 0.7965
+2025-11-03 17:25:54,032 - INFO - Optimized model AUC: 0.7995
+2025-11-03 17:25:54,099 - INFO - Optimizing classification thresholds...
+2025-11-03 17:25:55,162 - INFO - [OK] Thresholds optimized - Youden: 0.2617, F2: 0.1364, Cost: 0.1485
+2025-11-03 17:25:55,162 - INFO - Computing bootstrap confidence intervals (n=1000)
+2025-11-03 17:25:56,330 - INFO - [OK] Bootstrap complete
+2025-11-03 17:25:56,331 - INFO - Performing subgroup analysis...
+2025-11-03 17:25:56,341 - INFO - [OK] Subgroup analysis complete (7 groups)
+2025-11-03 17:25:56,341 - INFO - Plotting Decision Curve Analysis...
+2025-11-03 17:25:56,507 - INFO - [OK] Saved: outputs_complete/plots/dca_plot.png
+2025-11-03 17:25:56,507 - INFO - ============================================================
+2025-11-03 17:25:56,507 - INFO - Exporting Results and Artifacts
+2025-11-03 17:25:56,507 - INFO - ============================================================
+2025-11-03 17:25:56,508 - INFO - [OK] Saved: model_performance_summary.csv
+2025-11-03 17:25:56,509 - INFO - [OK] Saved: threshold_optimization_report.csv
+2025-11-03 17:25:56,509 - INFO - [OK] Saved: bootstrap_confidence_intervals.csv
+2025-11-03 17:25:56,509 - INFO - [OK] Saved: subgroup_performance_table.csv
+2025-11-03 17:25:56,509 - INFO - [OK] Saved: optuna_best_params.json
+2025-11-03 17:25:56,539 - INFO - [OK] Saved: best_sepsis_model.pkl
+2025-11-03 17:25:56,539 - INFO - [COMPLETE] All exports complete
+2025-11-03 17:25:56,539 - INFO - ================================================================================
+2025-11-03 17:25:56,539 - INFO - [COMPLETE] Pipeline finished in 61.17 seconds
+2025-11-03 17:25:56,540 - INFO - Results saved to: outputs_complete
+2025-11-03 17:25:56,540 - INFO - ================================================================================

@@ -1,0 +1,6 @@
+2025-11-01 19:22:35,193 - INFO - ================================================================================
+2025-11-01 19:22:35,195 - INFO - Sepsis-3 Mortality Prediction Training Pipeline
+2025-11-01 19:22:35,195 - INFO - ================================================================================
+2025-11-01 19:22:35,195 - INFO - Random seed: 42
+2025-11-01 19:22:35,195 - INFO - Output directory: outputs_optuna
+2025-11-01 19:22:35,206 - INFO - Loading data from data/processed/sepsis3_cleaned.csv

@@ -1,0 +1,210 @@
+2025-11-01 17:48:41,097 - INFO - ================================================================================
+2025-11-01 17:48:41,097 - INFO - Sepsis-3 Mortality Prediction Training Pipeline
+2025-11-01 17:48:41,097 - INFO - ================================================================================
+2025-11-01 17:48:41,097 - INFO - Random seed: 42
+2025-11-01 17:48:41,097 - INFO - Output directory: outputs
+2025-11-01 17:48:41,107 - INFO - Loading data from data/processed/sepsis3_cleaned.csv
+2025-11-01 17:48:41,152 - INFO - Data loaded: 20391 samples, 26 features
+2025-11-01 17:48:41,153 - INFO - Target distribution: 4703 positive (23.06%)
+2025-11-01 17:48:41,153 - INFO - Splitting data (70/15/15 stratified)
+2025-11-01 17:48:41,159 - INFO - Train: 14272 (70.0%)
+2025-11-01 17:48:41,159 - INFO - Val: 3060 (15.0%)
+2025-11-01 17:48:41,159 - INFO - Test: 3059 (15.0%)
+2025-11-01 17:48:41,159 - INFO - Building preprocessing pipeline
+2025-11-01 17:48:41,176 - INFO - Pipeline fitted: 22 numeric features
+2025-11-01 17:48:41,176 - INFO - ============================================================
+2025-11-01 17:48:41,176 - INFO - Stage A: Baseline Model Training
+2025-11-01 17:48:41,176 - INFO - ============================================================
+2025-11-01 17:48:41,176 - INFO - Training Logistic Regression...
+2025-11-01 17:48:41,210 - INFO - [OK] LR - AUC: 0.7790
+2025-11-01 17:48:41,210 - INFO - Training Random Forest...
+2025-11-01 17:48:41,774 - INFO - [OK] RF - AUC: 0.7905
+2025-11-01 17:48:41,774 - INFO - Training XGBoost...
+2025-11-01 17:48:42,121 - INFO - [OK] XGB - AUC: 0.7909
+2025-11-01 17:48:42,121 - INFO - Training LightGBM...
+2025-11-01 17:48:42,214 - INFO - [OK] LGB - AUC: 0.7774
+2025-11-01 17:48:42,214 - INFO - Training Stacking Ensemble...
+2025-11-01 17:48:47,164 - INFO - [OK] Stack - AUC: 0.7955
+2025-11-01 17:48:47,164 - INFO - [COMPLETE] Best baseline model: Stacking (AUC=0.7955)
+2025-11-01 17:48:47,165 - INFO - Computing SHAP values...
+2025-11-01 17:48:47,165 - INFO - Using 1000 samples for SHAP (for speed)
+2025-11-01 17:48:47,166 - WARNING - SHAP not supported for this model type
+2025-11-01 17:48:47,166 - INFO - Plotting ROC and PR curves...
+2025-11-01 17:48:47,707 - INFO - [OK] Saved: outputs/plots/roc_pr_curves.png
+2025-11-01 17:48:47,707 - INFO - Plotting calibration curve...
+2025-11-01 17:48:47,906 - INFO - [OK] Saved: outputs/plots/calibration_plot.png
+2025-11-01 17:48:47,906 - INFO - Skipping Optuna (best model is not XGBoost/LightGBM)
+2025-11-01 17:48:47,980 - INFO - Optimizing classification thresholds...
+2025-11-01 17:48:48,811 - INFO - [OK] Thresholds optimized - Youden: 0.4304, F2: 0.2997, Cost: 0.2997
+2025-11-01 17:48:48,811 - INFO - Computing bootstrap confidence intervals (n=1000)
+2025-11-01 17:48:49,944 - INFO - [OK] Bootstrap complete
+2025-11-01 17:48:49,944 - INFO - Performing subgroup analysis...
+2025-11-01 17:48:49,954 - INFO - [OK] Subgroup analysis complete (7 groups)
+2025-11-01 17:48:49,954 - INFO - Plotting Decision Curve Analysis...
+2025-11-01 17:48:50,223 - INFO - [OK] Saved: outputs/plots/dca_plot.png
+2025-11-01 17:48:50,223 - INFO - ============================================================
+2025-11-01 17:48:50,223 - INFO - Exporting Results and Artifacts
+2025-11-01 17:48:50,223 - INFO - ============================================================
+2025-11-01 17:48:50,225 - INFO - [OK] Saved: model_performance_summary.csv
+2025-11-01 17:48:50,225 - INFO - [OK] Saved: threshold_optimization_report.csv
+2025-11-01 17:48:50,225 - INFO - [OK] Saved: bootstrap_confidence_intervals.csv
+2025-11-01 17:48:50,226 - INFO - [OK] Saved: subgroup_performance_table.csv
+2025-11-01 17:48:50,249 - INFO - [OK] Saved: best_sepsis_model.pkl
+2025-11-01 17:48:50,249 - INFO - [COMPLETE] All exports complete
+2025-11-01 17:48:50,249 - INFO - ================================================================================
+2025-11-01 17:48:50,249 - INFO - [COMPLETE] Pipeline finished in 9.15 seconds
+2025-11-01 17:48:50,249 - INFO - Results saved to: outputs
+2025-11-01 17:48:50,249 - INFO - ================================================================================
+2025-11-01 19:27:34,347 - INFO - ================================================================================
+2025-11-01 19:27:34,347 - INFO - Sepsis-3 Mortality Prediction Training Pipeline
+2025-11-01 19:27:34,347 - INFO - ================================================================================
+2025-11-01 19:27:34,347 - INFO - Random seed: 42
+2025-11-01 19:27:34,347 - INFO - Output directory: outputs
+2025-11-01 19:27:34,358 - INFO - Loading data from data/processed/sepsis3_cleaned.csv
+2025-11-01 19:27:34,403 - INFO - Data loaded: 20391 samples, 26 features
+2025-11-01 19:27:34,403 - INFO - Target distribution: 4703 positive (23.06%)
+2025-11-01 19:27:34,404 - INFO - Splitting data (70/15/15 stratified)
+2025-11-01 19:27:34,410 - INFO - Train: 14272 (70.0%)
+2025-11-01 19:27:34,410 - INFO - Val: 3060 (15.0%)
+2025-11-01 19:27:34,410 - INFO - Test: 3059 (15.0%)
+2025-11-01 19:27:34,410 - INFO - Building preprocessing pipeline
+2025-11-01 19:27:34,427 - INFO - Pipeline fitted: 22 numeric features
+2025-11-01 19:27:34,427 - INFO - ============================================================
+2025-11-01 19:27:34,427 - INFO - Stage A: Baseline Model Training
+2025-11-01 19:27:34,427 - INFO - ============================================================
+2025-11-01 19:27:34,427 - INFO - Training Logistic Regression...
+2025-11-01 19:27:34,470 - INFO - [OK] LR - AUC: 0.7790
+2025-11-01 19:27:34,470 - INFO - Training Random Forest...
+2025-11-01 19:27:35,012 - INFO - [OK] RF - AUC: 0.7905
+2025-11-01 19:27:35,012 - INFO - Training XGBoost...
+2025-11-01 19:27:35,380 - INFO - [OK] XGB - AUC: 0.7909
+2025-11-01 19:27:35,380 - INFO - Training LightGBM...
+2025-11-01 19:27:35,461 - INFO - [OK] LGB - AUC: 0.7774
+2025-11-01 19:27:35,461 - INFO - Training Stacking Ensemble...
+2025-11-01 19:27:39,347 - INFO - [OK] Stack - AUC: 0.7955
+2025-11-01 19:27:39,347 - INFO - [COMPLETE] Best baseline model: Stacking (AUC=0.7955)
+2025-11-01 19:27:39,348 - INFO - Computing SHAP values...
+2025-11-01 19:27:39,348 - INFO - Using 1000 samples for SHAP (for speed)
+2025-11-01 19:27:39,349 - WARNING - SHAP not supported for this model type
+2025-11-01 19:27:39,349 - INFO - Plotting ROC and PR curves...
+2025-11-01 19:27:39,883 - INFO - [OK] Saved: outputs/plots/roc_pr_curves.png
+2025-11-01 19:27:39,883 - INFO - Plotting calibration curve...
+2025-11-01 19:27:40,073 - INFO - [OK] Saved: outputs/plots/calibration_plot.png
+2025-11-01 19:27:40,074 - INFO - Skipping Optuna (best model is not XGBoost/LightGBM)
+2025-11-01 19:27:40,176 - INFO - Optimizing classification thresholds...
+2025-11-01 19:27:40,975 - INFO - [OK] Thresholds optimized - Youden: 0.4304, F2: 0.2997, Cost: 0.2997
+2025-11-01 19:27:40,975 - INFO - Computing bootstrap confidence intervals (n=1000)
+2025-11-01 19:27:42,098 - INFO - [OK] Bootstrap complete
+2025-11-01 19:27:42,098 - INFO - Performing subgroup analysis...
+2025-11-01 19:27:42,108 - INFO - [OK] Subgroup analysis complete (7 groups)
+2025-11-01 19:27:42,108 - INFO - Plotting Decision Curve Analysis...
+2025-11-01 19:27:42,377 - INFO - [OK] Saved: outputs/plots/dca_plot.png
+2025-11-01 19:27:42,377 - INFO - ============================================================
+2025-11-01 19:27:42,377 - INFO - Exporting Results and Artifacts
+2025-11-01 19:27:42,377 - INFO - ============================================================
+2025-11-01 19:27:42,379 - INFO - [OK] Saved: model_performance_summary.csv
+2025-11-01 19:27:42,379 - INFO - [OK] Saved: threshold_optimization_report.csv
+2025-11-01 19:27:42,379 - INFO - [OK] Saved: bootstrap_confidence_intervals.csv
+2025-11-01 19:27:42,379 - INFO - [OK] Saved: subgroup_performance_table.csv
+2025-11-01 19:27:42,403 - INFO - [OK] Saved: best_sepsis_model.pkl
+2025-11-01 19:27:42,403 - INFO - [COMPLETE] All exports complete
+2025-11-01 19:27:42,403 - INFO - ================================================================================
+2025-11-01 19:27:42,403 - INFO - [COMPLETE] Pipeline finished in 8.06 seconds
+2025-11-01 19:27:42,403 - INFO - Results saved to: outputs
+2025-11-01 19:27:42,403 - INFO - ================================================================================
+2025-11-01 19:28:04,110 - INFO - ================================================================================
+2025-11-01 19:28:04,110 - INFO - Sepsis-3 Mortality Prediction Training Pipeline
+2025-11-01 19:28:04,110 - INFO - ================================================================================
+2025-11-01 19:28:04,110 - INFO - Random seed: 42
+2025-11-01 19:28:04,110 - INFO - Output directory: outputs
+2025-11-01 19:28:04,122 - INFO - Loading data from data/processed/sepsis3_cleaned.csv
+2025-11-01 19:28:04,167 - INFO - Data loaded: 20391 samples, 26 features
+2025-11-01 19:28:04,167 - INFO - Target distribution: 4703 positive (23.06%)
+2025-11-01 19:28:04,168 - INFO - Splitting data (70/15/15 stratified)
+2025-11-01 19:28:04,174 - INFO - Train: 14272 (70.0%)
+2025-11-01 19:28:04,174 - INFO - Val: 3060 (15.0%)
+2025-11-01 19:28:04,174 - INFO - Test: 3059 (15.0%)
+2025-11-01 19:28:04,174 - INFO - Building preprocessing pipeline
+2025-11-01 19:28:04,193 - INFO - Pipeline fitted: 22 numeric features
+2025-11-01 19:28:04,193 - INFO - ============================================================
+2025-11-01 19:28:04,193 - INFO - Stage A: Baseline Model Training
+2025-11-01 19:28:04,193 - INFO - ============================================================
+2025-11-01 19:28:04,194 - INFO - Training Logistic Regression...
+2025-11-01 19:28:04,282 - INFO - [OK] LR - AUC: 0.7790
+2025-11-01 19:28:04,283 - INFO - Training Random Forest...
+2025-11-01 19:28:04,892 - INFO - [OK] RF - AUC: 0.7905
+2025-11-01 19:28:04,893 - INFO - Training XGBoost...
+2025-11-01 19:28:05,549 - INFO - [OK] XGB - AUC: 0.7909
+2025-11-01 19:28:05,549 - INFO - Training LightGBM...
+2025-11-01 19:28:05,668 - INFO - [OK] LGB - AUC: 0.7774
+2025-11-01 19:28:05,668 - INFO - Training Stacking Ensemble...
+2025-11-01 19:28:09,920 - INFO - [OK] Stack - AUC: 0.7955
+2025-11-01 19:28:09,920 - INFO - [COMPLETE] Best baseline model: Stacking (AUC=0.7955)
+2025-11-01 19:28:09,920 - INFO - Computing SHAP values...
+2025-11-01 19:28:09,920 - INFO - Using 1000 samples for SHAP (for speed)
+2025-11-01 19:28:09,920 - WARNING - SHAP not supported for this model type
+2025-11-01 19:28:09,920 - INFO - Plotting ROC and PR curves...
+2025-11-01 19:28:10,465 - INFO - [OK] Saved: outputs/plots/roc_pr_curves.png
+2025-11-01 19:28:10,465 - INFO - Plotting calibration curve...
+2025-11-01 19:28:10,654 - INFO - [OK] Saved: outputs/plots/calibration_plot.png
+2025-11-01 19:28:10,654 - INFO - Starting Optuna optimization (60 trials, xgb)
+2025-11-01 19:28:34,847 - INFO - ================================================================================
+2025-11-01 19:28:34,847 - INFO - Sepsis-3 Mortality Prediction Training Pipeline
+2025-11-01 19:28:34,847 - INFO - ================================================================================
+2025-11-01 19:28:34,847 - INFO - Random seed: 42
+2025-11-01 19:28:34,847 - INFO - Output directory: outputs
+2025-11-01 19:28:34,859 - INFO - Loading data from data/processed/sepsis3_cleaned.csv
+2025-11-01 19:28:34,904 - INFO - Data loaded: 20391 samples, 26 features
+2025-11-01 19:28:34,904 - INFO - Target distribution: 4703 positive (23.06%)
+2025-11-01 19:28:34,904 - INFO - Splitting data (70/15/15 stratified)
+2025-11-01 19:28:34,910 - INFO - Train: 14272 (70.0%)
+2025-11-01 19:28:34,910 - INFO - Val: 3060 (15.0%)
+2025-11-01 19:28:34,910 - INFO - Test: 3059 (15.0%)
+2025-11-01 19:28:34,910 - INFO - Building preprocessing pipeline
+2025-11-01 19:28:34,928 - INFO - Pipeline fitted: 22 numeric features
+2025-11-01 19:28:34,928 - INFO - ============================================================
+2025-11-01 19:28:34,928 - INFO - Stage A: Baseline Model Training
+2025-11-01 19:28:34,928 - INFO - ============================================================
+2025-11-01 19:28:34,928 - INFO - Training Logistic Regression...
+2025-11-01 19:28:35,008 - INFO - [OK] LR - AUC: 0.7790
+2025-11-01 19:28:35,008 - INFO - Training Random Forest...
+2025-11-01 19:28:35,571 - INFO - [OK] RF - AUC: 0.7905
+2025-11-01 19:28:35,572 - INFO - Training XGBoost...
+2025-11-01 19:28:36,153 - INFO - [OK] XGB - AUC: 0.7909
+2025-11-01 19:28:36,153 - INFO - Training LightGBM...
+2025-11-01 19:28:36,269 - INFO - [OK] LGB - AUC: 0.7774
+2025-11-01 19:28:36,269 - INFO - Training Stacking Ensemble...
+2025-11-01 19:28:39,938 - INFO - [OK] Stack - AUC: 0.7955
+2025-11-01 19:28:39,938 - INFO - [COMPLETE] Best baseline model: Stacking (AUC=0.7955)
+2025-11-01 19:28:39,939 - INFO - Computing SHAP values...
+2025-11-01 19:28:39,939 - INFO - Using 1000 samples for SHAP (for speed)
+2025-11-01 19:28:39,939 - WARNING - SHAP not supported for this model type
+2025-11-01 19:28:39,939 - INFO - Plotting ROC and PR curves...
+2025-11-01 19:28:40,448 - INFO - [OK] Saved: outputs/plots/roc_pr_curves.png
+2025-11-01 19:28:40,448 - INFO - Plotting calibration curve...
+2025-11-01 19:28:40,658 - INFO - [OK] Saved: outputs/plots/calibration_plot.png
+2025-11-01 19:28:40,658 - INFO - Starting Optuna optimization (30 trials, xgb)
+2025-11-01 19:28:58,058 - INFO - [OK] Optuna complete - Best AUC: 0.7979
+2025-11-01 19:29:01,404 - INFO - Optimized model AUC: 0.8002
+2025-11-01 19:29:01,433 - INFO - Optimizing classification thresholds...
+2025-11-01 19:29:02,475 - INFO - [OK] Thresholds optimized - Youden: 0.2631, F2: 0.1225, Cost: 0.1271
+2025-11-01 19:29:02,475 - INFO - Computing bootstrap confidence intervals (n=1000)
+2025-11-01 19:29:03,576 - INFO - [OK] Bootstrap complete
+2025-11-01 19:29:03,576 - INFO - Performing subgroup analysis...
+2025-11-01 19:29:03,584 - INFO - [OK] Subgroup analysis complete (7 groups)
+2025-11-01 19:29:03,584 - INFO - Plotting Decision Curve Analysis...
+2025-11-01 19:29:03,848 - INFO - [OK] Saved: outputs/plots/dca_plot.png
+2025-11-01 19:29:03,848 - INFO - ============================================================
+2025-11-01 19:29:03,848 - INFO - Exporting Results and Artifacts
+2025-11-01 19:29:03,848 - INFO - ============================================================
+2025-11-01 19:29:03,849 - INFO - [OK] Saved: model_performance_summary.csv
+2025-11-01 19:29:03,850 - INFO - [OK] Saved: threshold_optimization_report.csv
+2025-11-01 19:29:03,850 - INFO - [OK] Saved: bootstrap_confidence_intervals.csv
+2025-11-01 19:29:03,850 - INFO - [OK] Saved: subgroup_performance_table.csv
+2025-11-01 19:29:03,850 - INFO - [OK] Saved: optuna_best_params.json
+2025-11-01 19:29:03,875 - INFO - [OK] Saved: best_sepsis_model.pkl
+2025-11-01 19:29:03,875 - INFO - [COMPLETE] All exports complete
+2025-11-01 19:29:03,875 - INFO - ================================================================================
+2025-11-01 19:29:03,875 - INFO - [COMPLETE] Pipeline finished in 29.03 seconds
+2025-11-01 19:29:03,876 - INFO - Results saved to: outputs
+2025-11-01 19:29:03,876 - INFO - ================================================================================

@@ -1,0 +1,283 @@
+2025-11-01 20:15:16,213 - INFO - Loaded data from ../data/raw/sepsis3_cohort_all_features.csv
+2025-11-01 20:15:16,223 - INFO - Applying clinical cap limits to prevent extreme values
+2025-11-01 20:15:16,224 - INFO - Capped lactate_max_24h at 20.0: 36 outliers → 0
+2025-11-01 20:15:16,224 - INFO - Capped creatinine_max at 20.0: 6 outliers → 0
+2025-11-01 20:15:16,224 - INFO - Capped inr_max at 20.0: 3 outliers → 0
+2025-11-01 20:15:16,224 - INFO - Capped urine_output_24h at 15000.0: 1 outliers → 0
+2025-11-01 20:15:16,225 - INFO - Urine output: 5 negative values → 0
+2025-11-01 20:15:16,225 - INFO - Applying Winsorization to handle outliers
+2025-11-01 20:15:16,226 - INFO - Winsorized lactate_max_24h: 267 → 0 outliers
+2025-11-01 20:15:16,227 - INFO - Winsorized wbc_max: 394 → 0 outliers
+2025-11-01 20:15:16,228 - INFO - Winsorized creatinine_max: 310 → 0 outliers
+2025-11-01 20:15:16,229 - INFO - Winsorized urine_output_24h: 377 → 0 outliers
+2025-11-01 20:15:16,231 - INFO - Creating missing indicators for high-missing features
+2025-11-01 20:15:16,231 - INFO - Created missing indicator for albumin_min (missing: 52.81%)
+2025-11-01 20:15:16,231 - INFO - Created missing indicator for lactate_max_24h (missing: 28.53%)
+2025-11-01 20:15:16,231 - INFO - Applying log1p transformation to reduce skewness
+2025-11-01 20:15:16,232 - INFO - Log1p transform on wbc_max: skew 1.403 → -0.304
+2025-11-01 20:15:16,232 - INFO - Log1p transform on creatinine_max: skew 2.516 → 1.303
+2025-11-01 20:15:16,233 - INFO - Log1p transform on lactate_max_24h: skew 2.323 → 0.926
+2025-11-01 20:15:16,234 - INFO - Log1p transform on inr_max: skew 6.007 → 2.618
+2025-11-01 20:15:16,234 - INFO - Log1p transform on aniongap_max: skew 1.627 → 0.347
+2025-11-01 20:15:16,234 - INFO - Applying stratified missing value imputation
+2025-11-01 20:15:16,252 - INFO - Applied median imputation to 17 variables
+2025-11-01 20:15:16,253 - INFO - Applying QuantileTransformer to normalize distributions
+2025-11-01 20:15:16,257 - INFO - QuantileTransformer on wbc_max: skew -0.304 → 0.011
+2025-11-01 20:15:16,261 - INFO - QuantileTransformer on creatinine_max: skew 1.304 → -0.407
+2025-11-01 20:15:16,264 - INFO - QuantileTransformer on lactate_max_24h: skew 0.926 → -0.541
+2025-11-01 20:15:16,264 - INFO - Removing highly correlated redundant features
+2025-11-01 20:15:16,265 - INFO - Dropped sodium_max (highly correlated with sodium_min)
+2025-11-01 20:15:16,266 - INFO - Dropped platelets_max (highly correlated with platelets_min)
+2025-11-01 20:15:16,266 - INFO - Encoding categorical variables with robust OneHotEncoder
+2025-11-01 20:15:16,270 - INFO - One-hot encoded infection_source_category: ['infection_source_blood', 'infection_source_other', 'infection_source_respiratory', 'infection_source_urine']
+2025-11-01 20:15:16,270 - INFO - pressor_used_24h: Binary variable, kept as is
+2025-11-01 20:15:16,270 - INFO - rrt_present: Binary variable, kept as is
+2025-11-01 20:15:16,270 - INFO - Creating interaction terms and binned features
+2025-11-01 20:15:16,270 - INFO - Created interaction: sofa_total * lactate_max_24h
+2025-11-01 20:15:16,270 - INFO - Created interaction: sofa_total * age
+2025-11-01 20:15:16,271 - INFO - Created lactate_max_24h_bin (quartiles)
+2025-11-01 20:15:16,273 - INFO - Created age_bin (clinical thresholds: <50, 50-65, 65-80, >80)
+2025-11-01 20:15:16,273 - INFO - Standardizing continuous variables
+2025-11-01 20:15:16,279 - INFO - Standardized 17 variables
+2025-11-01 20:15:16,280 - INFO - Target balance: 15688 survived vs 4703 died
+2025-11-01 20:15:16,280 - INFO - Final missing values: 22404
+2025-11-01 20:15:16,462 - INFO - Saved cleaned data to ../data/processed/sepsis3_cleaned.csv
+2025-11-01 20:15:16,462 - INFO - Saved feature list: 31 total features
+2025-11-01 20:16:18,057 - INFO - Loaded data from ../data/raw/sepsis3_cohort_all_features.csv
+2025-11-01 20:16:18,072 - INFO - Applying clinical cap limits to prevent extreme values
+2025-11-01 20:16:18,073 - INFO - Capped lactate_max_24h at 20.0: 36 outliers → 0
+2025-11-01 20:16:18,073 - INFO - Capped creatinine_max at 20.0: 6 outliers → 0
+2025-11-01 20:16:18,073 - INFO - Capped inr_max at 20.0: 3 outliers → 0
+2025-11-01 20:16:18,074 - INFO - Capped urine_output_24h at 15000.0: 1 outliers → 0
+2025-11-01 20:16:18,074 - INFO - Urine output: 5 negative values → 0
+2025-11-01 20:16:18,074 - INFO - Applying Winsorization to handle outliers
+2025-11-01 20:16:18,075 - INFO - Winsorized lactate_max_24h: 267 → 0 outliers
+2025-11-01 20:16:18,076 - INFO - Winsorized wbc_max: 394 → 0 outliers
+2025-11-01 20:16:18,077 - INFO - Winsorized creatinine_max: 310 → 0 outliers
+2025-11-01 20:16:18,078 - INFO - Winsorized urine_output_24h: 377 → 0 outliers
+2025-11-01 20:16:18,080 - INFO - Creating missing indicators for high-missing features
+2025-11-01 20:16:18,080 - INFO - Created missing indicator for albumin_min (missing: 52.81%)
+2025-11-01 20:16:18,080 - INFO - Created missing indicator for lactate_max_24h (missing: 28.53%)
+2025-11-01 20:16:18,080 - INFO - Applying log1p transformation to reduce skewness
+2025-11-01 20:16:18,081 - INFO - Log1p transform on wbc_max: skew 1.403 → -0.304
+2025-11-01 20:16:18,082 - INFO - Log1p transform on creatinine_max: skew 2.516 → 1.303
+2025-11-01 20:16:18,082 - INFO - Log1p transform on lactate_max_24h: skew 2.323 → 0.926
+2025-11-01 20:16:18,083 - INFO - Log1p transform on inr_max: skew 6.007 → 2.618
+2025-11-01 20:16:18,084 - INFO - Log1p transform on aniongap_max: skew 1.627 → 0.347
+2025-11-01 20:16:18,084 - INFO - Applying stratified missing value imputation
+2025-11-01 20:16:18,106 - INFO - Applied median imputation to 17 variables
+2025-11-01 20:16:18,107 - INFO - Applying QuantileTransformer to normalize distributions
+2025-11-01 20:16:18,111 - INFO - QuantileTransformer on wbc_max: skew -0.304 → 0.011
+2025-11-01 20:16:18,115 - INFO - QuantileTransformer on creatinine_max: skew 1.304 → -0.407
+2025-11-01 20:16:18,118 - INFO - QuantileTransformer on lactate_max_24h: skew 0.926 → -0.541
+2025-11-01 20:16:18,119 - INFO - Removing highly correlated redundant features
+2025-11-01 20:16:18,120 - INFO - Dropped sodium_max (highly correlated with sodium_min)
+2025-11-01 20:16:18,121 - INFO - Dropped platelets_max (highly correlated with platelets_min)
+2025-11-01 20:16:18,121 - INFO - Encoding categorical variables with robust OneHotEncoder
+2025-11-01 20:16:18,125 - INFO - One-hot encoded infection_source_category: ['infection_source_blood', 'infection_source_other', 'infection_source_respiratory', 'infection_source_urine']
+2025-11-01 20:16:18,126 - INFO - pressor_used_24h: Binary variable, kept as is
+2025-11-01 20:16:18,126 - INFO - rrt_present: Binary variable, kept as is
+2025-11-01 20:16:18,126 - INFO - Creating interaction terms and binned features
+2025-11-01 20:16:18,126 - INFO - Created interaction: sofa_total * lactate_max_24h
+2025-11-01 20:16:18,126 - INFO - Created interaction: sofa_total * age
+2025-11-01 20:16:18,131 - INFO - Created lactate_max_24h_bin (quartiles)
+2025-11-01 20:16:18,132 - INFO - Created age_bin (clinical thresholds: <50, 50-65, 65-80, >80)
+2025-11-01 20:16:18,132 - INFO - Standardizing continuous variables
+2025-11-01 20:16:18,141 - INFO - Standardized 17 variables
+2025-11-01 20:16:18,143 - INFO - Target balance: 15688 survived vs 4703 died
+2025-11-01 20:16:18,144 - INFO - Final missing values: 22404
+2025-11-01 20:16:18,334 - INFO - Saved cleaned data to ../data/processed/sepsis3_cleaned.csv
+2025-11-01 20:16:18,334 - INFO - Saved feature list: 31 total features
+2025-11-03 17:23:47,932 - INFO - Loaded data from ../data/raw/sepsis3_cohort_all_features.csv
+2025-11-03 17:23:47,945 - INFO - Applying clinical cap limits to prevent extreme values
+2025-11-03 17:23:47,946 - INFO - Capped lactate_max_24h at 20.0: 36 outliers → 0
+2025-11-03 17:23:47,946 - INFO - Capped creatinine_max at 20.0: 6 outliers → 0
+2025-11-03 17:23:47,947 - INFO - Capped inr_max at 20.0: 3 outliers → 0
+2025-11-03 17:23:47,947 - INFO - Capped urine_output_24h at 15000.0: 1 outliers → 0
+2025-11-03 17:23:47,947 - INFO - Urine output: 5 negative values → 0
+2025-11-03 17:23:47,947 - INFO - Applying Winsorization to handle outliers
+2025-11-03 17:23:47,949 - INFO - Winsorized lactate_max_24h: 267 → 0 outliers
+2025-11-03 17:23:47,950 - INFO - Winsorized wbc_max: 394 → 0 outliers
+2025-11-03 17:23:47,951 - INFO - Winsorized creatinine_max: 310 → 0 outliers
+2025-11-03 17:23:47,952 - INFO - Winsorized urine_output_24h: 377 → 0 outliers
+2025-11-03 17:23:47,953 - INFO - Creating missing indicators for high-missing features
+2025-11-03 17:23:47,954 - INFO - Created missing indicator for albumin_min (missing: 52.81%)
+2025-11-03 17:23:47,954 - INFO - Created missing indicator for lactate_max_24h (missing: 28.53%)
+2025-11-03 17:23:47,954 - INFO - Applying log1p transformation to reduce skewness
+2025-11-03 17:23:47,955 - INFO - Log1p transform on wbc_max: skew 1.403 → -0.304
+2025-11-03 17:23:47,956 - INFO - Log1p transform on creatinine_max: skew 2.516 → 1.303
+2025-11-03 17:23:47,957 - INFO - Log1p transform on lactate_max_24h: skew 2.323 → 0.926
+2025-11-03 17:23:47,957 - INFO - Log1p transform on inr_max: skew 6.007 → 2.618
+2025-11-03 17:23:47,958 - INFO - Log1p transform on aniongap_max: skew 1.627 → 0.347
+2025-11-03 17:23:47,958 - INFO - Applying stratified missing value imputation
+2025-11-03 17:23:47,977 - INFO - Applied median imputation to 17 variables
+2025-11-03 17:23:47,978 - INFO - Applying QuantileTransformer to normalize distributions
+2025-11-03 17:23:47,982 - INFO - QuantileTransformer on wbc_max: skew -0.304 → 0.011
+2025-11-03 17:23:47,986 - INFO - QuantileTransformer on creatinine_max: skew 1.304 → -0.407
+2025-11-03 17:23:47,989 - INFO - QuantileTransformer on lactate_max_24h: skew 0.926 → -0.541
+2025-11-03 17:23:47,990 - INFO - Removing highly correlated redundant features
+2025-11-03 17:23:47,991 - INFO - Dropped sodium_max (highly correlated with sodium_min)
+2025-11-03 17:23:47,991 - INFO - Dropped platelets_max (highly correlated with platelets_min)
+2025-11-03 17:23:47,991 - INFO - Encoding categorical variables with robust OneHotEncoder
+2025-11-03 17:23:47,996 - INFO - One-hot encoded infection_source_category: ['infection_source_blood', 'infection_source_other', 'infection_source_respiratory', 'infection_source_urine']
+2025-11-03 17:23:47,996 - INFO - pressor_used_24h: Binary variable, kept as is
+2025-11-03 17:23:47,996 - INFO - rrt_present: Binary variable, kept as is
+2025-11-03 17:23:47,996 - INFO - Creating interaction terms and binned features
+2025-11-03 17:23:47,996 - INFO - Created interaction: sofa_total * lactate_max_24h
+2025-11-03 17:23:47,996 - INFO - Created interaction: sofa_total * age
+2025-11-03 17:23:47,998 - INFO - Created lactate_max_24h_bin (quartiles)
+2025-11-03 17:23:47,999 - INFO - Created age_bin (clinical thresholds: <50, 50-65, 65-80, >80)
+2025-11-03 17:23:47,999 - INFO - Standardizing continuous variables
+2025-11-03 17:23:48,006 - INFO - Standardized 17 variables
+2025-11-03 17:23:48,006 - INFO - Target balance: 15688 survived vs 4703 died
+2025-11-03 17:23:48,007 - INFO - Final missing values: 22404
+2025-11-03 17:23:48,210 - INFO - Saved cleaned data to ../data/processed/sepsis3_cleaned.csv
+2025-11-03 17:23:48,210 - INFO - Saved feature list: 31 total features
+2025-11-04 15:15:26,877 - INFO - Loaded data from ../data/raw/sepsis3_cohort_all_features.csv
+2025-11-04 15:15:26,890 - INFO - Applying clinical cap limits to prevent extreme values
+2025-11-04 15:15:26,891 - INFO - Capped lactate_max_24h at 20.0: 36 outliers → 0
+2025-11-04 15:15:26,891 - INFO - Capped creatinine_max at 20.0: 6 outliers → 0
+2025-11-04 15:15:26,891 - INFO - Capped inr_max at 20.0: 3 outliers → 0
+2025-11-04 15:15:26,892 - INFO - Capped urine_output_24h at 15000.0: 1 outliers → 0
+2025-11-04 15:15:26,892 - INFO - Urine output: 5 negative values → 0
+2025-11-04 15:15:26,892 - INFO - Applying Winsorization to handle outliers
+2025-11-04 15:15:26,894 - INFO - Winsorized lactate_max_24h: 267 → 0 outliers
+2025-11-04 15:15:26,895 - INFO - Winsorized wbc_max: 394 → 0 outliers
+2025-11-04 15:15:26,896 - INFO - Winsorized creatinine_max: 310 → 0 outliers
+2025-11-04 15:15:26,897 - INFO - Winsorized urine_output_24h: 377 → 0 outliers
+2025-11-04 15:15:26,898 - INFO - Creating missing indicators for high-missing features
+2025-11-04 15:15:26,898 - INFO - Created missing indicator for albumin_min (missing: 52.81%)
+2025-11-04 15:15:26,899 - INFO - Created missing indicator for lactate_max_24h (missing: 28.53%)
+2025-11-04 15:15:26,899 - INFO - Applying log1p transformation to reduce skewness
+2025-11-04 15:15:26,899 - INFO - Log1p transform on wbc_max: skew 1.403 → -0.304
+2025-11-04 15:15:26,900 - INFO - Log1p transform on creatinine_max: skew 2.516 → 1.303
+2025-11-04 15:15:26,901 - INFO - Log1p transform on lactate_max_24h: skew 2.323 → 0.926
+2025-11-04 15:15:26,902 - INFO - Log1p transform on inr_max: skew 6.007 → 2.618
+2025-11-04 15:15:26,903 - INFO - Log1p transform on aniongap_max: skew 1.627 → 0.347
+2025-11-04 15:15:26,903 - INFO - Applying stratified missing value imputation
+2025-11-04 15:15:26,922 - INFO - Applied median imputation to 17 variables
+2025-11-04 15:15:29,499 - INFO - KNN imputation (lactate with related vars): ['lactate_max_24h']
+2025-11-04 15:15:29,500 - INFO - Applied KNN imputation to 1 variables
+2025-11-04 15:15:29,501 - INFO - Filled albumin_min with median 3.0000 (missing indicator already created)
+2025-11-04 15:15:29,502 - INFO - Applying QuantileTransformer to normalize distributions
+2025-11-04 15:15:29,507 - INFO - QuantileTransformer on wbc_max: skew -0.304 → 0.011
+2025-11-04 15:15:29,511 - INFO - QuantileTransformer on creatinine_max: skew 1.304 → -0.407
+2025-11-04 15:15:29,515 - INFO - QuantileTransformer on lactate_max_24h: skew 1.190 → -0.469
+2025-11-04 15:15:29,515 - INFO - Removing highly correlated redundant features
+2025-11-04 15:15:29,517 - INFO - Dropped sodium_max (highly correlated with sodium_min)
+2025-11-04 15:15:29,518 - INFO - Dropped platelets_max (highly correlated with platelets_min)
+2025-11-04 15:15:29,518 - INFO - Encoding categorical variables with robust OneHotEncoder
+2025-11-04 15:15:29,522 - INFO - One-hot encoded infection_source_category: ['infection_source_blood', 'infection_source_other', 'infection_source_respiratory', 'infection_source_urine']
+2025-11-04 15:15:29,522 - INFO - pressor_used_24h: Binary variable, kept as is
+2025-11-04 15:15:29,522 - INFO - rrt_present: Binary variable, kept as is
+2025-11-04 15:15:29,522 - INFO - Creating interaction terms and binned features
+2025-11-04 15:15:29,522 - INFO - Created interaction: sofa_total * lactate_max_24h
+2025-11-04 15:15:29,523 - INFO - Created interaction: sofa_total * age
+2025-11-04 15:15:29,524 - INFO - Created lactate_max_24h_bin (quartiles)
+2025-11-04 15:15:29,526 - INFO - Created age_bin (clinical thresholds: <50, 50-65, 65-80, >80)
+2025-11-04 15:15:29,526 - INFO - Standardizing continuous variables
+2025-11-04 15:15:29,532 - INFO - Standardized 17 variables
+2025-11-04 15:15:29,533 - INFO - Target balance: 15688 survived vs 4703 died
+2025-11-04 15:15:29,534 - INFO - Final missing values: 0
+2025-11-04 15:15:29,747 - INFO - Saved cleaned data to ../data/processed/sepsis3_cleaned.csv
+2025-11-04 15:15:29,747 - INFO - Saved feature list: 31 total features
+2025-11-04 15:28:37,519 - INFO - Loaded data from ../data/raw/sepsis3_cohort_all_features.csv
+2025-11-04 15:28:37,532 - INFO - Applying clinical cap limits to prevent extreme values
+2025-11-04 15:28:37,533 - INFO - Capped lactate_max_24h at 20.0: 36 outliers → 0
+2025-11-04 15:28:37,533 - INFO - Capped creatinine_max at 20.0: 6 outliers → 0
+2025-11-04 15:28:37,533 - INFO - Capped inr_max at 20.0: 3 outliers → 0
+2025-11-04 15:28:37,534 - INFO - Capped urine_output_24h at 15000.0: 1 outliers → 0
+2025-11-04 15:28:37,534 - INFO - Urine output: 5 negative values → 0
+2025-11-04 15:28:37,534 - INFO - Applying Winsorization to handle outliers
+2025-11-04 15:28:37,535 - INFO - Winsorized lactate_max_24h: 267 → 0 outliers
+2025-11-04 15:28:37,536 - INFO - Winsorized wbc_max: 394 → 0 outliers
+2025-11-04 15:28:37,538 - INFO - Winsorized creatinine_max: 310 → 0 outliers
+2025-11-04 15:28:37,539 - INFO - Winsorized urine_output_24h: 377 → 0 outliers
+2025-11-04 15:28:37,540 - INFO - Creating missing indicators for clinically significant missing features
+2025-11-04 15:28:37,540 - INFO - Created missing indicator for albumin_min (missing: 52.81%) - MNAR: missing indicates less severe condition
+2025-11-04 15:28:37,541 - INFO - Created missing indicator for lactate_max_24h (missing: 28.53%) - MNAR: missing indicates less severe condition
+2025-11-04 15:28:37,541 - INFO - Applying log1p transformation to reduce skewness
+2025-11-04 15:28:37,542 - INFO - Log1p transform on wbc_max: skew 1.403 → -0.304
+2025-11-04 15:28:37,542 - INFO - Log1p transform on creatinine_max: skew 2.516 → 1.303
+2025-11-04 15:28:37,543 - INFO - Log1p transform on inr_max: skew 6.007 → 2.618
+2025-11-04 15:28:37,544 - INFO - Log1p transform on aniongap_max: skew 1.627 → 0.347
+2025-11-04 15:28:37,544 - INFO - Applying clinical strategy for missing value imputation
+2025-11-04 15:28:37,545 - INFO - albumin_min: Filled 10768 missing values with median 3.0000
+2025-11-04 15:28:37,545 - INFO -   Rationale: Missing indicates less severe condition (MNAR), missing indicator preserves signal
+2025-11-04 15:28:37,546 - INFO - lactate_max_24h: Filled 5818 missing values with median 2.3000, then log1p transform
+2025-11-04 15:28:37,546 - INFO -   Rationale: Missing indicates less severe condition (MNAR), log transform reduces right skew
+2025-11-04 15:28:37,546 - INFO -   Skewness: 2.937 → 1.257
+2025-11-04 15:28:37,562 - INFO - Applied median imputation to 12 variables
+2025-11-04 15:28:37,563 - INFO - Applying QuantileTransformer to normalize distributions
+2025-11-04 15:28:37,567 - INFO - QuantileTransformer on wbc_max: skew -0.304 → 0.011
+2025-11-04 15:28:37,570 - INFO - QuantileTransformer on creatinine_max: skew 1.304 → -0.407
+2025-11-04 15:28:37,571 - INFO - Removing highly correlated redundant features
+2025-11-04 15:28:37,572 - INFO - Dropped sodium_max (highly correlated with sodium_min)
+2025-11-04 15:28:37,572 - INFO - Dropped platelets_max (highly correlated with platelets_min)
+2025-11-04 15:28:37,572 - INFO - Encoding categorical variables with robust OneHotEncoder
+2025-11-04 15:28:37,576 - INFO - One-hot encoded infection_source_category: ['infection_source_blood', 'infection_source_other', 'infection_source_respiratory', 'infection_source_urine']
+2025-11-04 15:28:37,576 - INFO - pressor_used_24h: Binary variable, kept as is
+2025-11-04 15:28:37,577 - INFO - rrt_present: Binary variable, kept as is
+2025-11-04 15:28:37,577 - INFO - Creating interaction terms and binned features
+2025-11-04 15:28:37,577 - INFO - Recalculated sofa_lactate_interaction: sofa_total * lactate_max_24h.fillna(0)
+2025-11-04 15:28:37,577 - INFO -   Rationale: Missing lactate replaced with 0 in interaction (no missing indicator, no scaling)
+2025-11-04 15:28:37,577 - INFO - Created interaction: sofa_total * age
+2025-11-04 15:28:37,578 - INFO - Created lactate_max_24h_bin (quartiles)
+2025-11-04 15:28:37,579 - INFO - Created age_bin (clinical thresholds: <50, 50-65, 65-80, >80)
+2025-11-04 15:28:37,579 - INFO - Standardizing continuous variables
+2025-11-04 15:28:37,584 - INFO - Standardized 16 variables
+2025-11-04 15:28:37,585 - INFO - Target balance: 15688 survived vs 4703 died
+2025-11-04 15:28:37,585 - INFO - Final missing values: 0
+2025-11-04 15:28:37,798 - INFO - Saved cleaned data to ../data/processed/sepsis3_cleaned.csv
+2025-11-04 15:28:37,798 - INFO - Saved feature list: 31 total features
+2025-11-04 15:28:37,799 - INFO - No missing values remaining in cleaned dataset
+2025-11-04 15:30:25,506 - INFO - Loaded data from ../data/raw/sepsis3_cohort_all_features.csv
+2025-11-04 15:30:25,518 - INFO - Applying clinical cap limits to prevent extreme values
+2025-11-04 15:30:25,519 - INFO - Capped lactate_max_24h at 20.0: 36 outliers → 0
+2025-11-04 15:30:25,519 - INFO - Capped creatinine_max at 20.0: 6 outliers → 0
+2025-11-04 15:30:25,520 - INFO - Capped inr_max at 20.0: 3 outliers → 0
+2025-11-04 15:30:25,520 - INFO - Capped urine_output_24h at 15000.0: 1 outliers → 0
+2025-11-04 15:30:25,521 - INFO - Urine output: 5 negative values → 0
+2025-11-04 15:30:25,521 - INFO - Applying Winsorization to handle outliers
+2025-11-04 15:30:25,522 - INFO - Winsorized lactate_max_24h: 267 → 0 outliers
+2025-11-04 15:30:25,523 - INFO - Winsorized wbc_max: 394 → 0 outliers
+2025-11-04 15:30:25,524 - INFO - Winsorized creatinine_max: 310 → 0 outliers
+2025-11-04 15:30:25,525 - INFO - Winsorized urine_output_24h: 377 → 0 outliers
+2025-11-04 15:30:25,526 - INFO - Creating missing indicators for clinically significant missing features
+2025-11-04 15:30:25,526 - INFO - Created missing indicator for albumin_min (missing: 52.81%) - MNAR: missing indicates less severe condition
+2025-11-04 15:30:25,526 - INFO - Created missing indicator for lactate_max_24h (missing: 28.53%) - MNAR: missing indicates less severe condition
+2025-11-04 15:30:25,526 - INFO - Applying log1p transformation to reduce skewness
+2025-11-04 15:30:25,527 - INFO - Log1p transform on wbc_max: skew 1.403 → -0.304
+2025-11-04 15:30:25,528 - INFO - Log1p transform on creatinine_max: skew 2.516 → 1.303
+2025-11-04 15:30:25,528 - INFO - Log1p transform on inr_max: skew 6.007 → 2.618
+2025-11-04 15:30:25,529 - INFO - Log1p transform on aniongap_max: skew 1.627 → 0.347
+2025-11-04 15:30:25,529 - INFO - Applying clinical strategy for missing value imputation
+2025-11-04 15:30:25,529 - INFO - albumin_min: Filled 10768 missing values with median 3.0000
+2025-11-04 15:30:25,530 - INFO -   Rationale: Missing indicates less severe condition (MNAR), missing indicator preserves signal
+2025-11-04 15:30:25,530 - INFO - lactate_max_24h: Filled 5818 missing values with median 2.3000, then log1p transform
+2025-11-04 15:30:25,530 - INFO -   Rationale: Missing indicates less severe condition (MNAR), log transform reduces right skew
+2025-11-04 15:30:25,530 - INFO -   Skewness: 2.937 → 1.257
+2025-11-04 15:30:25,545 - INFO - Applied median imputation to 12 variables
+2025-11-04 15:30:25,546 - INFO - Applying QuantileTransformer to normalize distributions
+2025-11-04 15:30:25,550 - INFO - QuantileTransformer on wbc_max: skew -0.304 → 0.011
+2025-11-04 15:30:25,553 - INFO - QuantileTransformer on creatinine_max: skew 1.304 → -0.407
+2025-11-04 15:30:25,554 - INFO - Removing highly correlated redundant features
+2025-11-04 15:30:25,555 - INFO - Dropped sodium_max (highly correlated with sodium_min)
+2025-11-04 15:30:25,555 - INFO - Dropped platelets_max (highly correlated with platelets_min)
+2025-11-04 15:30:25,555 - INFO - Encoding categorical variables with robust OneHotEncoder
+2025-11-04 15:30:25,559 - INFO - One-hot encoded infection_source_category: ['infection_source_blood', 'infection_source_other', 'infection_source_respiratory', 'infection_source_urine']
+2025-11-04 15:30:25,559 - INFO - pressor_used_24h: Binary variable, kept as is
+2025-11-04 15:30:25,559 - INFO - rrt_present: Binary variable, kept as is
+2025-11-04 15:30:25,559 - INFO - Creating interaction terms and binned features
+2025-11-04 15:30:25,559 - INFO - Recalculated sofa_lactate_interaction: sofa_total * lactate_max_24h.fillna(0)
+2025-11-04 15:30:25,560 - INFO -   Rationale: Missing lactate replaced with 0 in interaction (no missing indicator, no scaling)
+2025-11-04 15:30:25,560 - INFO - Created interaction: sofa_total * age
+2025-11-04 15:30:25,561 - INFO - Created lactate_max_24h_bin (quartiles)
+2025-11-04 15:30:25,562 - INFO - Created age_bin (clinical thresholds: <50, 50-65, 65-80, >80)
+2025-11-04 15:30:25,562 - INFO - Standardizing continuous variables
+2025-11-04 15:30:25,568 - INFO - Standardized 16 variables
+2025-11-04 15:30:25,568 - INFO - Target balance: 15688 survived vs 4703 died
+2025-11-04 15:30:25,568 - INFO - Final missing values: 0
+2025-11-04 15:30:25,818 - INFO - Saved cleaned data to ../data/processed/sepsis3_cleaned.csv
+2025-11-04 15:30:25,819 - INFO - Saved feature list: 31 total features
+2025-11-04 15:30:25,819 - INFO - No missing values remaining in cleaned dataset

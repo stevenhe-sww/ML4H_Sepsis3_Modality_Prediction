@@ -1,0 +1,104 @@
+
+🧠 Prompt: Sepsis-3 预测建模全流程（专业版）
+
+目标：基于 sepsis3_cohort_with_features.csv 构建一个机器学习模型，用于预测 ICU 患者的 30-day mortality（或其他结局），并遵循医学研究的数据科学流程。
+
+⸻
+
+🩺 Step 1 — 数据探索（Exploratory Data Analysis）
+	1.	加载数据并打印行列数、缺失值比例。
+	2.	对连续变量绘制分布图（histogram / violin），对类别变量统计频次。
+	3.	计算并可视化相关矩阵（correlation matrix）。
+	4.	检查异常值（outliers），如：
+	•	负尿量或乳酸 <0；
+	•	年龄 >110；
+	•	Na <100 或 >180；
+	•	Platelet <10 或 >1000。
+	5.	输出 summary 表格（均值、标准差、中位数、IQR）。
+
+⸻
+
+🧹 Step 2 — 数据清洗（Data Cleaning）
+	1.	删除完全空的列或无意义特征（如 ID）。
+	2.	用合理方法处理缺失值：
+	•	连续变量 → median 填补；
+	•	分类变量 → mode 填补；
+	•	可考虑用 KNNImputer 或 MissForest。
+	3.	对数值极端值进行 winsorize（截断 1%/99%）。
+	4.	对特征统一命名（snake_case）并确保单位一致。
+	5.	保存 cleaned_features.csv。
+
+⸻
+
+⚙️ Step 3 — 特征工程（Feature Engineering）
+	1.	特征缩放（StandardScaler / RobustScaler）。
+	2.	类别特征编码（One-Hot Encoding 或 Target Encoding）。
+	3.	生成衍生特征（可选）：
+	•	shock_index = heart_rate_mean / sbp_mean
+	•	lactate_log = log(lactate_max_24h + 1)
+	4.	特征选择：
+	•	使用 XGBoost / Lasso / Mutual Information / SHAP；
+	•	输出 top-20 重要特征。
+
+⸻
+
+🤖 Step 4 — 建模（Modeling）
+	1.	定义目标变量（mortality_30d）。
+	2.	划分训练 / 验证 / 测试集（例如 70-15-15，按患者分层）。
+	3.	试验多个模型：
+	•	Logistic Regression（baseline）
+	•	Random Forest
+	•	XGBoost / LightGBM
+	•	Neural Net（可选）
+	4.	使用交叉验证（5-fold Stratified CV）。
+
+⸻
+
+🧪 Step 5 — 评估与解释（Evaluation & Explainability）
+	1.	性能指标：
+	•	AUC-ROC, AUPRC, Accuracy, F1, Recall, Precision；
+	•	绘制 ROC / PR 曲线。
+	2.	校准分析（Calibration curve）。
+	3.	特征重要性：
+	•	XGBoost feature importance；
+	•	SHAP summary plot（整体 + 个体解释）。
+	4.	子组分析（如年龄>65 vs ≤65）。
+
+⸻
+
+📊 Step 6 — 输出与报告（Reporting）
+	1.	输出模型性能汇总表。
+	2.	保存模型（joblib/pkl）与特征缩放器。
+	3.	输出：
+	•	model_performance.csv
+	•	feature_importance.csv
+	•	shap_summary.png
+	4.	撰写一页报告：模型目标、特征、性能、解释结果。
+
+⸻
+
+🔧 Step 7 — 可选高级扩展
+	•	加入时间序列特征（多日 SOFA / 尿量曲线）。
+	•	使用 AutoML（Optuna、Sklearn pipeline search）。
+	•	用 FHIR 变量映射做外部验证。
+	•	建立 “Explainable dashboard”（SHAP + Plotly）。
+
+⸻
+
+💡 直接可用的 Prompt 模板（你可以贴给 AI 或 Notebook）
+
+"""
+Goal: Predict 30-day mortality in Sepsis-3 cohort using structured EHR features.
+
+You are a clinical data scientist. Follow standard ML-in-medicine workflow:
+1. Load sepsis3_cohort_with_features.csv
+2. Perform full EDA (missingness, outliers, correlation, distributions)
+3. Clean data: impute missing, remove ID columns, winsorize extremes
+4. Scale numerical features and encode categorical variables
+5. Split into train/valid/test (stratified by mortality_30d)
+6. Train baseline Logistic Regression, Random Forest, XGBoost
+7. Evaluate using AUC, AUPRC, F1, recall, calibration
+8. Use SHAP to interpret model and show top 15 features
+9. Output summary tables and plots (feature importance, ROC, PR)
+10. Save cleaned dataset and model artifacts
+"""

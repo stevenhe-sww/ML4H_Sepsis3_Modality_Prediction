@@ -1,0 +1,5 @@
+Variable,Outliers_Before,Outliers_After,Lower_Bound,Upper_Bound
+lactate_max_24h,267,0,0.70,15.10
+wbc_max,394,0,2.10,48.70
+creatinine_max,310,0,0.40,9.20
+urine_output_24h,377,0,10.00,5756.00
