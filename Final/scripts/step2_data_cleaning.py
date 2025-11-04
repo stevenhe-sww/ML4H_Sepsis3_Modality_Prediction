@@ -472,6 +472,40 @@ if 'sofa_total' in df.columns and 'age' in df.columns:
     logger.info("Created interaction: sofa_total * age")
     print("  [OK] Created interaction: sofa_total * age")
 
+# Derived Features (Clinical Logic)
+# H1. AKI Stage (KDIGO-based, simplified)
+if 'creatinine_max' in df.columns:
+    creatinine = df['creatinine_max'].fillna(df['creatinine_max'].median())
+    # AKI Stage 0-3 (simplified KDIGO)
+    aki_stage = pd.Series(0, index=df.index)
+    # Stage 1: Cr 1.5-2x baseline (assuming baseline=1.0)
+    aki_stage[(creatinine >= 1.5) & (creatinine < 2.0)] = 1
+    # Stage 2: Cr 2-3x
+    aki_stage[(creatinine >= 2.0) & (creatinine < 3.0)] = 2
+    # Stage 3: Cr >3x
+    aki_stage[creatinine >= 3.0] = 3
+    df['aki_stage'] = aki_stage
+    logger.info(f"Created AKI stage (0-3): {aki_stage.value_counts().to_dict()}")
+    print(f"  [OK] Created AKI stage (0-3): {dict(aki_stage.value_counts())}")
+
+# H2. Shock Index (HR/MBP)
+if 'hr_mean' in df.columns and 'mbp_mean' in df.columns:
+    hr = df['hr_mean'].fillna(df['hr_mean'].median())
+    mbp = df['mbp_mean'].fillna(df['mbp_mean'].median())
+    shock_index = hr / (mbp + 1e-6)  # Avoid division by zero
+    df['shock_index'] = shock_index
+    logger.info(f"Created shock index (HR/MBP): mean={shock_index.mean():.2f}")
+    print(f"  [OK] Created shock index (HR/MBP): mean={shock_index.mean():.2f}")
+
+# H3. Lactate/MAP Ratio
+if 'lactate_max_24h' in df.columns and 'mbp_mean' in df.columns:
+    lactate = df['lactate_max_24h'].fillna(df['lactate_max_24h'].median())
+    mbp = df['mbp_mean'].fillna(df['mbp_mean'].median())
+    lactate_map_ratio = lactate / (mbp + 1e-6)
+    df['lactate_map_ratio'] = lactate_map_ratio
+    logger.info(f"Created lactate/MAP ratio: mean={lactate_map_ratio.mean():.3f}")
+    print(f"  [OK] Created lactate/MAP ratio: mean={lactate_map_ratio.mean():.3f}")
+
 # Binning
 if 'lactate_max_24h' in df.columns:
     try:
