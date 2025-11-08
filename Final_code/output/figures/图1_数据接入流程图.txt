@@ -1,0 +1,7 @@
+
+Data Ingestion and Minimal Processing Flow:
+1. Read sepsis3_cohort_all_features.csv
+2. Type conversion: String numbers → numeric type, empty strings → NaN
+3. Outlier marking: age<18, urine_output_24h<0, etc.
+4. Time window verification: All features limited to ICU admission 0-24h, outcome 30-day mortality
+5. Output: Data frame ready for EDA

@@ -1,0 +1,7 @@
+artifact,file,description
+cleaned_data,cleaned_data.csv,Data/Model Artifact
+feature_list,feature_list.json,Data/Model Artifact
+data_dictionary,Table1_VariableTypeUnitTimeWindowList.csv,Data/Model Artifact
+transformers.quantile_transformer,quantile_transformer.pkl,Data/Model Artifact
+version,1.0,Version Information
+date,2025-11-08 20:09:33,Export Date

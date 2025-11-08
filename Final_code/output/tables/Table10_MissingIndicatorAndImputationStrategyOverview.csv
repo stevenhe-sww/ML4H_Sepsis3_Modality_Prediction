@@ -1,0 +1,15 @@
+﻿variable,method,imputed_value,imputed_count,imputed_pct,features_used
+albumin_min,missing_indicator,N/A,10768,52.80761120102005,
+lactate_max_24h,missing_indicator_only (no imputation),N/A (keep NaN),5818,28.53219557647982,
+aniongap_max,missing_indicator,N/A,65,0.3187680839586092,
+inr_max,missing_indicator_only (no imputation),N/A (keep NaN),1118,5.482811044088078,
+urine_output_24h,missing_indicator_only (no imputation),N/A (keep NaN),810,3.97234073856113,
+albumin_min,MICE,,10768,52.80761120102005,"sofa_total, heart_rate_mean, mbp_mean, sbp_mean, wbc_max, age, creatinine_max, platelets_min, urine_output_24h, lactate_max_24h"
+mbp_mean,median,75.36055555555558,27,0.13241135795203765,
+sbp_mean,median,112.67857142857142,32,0.15693197979500761,
+heart_rate_mean,median,86.17391304347825,27,0.13241135795203765,
+wbc_max,median,14.0,35,0.17164435290078955,
+sodium_min,median,137.0,41,0.20106909911235346,
+platelets_min,median,160.0,36,0.17654847726938355,
+creatinine_max,median,1.2,24,0.1176989848462557,
+aniongap_max,median,16.0,65,0.3187680839586092,

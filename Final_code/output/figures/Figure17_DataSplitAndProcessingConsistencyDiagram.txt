@@ -1,0 +1,10 @@
+
+Data Split and Processing Consistency Diagram:
+- Training set: 14258 patients (16300 records)
+- Validation set: 1782 patients (2036 records)
+- Test set: 1783 patients (2055 records)
+
+Processing workflow:
+1. All transformations/imputations/selectors fit only on training set
+2. Only transform validation and test sets
+3. Maintain data leakage prevention

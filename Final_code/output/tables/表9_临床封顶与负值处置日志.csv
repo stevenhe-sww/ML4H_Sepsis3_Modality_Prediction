@@ -1,0 +1,9 @@
+﻿variable,threshold,capped_count,capped_pct
+inr_max,10.0,51,0.25011034279829336
+creatinine_max,10.0,32,0.15693197979500761
+aniongap_max,30.0,325,1.593840419793046
+wbc_max,50.0,100,0.4904124368593988
+heart_rate_mean,200.0,0,0.0
+sbp_mean,250.0,0,0.0
+mbp_mean,150.0,0,0.0
+urine_output_24h,0.0,1,0.004904124368593988
